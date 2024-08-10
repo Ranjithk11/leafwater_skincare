@@ -73,7 +73,7 @@ const StyledTakeSelfie = styled(Container)(({ theme }) => ({
       borderRadius: "10px",
       backgroundRepeat: "no-repeat",
       backgroundSize: "cover",
-      backgroundPosition: "top center",
+      backgroundPosition: "center",
       position: "relative",
       "& .camera_icon": {
         position: "absolute",
