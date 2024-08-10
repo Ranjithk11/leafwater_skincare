@@ -4,7 +4,7 @@ export const arCameraOptions = {
   fontFamily: "inherit",
   cameraPresets: {
     aspectRatio: 1.777777777777778,
-    preferredResolution: 720,
+    preferredResolution: 1080,
   },
   mask: {
     type: "face",
