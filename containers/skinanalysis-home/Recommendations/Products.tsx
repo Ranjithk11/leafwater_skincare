@@ -63,7 +63,7 @@ const ProductsView = ({ data }: ProductsViewProps) => {
                 Our Recommendations
               </Typography>
               <Typography textAlign="center" variant="h3">
-                To<span> Your Glow</span>On
+                To<span> Get Your Glow</span>On
               </Typography>
             </Box>
           </Grid>
