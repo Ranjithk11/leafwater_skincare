@@ -25,7 +25,7 @@ const StyledFooterMainBox = styled(Box)(({ theme }) => ({
   height: "100%",
   backgroundColor: theme.palette.grey[900],
   paddingTop: 75,
-  paddingBottom: 50,
+  paddingBottom: 75,
   "& .logo__title": {
     color: theme.palette.common.white,
     marginBottom: 20,
