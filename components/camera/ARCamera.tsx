@@ -13,73 +13,82 @@ import { Icon } from "@iconify/react";
 const StyledARCameraComponent = styled(Box)(({ theme }) => ({
   height: `calc(100vh - ${APP_BAR_SIZE}px)`,
   width: "60%",
-  padding: 20,
   display: "flex",
   flexDirection: "column",
-  position: "relative",
+  padding: 20,
   [theme.breakpoints.only("xs")]: {
     padding: 0,
     width: "100%",
+    height: `calc(100vh - ${56}px)`,
   },
-  "& .camera_wrapper": {
+  "& .camera_capture_view": {
     flex: 1,
-    display: "flex",
-    flexDirection: "column",
-    "& .ar_camera": {
-      flex: 1,
-      position: "relative",
+    width: "100%",
+    position: "relative",
+    overflow: "hidden",
+    borderRadius: 20,
+    backgroundColor: theme.palette.secondary.main,
+    [theme.breakpoints.only("xs")]: {
+      borderRadius: 0,
+    },
+    "& .info_view": {
+      width: "100%",
+      height: "100%",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
       backgroundColor: theme.palette.secondary.main,
-      borderRadius: 20,
-      [theme.breakpoints.only("xs")]: {
-        borderRadius: 0,
-      },
-      overflow: "hidden",
-      "& .info_view": {
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        "& .MuiTypography-body1": {
-          color: theme.palette.common.white,
+      "& .MuiTypography-body1": {
+        color: theme.palette.common.white,
+        fontSize: 18,
+        width: "55%",
+        lineHeight: 1.3,
+        textAlign: "center",
+        [theme.breakpoints.only("xs")]: {
           fontSize: 18,
-          width: "55%",
-          lineHeight: 1.3,
-          textAlign: "center",
-          [theme.breakpoints.only("xs")]: {
-            fontSize: 18,
-            width: "95%",
-          },
-        },
-        "& svg": {
-          fontSize: 120,
-          [theme.breakpoints.only("xs")]: {
-            fontSize: 100,
-          },
+          width: "95%",
         },
       },
-      "& .camaera_view": {
-        width: "100%",
-        height: "100%",
+      "& svg": {
+        fontSize: 120,
+        [theme.breakpoints.only("xs")]: {
+          fontSize: 100,
+        },
       },
     },
+    "& .camera_view": {
+      width: "100%",
+      height: "100%",
+    },
     "& .footer": {
-      minHeight: 50,
-      padding: 20,
-      display: "flex",
-      justifyContent: "center",
+      display: "none",
+      position: "absolute",
+      width: "100%",
+      bottom: 40,
+      "& .MuiButtonBase-root": {
+        minWidth: 0,
+      },
       [theme.breakpoints.only("xs")]: {
         padding: 10,
+        display: "block",
       },
-      alignItems: "center",
-      "& .MuiButtonBase-root": {
-        // width: 175,
-        minWidth: 0,
-        // [theme.breakpoints.only("xs")]: {
-        //   width: 100,
-        // },
-      },
+    },
+  },
+  "& .camera_view_footer": {
+    minHeight: 70,
+    maxHeight: 70,
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    "& .MuiButtonBase-root": {
+      minWidth: 0,
+    },
+    [theme.breakpoints.only("xs")]: {
+      padding: 10,
+      display: "none",
     },
   },
 }));
@@ -98,7 +107,8 @@ const ARCameraComponent = ({
   const { takePicture } = camera();
   const [isCamOpen, setIsCamOpen] = useState<boolean>(false);
   const refAccessFiles = useRef<HTMLInputElement>(null);
-
+  
+  
   async function handleTakePicture() {
     setIsCamOpen(true);
     await loadFaceDetectorModels();
@@ -129,34 +139,33 @@ const ARCameraComponent = ({
 
   return (
     <StyledARCameraComponent>
-      <Box component="div" className="camera_wrapper">
-        <Box component="div" className="ar_camera">
-          {!isCamOpen && (
-            <Box component="div" className="info_view">
-              <Box mb={2}>
-                <Icon icon="tabler:camera-selfie" />
-              </Box>
-              <Typography variant="body1">
-                Please, set your desired configurations and press the Capture
-                button to start
-              </Typography>
+      <Box component="div" className="camera_capture_view">
+        {!isCamOpen && (
+          <Box component="div" className="info_view">
+            <Box mb={2}>
+              <Icon icon="tabler:camera-selfie" />
             </Box>
-          )}
-          {isCamOpen && (
-            <Box component="div" id="elementId" className="camaera_view"></Box>
-          )}
-        </Box>
+            <Typography variant="body1">
+              Please, set your desired configurations and press the Capture
+              button to start
+            </Typography>
+          </Box>
+        )}
+        {isCamOpen && (
+          <Box component="div" id="elementId" className="camera_view"></Box>
+        )}
         <Box component="div" className="footer">
           <Grid
             container
             spacing={2}
             alignItems="center"
-            justifyContent="center"
+            justifyContent="space-between"
           >
             <Grid item xs={4}>
               <Button
                 fullWidth={true}
-                variant="outlined"
+                variant="contained"
+                color="milkWhite"
                 onClick={() => {
                   if (isCamOpen) {
                     return null;
@@ -171,8 +180,13 @@ const ARCameraComponent = ({
             <Grid item xs={4}>
               <Button
                 fullWidth={true}
-                disabled={isCamOpen}
-                onClick={handleTakePicture}
+                onClick={() => {
+                  if (isCamOpen) {
+                    return null;
+                  } else {
+                    handleTakePicture();
+                  }
+                }}
               >
                 Capture
               </Button>
@@ -180,13 +194,12 @@ const ARCameraComponent = ({
             <Grid item xs={4}>
               <Button
                 color="inherit"
-                disabled={disabledSkipBtn}
                 fullWidth={true}
-                onClick={()=>{
-                  if (isCamOpen) {
+                onClick={() => {
+                  if (isCamOpen || disabledSkipBtn) {
                     return null;
                   } else {
-                    onSkip()
+                    onSkip();
                   }
                 }}
               >
@@ -196,7 +209,55 @@ const ARCameraComponent = ({
           </Grid>
         </Box>
       </Box>
-
+      <Box component="div" className="camera_view_footer">
+        <Grid
+          container
+          spacing={2}
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Grid item xs={4}>
+            <Button
+              fullWidth={true}
+              variant="outlined"
+              onClick={() => {
+                if (isCamOpen) {
+                  return null;
+                } else {
+                  refAccessFiles?.current?.click();
+                }
+              }}
+            >
+              Gallery
+            </Button>
+          </Grid>
+          <Grid item xs={4}>
+            <Button
+              fullWidth={true}
+              disabled={isCamOpen}
+              onClick={handleTakePicture}
+            >
+              Capture
+            </Button>
+          </Grid>
+          <Grid item xs={4}>
+            <Button
+              color="inherit"
+              disabled={disabledSkipBtn}
+              fullWidth={true}
+              onClick={() => {
+                if (isCamOpen) {
+                  return null;
+                } else {
+                  onSkip();
+                }
+              }}
+            >
+              Skip
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
       <input
         ref={refAccessFiles}
         type="file"

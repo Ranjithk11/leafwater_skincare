@@ -36,7 +36,7 @@ const StyledTakeSelfie = styled(Container)(({ theme }) => ({
     paddingLeft: 0,
     paddingRight: 0,
     paddingBottom: 0,
-    paddingTop: 64,
+    paddingTop: 55,
   },
   "& .MuiCardContent-root": {
     "& .MuiTypography-h4": {
