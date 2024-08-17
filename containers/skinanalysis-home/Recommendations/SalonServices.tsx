@@ -5,8 +5,8 @@ const goldenMask = "/images/goldenmask.jpg";
 const faceNeck = "/images/face_neck.jpg";
 
 const StyledSalonServices = styled(Box)(({ theme }) => ({
-  paddingBottom:75,
-  paddingTop:75,
+  paddingBottom: 75,
+  paddingTop: 75,
   "& .MuiTypography-h5": {
     fontWeight: 800,
     textTransform: "uppercase",
@@ -78,7 +78,7 @@ const SalonServices = () => {
                     INSTA GLOW
                   </Typography>
                   <Typography variant="body1" textAlign="center">
-                    A painless method that effec- tively diminishes wrinkles while
+                    A painless method that effectively diminishes wrinkles while
                     toning and lifting the facial skin. Once in three months
                     Rs.5499/-
                   </Typography>
@@ -109,8 +109,8 @@ const SalonServices = () => {
                   </Typography>
                   <Typography variant="body1" textAlign="center">
                     It helps treat sun damage by reducing, giving you a natural.
-                    fairness and glow while keep- ing your skin toned and mois-
-                    turized Once in two months Rs.2999/-
+                    fairness and glow while keeping your skin toned and
+                    moisturized Once in two months Rs.2999/-
                   </Typography>
                 </Grid>
               </Grid>
@@ -138,7 +138,7 @@ const SalonServices = () => {
                     FACE /NECK DE-TAN
                   </Typography>
                   <Typography variant="body1" textAlign="center">
-                    It helps in reducing tan. bright- ens and evens skin tone.
+                    It helps in reducing tan. brightens and evens skin tone.
                     Highly recommended for outdoor men and people with darkened
                     skin tone. Once in a month Rs.3499/-
                   </Typography>
@@ -148,7 +148,6 @@ const SalonServices = () => {
           </Grid>
         </Grid>
       </Container>
-
     </StyledSalonServices>
   );
 };
