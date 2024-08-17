@@ -215,7 +215,7 @@ const Routine = () => {
                       <Grid
                         container
                         alignItems="center"
-                        spacing={1}
+                        spacing={2}
                         justifyContent="center"
                       >
                         <Grid
@@ -234,6 +234,23 @@ const Routine = () => {
                             </Typography>
                           </Grid>
                         </Grid>
+                      </Grid>
+                      <Grid
+                        container
+                        item
+                        xs={12}
+                        alignContent="center"
+                        spacing={2}
+                      >
+                        <Grid item>
+                          <img width={25} src="/icons/accept.png" />
+                        </Grid>
+                        <Grid item xs>
+                          <Typography color="white" variant="subtitle2">
+                            Toner
+                          </Typography>
+                        </Grid>
+
                         <Grid
                           container
                           item
@@ -246,7 +263,7 @@ const Routine = () => {
                           </Grid>
                           <Grid item xs>
                             <Typography color="white" variant="subtitle2">
-                              Facial Scrub
+                              Serum
                             </Typography>
                           </Grid>
                         </Grid>
@@ -262,7 +279,7 @@ const Routine = () => {
                           </Grid>
                           <Grid item xs>
                             <Typography color="white" variant="subtitle2">
-                              Toner
+                              Night Cream
                             </Typography>
                           </Grid>
                         </Grid>
@@ -278,7 +295,7 @@ const Routine = () => {
                           </Grid>
                           <Grid item xs>
                             <Typography color="white" variant="subtitle2">
-                              Serums
+                              Scrub(Twice Weekly)
                             </Typography>
                           </Grid>
                         </Grid>
