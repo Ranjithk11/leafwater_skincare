@@ -22,7 +22,7 @@ interface ProductCardProps {
 const StyledProductCard = styled(Card)(({ theme }) => ({
   height: "100%",
   width: "100%",
-  padding:40,
+  padding: 40,
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -36,11 +36,11 @@ const StyledProductCard = styled(Card)(({ theme }) => ({
     display: "-webkit-box",
     WebkitLineClamp: "2",
     WebkitBoxOrient: "vertical",
-    [theme.breakpoints.only('xs')]:{
+    [theme.breakpoints.only("xs")]: {
       fontSize: 16,
-      lineHeight:1,
-      marginBottom:10
-    }
+      lineHeight: 1,
+      marginBottom: 10,
+    },
   },
   "& .MuiTypography-body1": {
     fontWeight: 500,
@@ -51,16 +51,16 @@ const StyledProductCard = styled(Card)(({ theme }) => ({
     display: "-webkit-box",
     WebkitLineClamp: "2",
     WebkitBoxOrient: "vertical",
-    [theme.breakpoints.only('xs')]:{
+    [theme.breakpoints.only("xs")]: {
       fontSize: 14,
-      lineHeight:1,
-      marginBottom:10
-    }
+      lineHeight: 1,
+      marginBottom: 10,
+    },
   },
   "& .MuiTypography-h6": {
-    [theme.breakpoints.only('xs')]:{
+    [theme.breakpoints.only("xs")]: {
       fontSize: 20,
-    }
+    },
   },
   "& .product_image": {
     position: "relative",
@@ -86,7 +86,7 @@ const ProductCard = ({
   images,
 }: ProductCardProps) => {
   return (
-    <Box sx={{ position: "relative" ,height:"100%"}}>
+    <Box sx={{ position: "relative", height: "100%" }}>
       <StyledProductCard>
         <Box
           component="div"
@@ -114,10 +114,13 @@ const ProductCard = ({
               {name}
             </Typography>
             <Typography variant="body1">{productUse}</Typography>
-            <Box mt={1}>
-              <Typography variant="subtitle1">Benefits</Typography>
-              <Typography variant="body1">{productBenefits}</Typography>
-            </Box>
+            {productBenefits && (
+              <Box mt={1}>
+                <Typography variant="subtitle1">Benefits</Typography>
+                <Typography variant="body1">{productBenefits}</Typography>
+              </Box>
+            )}
+
             <Box>
               <Typography variant="h6">INR {retailPrice}/-</Typography>
             </Box>
