@@ -212,7 +212,7 @@ const Routine = () => {
                       Night
                     </Typography>
                     <Box pt={2}>
-                      <Grid
+                      {/* <Grid
                         container
                         alignItems="center"
                         spacing={2}
@@ -234,7 +234,7 @@ const Routine = () => {
                             </Typography>
                           </Grid>
                         </Grid>
-                      </Grid>
+                      </Grid> */}
                       <Grid
                         container
                         item
@@ -247,10 +247,26 @@ const Routine = () => {
                         </Grid>
                         <Grid item xs>
                           <Typography color="white" variant="subtitle2">
-                            Toner
+                            Cleanser
                           </Typography>
                         </Grid>
 
+                        <Grid
+                          container
+                          item
+                          xs={12}
+                          alignContent="center"
+                          spacing={2}
+                        >
+                          <Grid item>
+                            <img width={25} src="/icons/accept.png" />
+                          </Grid>
+                          <Grid item xs>
+                            <Typography color="white" variant="subtitle2">
+                              Toner
+                            </Typography>
+                          </Grid>
+                        </Grid>
                         <Grid
                           container
                           item
