@@ -12,7 +12,7 @@ interface RoutineItem {
 }
 
 const data = ["Face wash and cleansing", "Toner", "Day Cream", "Sunscreen"];
-const nightRoutine = ["Cleanser", "Facial Scrub", "Toner", "Serums"];
+const nightRoutine = ["Cleanser", "Toner", "Serum","Night Cream","Scrub (Twice Weekly)"];
 
 
 const RoutineView = ({ fontFamily }: RoutineViewProps) => {
