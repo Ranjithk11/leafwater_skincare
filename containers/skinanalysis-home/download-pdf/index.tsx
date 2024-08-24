@@ -523,7 +523,7 @@ const DownloadPdf = ({
           </Page>
           <RoutineView fontFamily={defaultFont} />
           <SalonServiceView fontFamily={defaultFont} />
-          <CosmeticsView fontFamily={defaultFont} />
+          <CosmeticsView fontFamily={defaultFont} data={recommendationData?.recommendedCosmeticServices || []} />
           <DietView fontFamily={defaultFont} />
           <TeamView fontFamily={defaultFont} />
         </Document>
