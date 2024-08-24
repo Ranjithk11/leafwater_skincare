@@ -43,7 +43,7 @@ const CosmeticsView = ({ fontFamily, data }: CosmeticsViewProps) => {
     },
     contentCardInfo: {
       fontFamily: fontFamily,
-      fontSize: 14,
+      fontSize: 12,
       fontWeight: 500,
       width: "70%",
     },

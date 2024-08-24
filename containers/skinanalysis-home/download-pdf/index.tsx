@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   },
   productCardPrice: {
     fontFamily: defaultFont,
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: 800,
     color: APP_COLORS.PRIMARY_COLOR,
   },
@@ -179,7 +179,7 @@ const DownloadPdf = ({
     }
   }, [recommendationData]);
 
-  console.log(dataAnalysedImageInfo)
+  console.log(dataAnalysedImageInfo);
   return (
     <PDFDownloadLink
       document={
@@ -237,7 +237,7 @@ const DownloadPdf = ({
                 }}
               >
                 <Image
-                   src={{
+                  src={{
                     uri: dataAnalysedImageInfo?.data?.url,
                     method: "GET",
                     headers: { "Cache-Control": "no-cache" },
@@ -506,6 +506,7 @@ const DownloadPdf = ({
                                 </Text>
                               </Fragment>
                             )}
+                            
 
                             <View>
                               <Text style={styles.productCardMatches}>
@@ -523,7 +524,10 @@ const DownloadPdf = ({
           </Page>
           <RoutineView fontFamily={defaultFont} />
           <SalonServiceView fontFamily={defaultFont} />
-          <CosmeticsView fontFamily={defaultFont} data={recommendationData?.recommendedCosmeticServices || []} />
+          <CosmeticsView
+            fontFamily={defaultFont}
+            data={recommendationData?.recommendedCosmeticServices || []}
+          />
           <DietView fontFamily={defaultFont} />
           <TeamView fontFamily={defaultFont} />
         </Document>

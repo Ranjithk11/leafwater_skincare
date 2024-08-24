@@ -178,17 +178,19 @@ const BrochureView = () => {
     },
     productCardContent: {
       padding: 15,
+      fontsize:12,
     },
     productCardTitle: {
       fontFamily: defaultFont,
-      fontSize: 16,
+      fontSize: 12,
       fontWeight: 600,
       marginBottom: 3,
     },
     productCardCategoryTitle: {
-      fontSize: 16,
+      fontSize: 12,
       fontFamily: defaultFont,
       fontWeight: 800,
+      width:10
     },
     productCardInfo: {
       fontFamily: defaultFont,
@@ -204,7 +206,7 @@ const BrochureView = () => {
     },
     productCardPrice: {
       fontFamily: defaultFont,
-      fontSize: 18,
+      fontSize: 14,
       fontWeight: 800,
       color: APP_COLORS.PRIMARY_COLOR,
     },
@@ -475,21 +477,25 @@ const BrochureView = () => {
                                   flexDirection: "row",
                                   alignItems: "flex-start",
                                   justifyContent: "space-between",
+                                  
                                 }}
                               >
-                                <View style={{ width: "100%" }}>
-                                  <Text style={styles.productCardTitle}>
+                                <View style={{ width: "100%", 
+                                  paddingRight:20,
+                                  fontSize:12,
+                                }}>
+                                  <Text style={styles.productCardTitle }>
                                     {item.name}
                                   </Text>
                                   <Text style={styles.productCardInfo}>
                                     {item.productUse}
                                   </Text>
                                 </View>
-                                <View style={{ paddingRight: 15 }}>
+                                {/* <View style={{ paddingRight: 15 }}>
                                   <Text style={styles.productCardPrice}>
                                     INR {item.retailPrice} /-
                                   </Text>
-                                </View>
+                                </View> */}
                               </View>
 
                               {item.productBenefits && (
@@ -502,12 +508,16 @@ const BrochureView = () => {
                                   </Text>
                                 </Fragment>
                               )}
-
-                              <View>
+                              <View style={{ paddingRight: 15 }}>
+                                <Text style={styles.productCardPrice}>
+                                  INR {item.retailPrice} /-
+                                </Text>
+                              </View>
+                              {/* <View>
                                 <Text style={styles.productCardMatches}>
                                   {item?.matches?.[0]?.name}
                                 </Text>
-                              </View>
+                              </View> */}
                             </View>
                           </View>
                         ))}
@@ -580,11 +590,6 @@ const BrochureView = () => {
                                         {item?.productUse}
                                       </Text>
                                     </View>
-                                    <View style={{ paddingRight: 15 }}>
-                                      <Text style={styles.productCardPrice}>
-                                        INR {item?.retailPrice} /-
-                                      </Text>
-                                    </View>
                                   </View>
 
                                   {item?.productBenefits && (
@@ -597,7 +602,11 @@ const BrochureView = () => {
                                       </Text>
                                     </Fragment>
                                   )}
-
+                                  <View style={{ paddingBottom: 15 }}>
+                                    <Text style={styles.productCardPrice}>
+                                      INR {item?.retailPrice} /-
+                                    </Text>
+                                  </View>
                                   <View>
                                     <Text style={styles.productCardMatches}>
                                       {item?.matches?.[0]?.name}
