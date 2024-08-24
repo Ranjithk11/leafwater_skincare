@@ -614,7 +614,10 @@ const BrochureView = () => {
                 </Page>
                 <RoutineView fontFamily={defaultFont} />
                 <SalonServiceView fontFamily={defaultFont} />
-                <CosmeticsView fontFamily={defaultFont} />
+                <CosmeticsView
+                  fontFamily={defaultFont}
+                  data={data?.data?.[0]?.recommendedCosmeticServices || []}
+                />
                 <DietView fontFamily={defaultFont} />
                 <TeamView fontFamily={defaultFont} />
               </Document>

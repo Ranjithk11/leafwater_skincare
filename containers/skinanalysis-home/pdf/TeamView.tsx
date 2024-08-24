@@ -69,7 +69,7 @@ const TeamView = ({ fontFamily }: TeamViewProps) => {
       </View>
       <View style={styles.teamImage}>
         <Image
-          style={{ width: "100%", height:300, objectFit: "cover" }}
+          style={{ width: "100%", height:400, objectFit: "cover" }}
           src={belina}
         />
       </View>
