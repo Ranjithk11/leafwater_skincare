@@ -123,7 +123,7 @@ const UserSkinAnalysisRecommendation = () => {
           />
           <ProductsView data={data} />
           <Routine />
-          <SalonServices />
+          <SalonServices data={data?.data?.recommendedSalonServices ||  [] } />
           <DietChart />
           <MeetTeam />
         </Fragment>
