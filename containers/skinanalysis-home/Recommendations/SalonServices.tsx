@@ -40,8 +40,11 @@ const StyledSalonServices = styled(Box)(({ theme }) => ({
     },
   },
 }));
+interface SalonServicesProps {
+  data: any[];
+}
 
-const SalonServices = () => {
+const SalonServices = ({ data }: SalonServicesProps) => {
   return (
     <StyledSalonServices>
       <Container maxWidth="lg">
@@ -56,96 +59,39 @@ const SalonServices = () => {
               </Typography>
             </Box>
           </Grid>
-          <Grid xs={12} item md={4}>
-            <Box component="div" className="salone_card_wrapper">
-              <Grid container>
-                <Grid item xs={12}>
-                  <Box
-                    component="div"
-                    style={{
-                      backgroundImage: `url(${instaGlow})`,
-                    }}
-                    className="card_image"
-                  />
+          {data?.map((itm: any) => (
+            <Grid xs={12} key={itm?._id} item md={4}>
+              <Box component="div" className="salone_card_wrapper">
+                <Grid container>
+                  <Grid item xs={12}>
+                    <Box
+                      component="div"
+                      style={{
+                        backgroundImage: `url(${itm?.images?.[0]?.url})`,
+                      }}
+                      className="card_image"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography
+                      gutterBottom
+                      textAlign="center"
+                      fontWeight={800}
+                      variant="h6"
+                    >
+                      {itm?.name}
+                    </Typography>
+                    <Typography variant="body1" textAlign="center">
+                      {itm?.description}
+                    </Typography>
+                    <Typography variant="body1" textAlign="center">
+                      Rs {itm?.price}/-
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  <Typography
-                    gutterBottom
-                    textAlign="center"
-                    fontWeight={800}
-                    variant="h6"
-                  >
-                    INSTA GLOW
-                  </Typography>
-                  <Typography variant="body1" textAlign="center">
-                    A painless method that effectively diminishes wrinkles while
-                    toning and lifting the facial skin. Once in three months
-                    Rs.5499/-
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Box>
-          </Grid>
-          <Grid xs={12} item md={4}>
-            <Box component="div" className="salone_card_wrapper">
-              <Grid container>
-                <Grid item xs={12}>
-                  <Box
-                    component="div"
-                    style={{
-                      backgroundImage: `url(${goldenMask})`,
-                    }}
-                    className="card_image"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography
-                    gutterBottom
-                    textAlign="center"
-                    fontWeight={800}
-                    variant="h6"
-                  >
-                    GOLDEN MASK
-                  </Typography>
-                  <Typography variant="body1" textAlign="center">
-                    It helps treat sun damage by reducing, giving you a natural.
-                    fairness and glow while keeping your skin toned and
-                    moisturized Once in two months Rs.2999/-
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Box>
-          </Grid>
-          <Grid xs={12} item md={4}>
-            <Box component="div" className="salone_card_wrapper">
-              <Grid container>
-                <Grid item xs={12}>
-                  <Box
-                    component="div"
-                    style={{
-                      backgroundImage: `url(${faceNeck})`,
-                    }}
-                    className="card_image"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography
-                    gutterBottom
-                    textAlign="center"
-                    fontWeight={800}
-                    variant="h6"
-                  >
-                    FACE /NECK DE-TAN
-                  </Typography>
-                  <Typography variant="body1" textAlign="center">
-                    It helps in reducing tan. brightens and evens skin tone.
-                    Highly recommended for outdoor men and people with darkened
-                    skin tone. Once in a month Rs.3499/-
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Box>
-          </Grid>
+              </Box>
+            </Grid>
+          ))}
         </Grid>
       </Container>
     </StyledSalonServices>

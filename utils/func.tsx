@@ -112,3 +112,18 @@ export const handleConvertBase64toJpeg = (
     .then((res) => res.arrayBuffer())
     .then((buf) => new File([buf], filename, { type: "image/jpeg" }));
 };
+export function  capitalizeWords(str:string) {
+  // Convert the entire string to lowercase
+  str = str.toLowerCase();
+
+  // Split the string into words
+  const words = str.split(' ');
+
+  // Capitalize the first letter of each word
+  const capitalizedWords = words.map(word => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  });
+
+  // Join the words back together
+  return capitalizedWords.join(' ');
+}

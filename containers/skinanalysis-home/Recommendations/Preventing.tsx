@@ -141,7 +141,7 @@ const PreventingView = ({ useData, data }: PreventingInfoProps) => {
                   variant="subtitle1"
                   gutterBottom
                 >
-                  Skin Analysis Summary
+                  Skin Analysis Atributes
                 </Typography>
                 {data?.data?.[0]?.detectedAttributes?.map(
                   (item: string, index: number) => (
@@ -154,6 +154,20 @@ const PreventingView = ({ useData, data }: PreventingInfoProps) => {
                       {item.replace("_", " ")}
                     </Typography>
                   )
+                )}
+
+                {data?.data?.[0]?.skinSummary && (
+                  <Box mt={2}>
+                    <Typography
+                      mb={2}
+                      fontWeight={700}
+                      variant="subtitle1"
+                      gutterBottom
+                    >
+                      Skin Analysis Summary
+                    </Typography>
+                    <Typography fontWeight={700}>{data?.data?.[0]?.skinSummary}</Typography>
+                  </Box>
                 )}
               </Grid>
             </Grid>

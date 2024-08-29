@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   },
   productCardPrice: {
     fontFamily: defaultFont,
-    fontSize: 12,
+    fontSize: 18,
     fontWeight: 800,
     color: APP_COLORS.PRIMARY_COLOR,
   },
@@ -179,7 +179,7 @@ const DownloadPdf = ({
     }
   }, [recommendationData]);
 
-  console.log(dataAnalysedImageInfo);
+  console.log(dataAnalysedImageInfo)
   return (
     <PDFDownloadLink
       document={
@@ -210,7 +210,7 @@ const DownloadPdf = ({
                     textAlign: "center",
                   }}
                 >
-                  What's Preventing You
+                  What's Preventing You 
                 </Text>
                 <Text
                   style={{
@@ -220,9 +220,9 @@ const DownloadPdf = ({
                     textAlign: "center",
                   }}
                 >
-                  To Get
+                  To Get {" "}
                   <Text style={{ color: APP_COLORS.PRIMARY_COLOR }}>
-                    Your Glow
+                     Your Glow
                   </Text>{" "}
                   On
                 </Text>
@@ -237,7 +237,7 @@ const DownloadPdf = ({
                 }}
               >
                 <Image
-                  src={{
+                   src={{
                     uri: dataAnalysedImageInfo?.data?.url,
                     method: "GET",
                     headers: { "Cache-Control": "no-cache" },
@@ -392,11 +392,11 @@ const DownloadPdf = ({
                               {item.productUse}
                             </Text>
                           </View>
-                          <View style={{ paddingRight: 15 }}>
+                          {/* <View style={{ paddingRight: 15 }}>
                             <Text style={styles.productCardPrice}>
                               INR {item.retailPrice} /-
                             </Text>
-                          </View>
+                          </View> */}
                         </View>
 
                         {item.productBenefits && (
@@ -408,8 +408,14 @@ const DownloadPdf = ({
                               {item.productBenefits}
                             </Text>
                           </Fragment>
+                          
+                          
                         )}
-
+                        <View style={{ paddingRight: 15 }}>
+                                <Text style={styles.productCardPrice}>
+                                  INR {item.retailPrice} /-
+                                </Text>
+                              </View>
                         <View>
                           <Text style={styles.productCardMatches}>
                             {item?.matches?.[0]?.name}
@@ -506,7 +512,6 @@ const DownloadPdf = ({
                                 </Text>
                               </Fragment>
                             )}
-                            
 
                             <View>
                               <Text style={styles.productCardMatches}>
@@ -523,11 +528,8 @@ const DownloadPdf = ({
             )}
           </Page>
           <RoutineView fontFamily={defaultFont} />
-          <SalonServiceView fontFamily={defaultFont} />
-          <CosmeticsView
-            fontFamily={defaultFont}
-            data={recommendationData?.recommendedCosmeticServices || []}
-          />
+        <SalonServiceView data={recommendationData?.recommendedSalonServices || []} fontFamily={defaultFont} />
+          <CosmeticsView fontFamily={defaultFont} />
           <DietView fontFamily={defaultFont} />
           <TeamView fontFamily={defaultFont} />
         </Document>

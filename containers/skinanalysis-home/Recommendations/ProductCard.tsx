@@ -8,6 +8,7 @@ import {
   Typography,
   styled,
 } from "@mui/material";
+import { capitalizeWords } from "@/utils/func";
 
 interface ProductCardProps {
   ribbenColor?: string;
@@ -105,13 +106,13 @@ const ProductCard = ({
                     style={{ borderRadius: 5 }}
                     color="primary"
                     size="small"
-                    label={matches?.[0]?.name}
+                    label={matches?.[0]?.name?.replace("_"," ")}
                   />
                 </Grid>
               </Grid>
             </Box>
             <Typography color="primary" variant="subtitle1">
-              {name}
+              {capitalizeWords(name)}
             </Typography>
             <Typography variant="body1">{productUse}</Typography>
             {productBenefits && (

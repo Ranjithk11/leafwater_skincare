@@ -28,6 +28,7 @@ import TeamView from "./pdf/TeamView";
 import CoverView from "./pdf/CoverView";
 import AboutYou from "./pdf/AboutYou";
 import { Session } from "next-auth";
+import { capitalizeWords } from "@/utils/func";
 const defaultFont = "Roboto";
 const extraBold = `/fonts/OpenSans-ExtraBold.ttf`;
 const medium = `/fonts/OpenSans-Medium.ttf`;
@@ -178,19 +179,17 @@ const BrochureView = () => {
     },
     productCardContent: {
       padding: 15,
-      fontsize:12,
     },
     productCardTitle: {
       fontFamily: defaultFont,
-      fontSize: 12,
+      fontSize: 16,
       fontWeight: 600,
       marginBottom: 3,
     },
     productCardCategoryTitle: {
-      fontSize: 12,
+      fontSize: 16,
       fontFamily: defaultFont,
       fontWeight: 800,
-      width:10
     },
     productCardInfo: {
       fontFamily: defaultFont,
@@ -206,7 +205,7 @@ const BrochureView = () => {
     },
     productCardPrice: {
       fontFamily: defaultFont,
-      fontSize: 14,
+      fontSize: 18,
       fontWeight: 800,
       color: APP_COLORS.PRIMARY_COLOR,
     },
@@ -357,9 +356,10 @@ const BrochureView = () => {
                           backgroundColor: APP_COLORS.PRIMARY_COLOR,
                         }}
                       >
-                        Skin Analysis Summary
+                        Skin Analysis Atributes
                       </Text>
                     </View>
+
                     <View>
                       {data?.data?.[0]?.detectedAttributes?.map(
                         (attribute: string, index: number) => (
@@ -379,6 +379,40 @@ const BrochureView = () => {
                       )}
                     </View>
                   </View>
+                  {data?.data?.[0]?.skinSummary && (
+                    <View>
+                      <View style={{ width: "100%", marginBottom: 10 }}>
+                        <Text
+                          style={{
+                            fontFamily: defaultFont,
+                            fontSize: 20,
+                            fontWeight: 600,
+                            textAlign: "center",
+
+                            padding: 8,
+                            color: APP_COLORS.WHITE,
+                            backgroundColor: APP_COLORS.PRIMARY_COLOR,
+                          }}
+                        >
+                          Skin Analysis Summery
+                        </Text>
+                      </View>
+                      <View style={{ width: "100%" }}>
+                        <Text
+                          style={{
+                            fontFamily: defaultFont,
+                            fontSize: 16,
+                            fontWeight: 400,
+                            textAlign: "center",
+
+                            padding: 8,
+                          }}
+                        >
+                          {data?.data?.[0]?.skinSummary}
+                        </Text>
+                      </View>
+                    </View>
+                  )}
                 </Page>
                 <Page size="A4" style={{ ...styles.page }}>
                   <View
@@ -477,25 +511,17 @@ const BrochureView = () => {
                                   flexDirection: "row",
                                   alignItems: "flex-start",
                                   justifyContent: "space-between",
-                                  
                                 }}
                               >
-                                <View style={{ width: "100%", 
-                                  paddingRight:20,
-                                  fontSize:12,
-                                }}>
-                                  <Text style={styles.productCardTitle }>
-                                    {item.name}
+                                <View style={{ width: "100%" }}>
+                                  <Text style={styles.productCardTitle}>
+                                    {capitalizeWords(item?.name)}
                                   </Text>
                                   <Text style={styles.productCardInfo}>
                                     {item.productUse}
                                   </Text>
                                 </View>
-                                {/* <View style={{ paddingRight: 15 }}>
-                                  <Text style={styles.productCardPrice}>
-                                    INR {item.retailPrice} /-
-                                  </Text>
-                                </View> */}
+                                
                               </View>
 
                               {item.productBenefits && (
@@ -509,15 +535,16 @@ const BrochureView = () => {
                                 </Fragment>
                               )}
                               <View style={{ paddingRight: 15 }}>
-                                <Text style={styles.productCardPrice}>
-                                  INR {item.retailPrice} /-
+                                  <Text style={styles.productCardPrice}>
+                                    INR {item.retailPrice} /-
+                                  </Text>
+                                </View>
+
+                              <View>
+                                <Text style={styles.productCardMatches}>
+                                  {item?.matches?.[0]?.name?.replace("_", " ")}
                                 </Text>
                               </View>
-                              {/* <View>
-                                <Text style={styles.productCardMatches}>
-                                  {item?.matches?.[0]?.name}
-                                </Text>
-                              </View> */}
                             </View>
                           </View>
                         ))}
@@ -590,6 +617,11 @@ const BrochureView = () => {
                                         {item?.productUse}
                                       </Text>
                                     </View>
+                                    {/* <View style={{ paddingRight: 15 }}>
+                                      <Text style={styles.productCardPrice}>
+                                        INR {item?.retailPrice} /-
+                                      </Text>
+                                    </View> */}
                                   </View>
 
                                   {item?.productBenefits && (
@@ -602,11 +634,12 @@ const BrochureView = () => {
                                       </Text>
                                     </Fragment>
                                   )}
-                                  <View style={{ paddingBottom: 15 }}>
+                                   <View style={{ paddingBottom: 15 }}>
                                     <Text style={styles.productCardPrice}>
                                       INR {item?.retailPrice} /-
                                     </Text>
                                   </View>
+
                                   <View>
                                     <Text style={styles.productCardMatches}>
                                       {item?.matches?.[0]?.name}
@@ -622,11 +655,11 @@ const BrochureView = () => {
                   )}
                 </Page>
                 <RoutineView fontFamily={defaultFont} />
-                <SalonServiceView fontFamily={defaultFont} />
-                <CosmeticsView
+                <SalonServiceView
+                  data={data?.data?.[0]?.recommendedSalonServices || []}
                   fontFamily={defaultFont}
-                  data={data?.data?.[0]?.recommendedCosmeticServices || []}
                 />
+                <CosmeticsView fontFamily={defaultFont} />
                 <DietView fontFamily={defaultFont} />
                 <TeamView fontFamily={defaultFont} />
               </Document>

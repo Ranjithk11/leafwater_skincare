@@ -1,14 +1,16 @@
 import React from "react";
 import { Page, View, Text, StyleSheet, Image } from "@react-pdf/renderer";
 import { APP_COLORS } from "@/theme/colors/colors";
+import _ from "lodash";
 const instaGlow = "/images/insta_glow.jpg";
-const goldenMask="/images/goldenmask.jpg";
-const faceneck="/images/face_neck.jpg";
+const goldenMask = "/images/goldenmask.jpg";
+const faceneck = "/images/face_neck.jpg";
 
 interface SalonServiceViewProps {
   fontFamily: string;
+  data: any[];
 }
-const SalonServiceView = ({ fontFamily }: SalonServiceViewProps) => {
+const SalonServiceView = ({ fontFamily, data }: SalonServiceViewProps) => {
   const styles = StyleSheet.create({
     page: {
       display: "flex",
@@ -26,9 +28,9 @@ const SalonServiceView = ({ fontFamily }: SalonServiceViewProps) => {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "center",
-      paddingLeft:30,
-      borderRadius:20,
-      marginBottom:10
+      paddingLeft: 30,
+      borderRadius: 20,
+      marginBottom: 10,
     },
     contentCardImage: {
       width: "100%",
@@ -69,86 +71,45 @@ const SalonServiceView = ({ fontFamily }: SalonServiceViewProps) => {
           </View>
         </View>
       </View>
-      <View style={{...styles.contentCard,backgroundColor:"#87d37c"}}>
-        <View
-          style={{
-            width: 175,
-            height: 175,
-            overflow: "hidden",
-            borderRadius: "100%",
-          }}
-        >
-          <Image
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            src={instaGlow}
-          />
-        </View>
-        <View style={{ flex: 1, paddingLeft: 50 }}>
-          <View>
-            <Text style={styles.contentCardTitle}>INSTA GLOW</Text>
+
+      {data?.map((itm: any) => (
+        <View key={itm?._id} style={{ ...styles.contentCard, backgroundColor: "#87d37c" }}>
+          <View
+            style={{
+              width: 175,
+              height: 175,
+              overflow: "hidden",
+              borderRadius: "100%",
+            }}
+          >
+            <Image
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              
+              src={{
+                uri: itm?.images?.[0]?.url,
+                method: "GET",
+                headers: { "Cache-Control": "no-cache" },
+                body: "",
+              }}
+            />
           </View>
-          <View>
-            <Text style={styles.contentCardInfo}>
-              A painless method that effectively diminishes wrinkles while
-              toning and lifting the facial skin. Once in three months Rs.5499/-
-            </Text>
-          </View>
-        </View>
-      </View>
-      <View style={{...styles.contentCard,backgroundColor:"#fde3a7"}}>
-        <View
-          style={{
-            width: 175,
-            height: 175,
-            overflow: "hidden",
-            borderRadius: "100%",
-          }}
-        >
-          <Image
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            src={goldenMask}
-          />
-        </View>
-        <View style={{ flex: 1, paddingLeft: 50 }}>
-          <View>
-            <Text style={styles.contentCardTitle}>GOLDEN MASK</Text>
-          </View>
-          <View>
-            <Text style={styles.contentCardInfo}>
-              It helps treat sun damage by reducing, giving you a natural.
-              fairness and glow while keeping your skin toned and moisturized
-              Once in two months Rs.2999/-
-            </Text>
+          <View style={{ flex: 1, paddingLeft: 50 }}>
+            <View>
+              <Text style={styles.contentCardTitle}>{itm?.name}</Text>
+            </View>
+            <View>
+              <Text style={styles.contentCardInfo}>
+                {itm?.description}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.contentCardInfo}>
+               Rs.{itm?.price}/-
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
-      <View style={{...styles.contentCard,backgroundColor:"#ecf0f1"}}>
-        <View
-          style={{
-            width: 175,
-            height: 175,
-            overflow: "hidden",
-            borderRadius: "100%",
-          }}
-        >
-          <Image
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            src={faceneck}
-          />
-        </View>
-        <View style={{ flex: 1, paddingLeft: 50 }}>
-          <View>
-            <Text style={styles.contentCardTitle}>FACE /NECK DE-TAN</Text>
-          </View>
-          <View>
-            <Text style={styles.contentCardInfo}>
-              It helps in reducing tan. brightens and evens skin tone. Highly
-              recommended for outdoor men and people with darkened skin tone.
-              Once in a month Rs.3499/-
-            </Text>
-          </View>
-        </View>
-      </View>
+      ))}
     </Page>
   );
 };

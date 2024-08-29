@@ -27,7 +27,6 @@ import DietView from "./pdf/DietView";
 import TeamView from "./pdf/TeamView";
 import CoverView from "./pdf/CoverView";
 import SalonServices from "./Recommendations/SalonServices";
-import CosmeticRecommdations from "./Recommendations/cosmetics";
 import DietChart from "./Recommendations/DietChart";
 import MeetTeam from "./Recommendations/MeetTeam";
 import Routine from "./Recommendations/Routines";
@@ -35,6 +34,8 @@ import CoverPage from "./Recommendations/Cover";
 import UserInfo from "./Recommendations/UserInfo";
 import PreventingView from "./Recommendations/Preventing";
 import ProductsView from "./Recommendations/Products";
+import CosmeticRecommdations from "./Recommendations/Cosmetics";
+import { lowerCase } from "lodash";
 const defaultFont = "Roboto";
 const extraBold = `/fonts/OpenSans-ExtraBold.ttf`;
 const medium = `/fonts/OpenSans-Medium.ttf`;
@@ -166,6 +167,7 @@ const SkinAnalysisRecommendation = () => {
     },
     productCardContent: {
       padding: 15,
+    
     },
     productCardTitle: {
       fontFamily: defaultFont,
@@ -231,7 +233,7 @@ const SkinAnalysisRecommendation = () => {
           <PreventingView useData={dataImageInfo} data={data} />
           <ProductsView data={data} />
           <Routine />
-          <SalonServices />
+          <SalonServices data={data?.data?.[0]?.recommendedSalonServices || []} />
           <CosmeticRecommdations
             data={data?.data?.[0]?.recommendedCosmeticServices || []}
           />
