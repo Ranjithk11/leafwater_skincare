@@ -394,7 +394,7 @@ const BrochureView = () => {
                             backgroundColor: APP_COLORS.PRIMARY_COLOR,
                           }}
                         >
-                          Skin Analysis Summery
+                          Skin Analysis Summary
                         </Text>
                       </View>
                       <View style={{ width: "100%" }}>
@@ -521,7 +521,6 @@ const BrochureView = () => {
                                     {item.productUse}
                                   </Text>
                                 </View>
-                                
                               </View>
 
                               {item.productBenefits && (
@@ -535,10 +534,10 @@ const BrochureView = () => {
                                 </Fragment>
                               )}
                               <View style={{ paddingRight: 15 }}>
-                                  <Text style={styles.productCardPrice}>
-                                    INR {item.retailPrice} /-
-                                  </Text>
-                                </View>
+                                <Text style={styles.productCardPrice}>
+                                  INR {item.retailPrice} /-
+                                </Text>
+                              </View>
 
                               <View>
                                 <Text style={styles.productCardMatches}>
@@ -634,7 +633,7 @@ const BrochureView = () => {
                                       </Text>
                                     </Fragment>
                                   )}
-                                   <View style={{ paddingBottom: 15 }}>
+                                  <View style={{ paddingBottom: 15 }}>
                                     <Text style={styles.productCardPrice}>
                                       INR {item?.retailPrice} /-
                                     </Text>
@@ -659,7 +658,10 @@ const BrochureView = () => {
                   data={data?.data?.[0]?.recommendedSalonServices || []}
                   fontFamily={defaultFont}
                 />
-                <CosmeticsView fontFamily={defaultFont} />
+                <CosmeticsView
+                  fontFamily={defaultFont}
+                  data={data?.data?.[0]?.recommendedCosmeticServices || []}
+                />
                 <DietView fontFamily={defaultFont} />
                 <TeamView fontFamily={defaultFont} />
               </Document>

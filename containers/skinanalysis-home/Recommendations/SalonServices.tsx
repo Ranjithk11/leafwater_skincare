@@ -54,7 +54,7 @@ const SalonServices = ({ data }: SalonServicesProps) => {
               <Typography gutterBottom textAlign="center" variant="h5">
                 Recommended
               </Typography>
-              <Typography textAlign="center" variant="h4">
+              <Typography textAlign="center" variant="h3">
                 <span>Salon</span>Services
               </Typography>
             </Box>

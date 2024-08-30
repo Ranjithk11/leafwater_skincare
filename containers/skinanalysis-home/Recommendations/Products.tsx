@@ -71,7 +71,7 @@ const ProductsView = ({ data }: ProductsViewProps) => {
           {data?.data?.[0]?.recommendedProducts?.highRecommendation?.map(
             (recommended: any) => (
               <Grid container key={recommended?.productCategory?._id}>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <Box mb={3} mt={3}>
                     <Typography variant="h6">
                       {recommended?.productCategory?.title}

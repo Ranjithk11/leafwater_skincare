@@ -56,8 +56,14 @@ const CosmeticRecommdations = ({ data }: CosmeticRecommdationsProps) => {
               <Typography gutterBottom textAlign="center" variant="h5">
                 Recommended
               </Typography>
-              <Typography textAlign="center" variant="h4">
-                <span>Cosmetics</span>Services
+              <Typography
+                textAlign="center"
+                variant="h3"
+                sx={{
+                  fontSize: { xs: '2rem', sm: '3rem' }, // Adjust the font size for different screen sizes
+                }}
+              >
+                <span>Cosmetics</span> Services
               </Typography>
             </Box>
           </Grid>

@@ -12,8 +12,13 @@ interface RoutineItem {
 }
 
 const data = ["Face wash and cleansing", "Toner", "Day Cream", "Sunscreen"];
-const nightRoutine = ["Cleanser", "Toner", "Serum","Night Cream","Scrub (Twice Weekly)"];
-
+const nightRoutine = [
+  "Cleanser",
+  "Toner",
+  "Serum",
+  "Night Cream",
+  "Scrub (Twice Weekly)",
+];
 
 const RoutineView = ({ fontFamily }: RoutineViewProps) => {
   const styles = StyleSheet.create({
@@ -110,7 +115,7 @@ const RoutineView = ({ fontFamily }: RoutineViewProps) => {
             </View>
             <View style={{ flex: 1, paddingLeft: 40 }}>
               {data.map((item) => (
-                <RoutineItem key={item} title={item}/>
+                <RoutineItem key={item} title={item} />
               ))}
             </View>
           </View>
@@ -137,9 +142,9 @@ const RoutineView = ({ fontFamily }: RoutineViewProps) => {
               alignItems: "center",
             }}
           >
-              <View style={{ flex: 1, paddingLeft: 40 }}>
+            <View style={{ flex: 1, paddingLeft: 40 }}>
               {nightRoutine.map((item) => (
-                <RoutineItem key={item} title={item} titleColor="white"/>
+                <RoutineItem key={item} title={item} titleColor="white" />
               ))}
             </View>
             <View
@@ -159,7 +164,6 @@ const RoutineView = ({ fontFamily }: RoutineViewProps) => {
                 src="https://asianbeautyessentials.com/cdn/shop/articles/AdobeStock_101203132_1024x.jpg?v=1648562308"
               />
             </View>
-          
           </View>
         </View>
       </Page>
