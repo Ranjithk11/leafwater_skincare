@@ -77,11 +77,11 @@ const MeetTeam = () => {
           </Grid>
           <Grid item xs={12}>
             <Typography textAlign="justify" variant="body1">
-              Dr. Bilna Eldhose is our skin and hair cosmetologist. Combined
-              with medical expertise and a passion for beauty. She helps you
-              achieve radiant. healthy skin and luscious looks. Your journey to
-              confidence starts here. She is a core team member of MPF Style
-              Club and The Polished.
+              Dr. Bilna Eldhose is our Skin and Hair Cosmetologist, combined
+              with medical expertise and a passion for beauty. She helps you to
+              achieve radiant healthy skin and luscious looks. Your journey to
+              confidence starts here. She is a core team member of Leaf
+              Water,The Polished & Style club.
             </Typography>
           </Grid>
           <Grid item xs={12}>

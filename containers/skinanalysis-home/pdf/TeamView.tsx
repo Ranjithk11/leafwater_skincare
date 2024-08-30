@@ -69,7 +69,7 @@ const TeamView = ({ fontFamily }: TeamViewProps) => {
       </View>
       <View style={styles.teamImage}>
         <Image
-          style={{ width: "100%", height:400, objectFit: "cover" }}
+          style={{ width: "100%", height: 400, objectFit: "cover" }}
           src={belina}
         />
       </View>
@@ -85,15 +85,24 @@ const TeamView = ({ fontFamily }: TeamViewProps) => {
         </View>
         <View style={{ width: "100%", marginTop: 30 }}>
           <Text style={styles.pageContent}>
-            Dr. Bilna Eldhose is our skin and hair cosmetologist. Combined with
-            medical expertise and a passion for beauty. She helps you achieve
-            radiant. healthy skin and luscious looks. Your journey to confidence
-            starts here. She is a core team member of MPF Style Club and The
-            Polished.
+            Dr. Bilna Eldhose is our Skin and Hair Cosmetologist, combined with
+            medical expertise and a passion for beauty. She helps you to achieve
+            radiant healthy skin and luscious looks. Your journey to confidence
+            starts here. She is a core team member of Leaf Water,The Polished &
+            Style club.
           </Text>
         </View>
         <View style={{ width: "100%", marginTop: 10 }}>
-          <Text style={{ textAlign: "center",fontFamily:fontFamily,fontSize:16,fontWeight:600 }}>SKIN | HAIR | DENTAL</Text>
+          <Text
+            style={{
+              textAlign: "center",
+              fontFamily: fontFamily,
+              fontSize: 16,
+              fontWeight: 600,
+            }}
+          >
+            SKIN | HAIR | DENTAL
+          </Text>
         </View>
       </View>
     </Page>
