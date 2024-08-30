@@ -56,7 +56,7 @@ const CosmeticRecommdations = ({ data }: CosmeticRecommdationsProps) => {
               <Typography gutterBottom textAlign="center" variant="h5">
                 Recommended
               </Typography>
-              <Typography textAlign="center" variant="h3">
+              <Typography textAlign="center" variant="h4">
                 <span>Cosmetics</span>Services
               </Typography>
             </Box>

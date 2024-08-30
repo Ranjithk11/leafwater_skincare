@@ -60,14 +60,14 @@ const StyledProductCard = styled(Card)(({ theme }) => ({
   },
   "& .MuiTypography-h6": {
     [theme.breakpoints.only("xs")]: {
-      fontSize: 20,
+      fontSize: 18,
     },
   },
   "& .product_image": {
     position: "relative",
     width: "100%",
     padding: 10,
-    height: 250,
+    height: 200,
     marginBottom: 20,
     [theme.breakpoints.only("xs")]: {
       height: 150,
