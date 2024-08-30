@@ -20,12 +20,7 @@ import { useSession } from "next-auth/react";
 import React, { Fragment, useEffect } from "react";
 import { APP_COLORS } from "@/theme/colors/colors";
 import LoadingComponent from "@/components/loaders/Loading";
-import RoutineView from "./pdf/RoutineView";
-import SalonServiceView from "./pdf/SalonServiceView";
-import CosmeticsView from "./pdf/CosmeticsView";
-import DietView from "./pdf/DietView";
-import TeamView from "./pdf/TeamView";
-import CoverView from "./pdf/CoverView";
+
 import SalonServices from "./Recommendations/SalonServices";
 import DietChart from "./Recommendations/DietChart";
 import MeetTeam from "./Recommendations/MeetTeam";
@@ -34,8 +29,8 @@ import CoverPage from "./Recommendations/Cover";
 import UserInfo from "./Recommendations/UserInfo";
 import PreventingView from "./Recommendations/Preventing";
 import ProductsView from "./Recommendations/Products";
-import CosmeticRecommdations from "./Recommendations/Cosmetics";
-import { lowerCase } from "lodash";
+import CosmeticRecommdations from "./Recommendations/CosmeticRecommdations";
+
 const defaultFont = "Roboto";
 const extraBold = `/fonts/OpenSans-ExtraBold.ttf`;
 const medium = `/fonts/OpenSans-Medium.ttf`;
