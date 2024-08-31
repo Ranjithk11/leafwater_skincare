@@ -162,7 +162,7 @@ const AboutYou = ({
           </Text>
         </View>
         <View style={{ width: "100%", marginTop: 20 }}>
-          <Text
+          {/* <Text
             style={{
               fontFamily: fontFamily,
               fontSize: 14,
@@ -171,7 +171,7 @@ const AboutYou = ({
             }}
           >
             NIL
-          </Text>
+          </Text> */}
           <Text
             style={{
               fontFamily: fontFamily,
