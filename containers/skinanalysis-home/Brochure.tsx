@@ -29,6 +29,7 @@ import CoverView from "./pdf/CoverView";
 import AboutYou from "./pdf/AboutYou";
 import { Session } from "next-auth";
 import { capitalizeWords } from "@/utils/func";
+
 const defaultFont = "Roboto";
 const extraBold = `/fonts/OpenSans-ExtraBold.ttf`;
 const medium = `/fonts/OpenSans-Medium.ttf`;
@@ -205,14 +206,14 @@ const BrochureView = () => {
     },
     productCardPrice: {
       fontFamily: defaultFont,
-      fontSize: 18,
-      fontWeight: 800,
+      fontSize: 16,
+      fontWeight: 600,
       color: APP_COLORS.PRIMARY_COLOR,
     },
     productCardMatches: {
       fontFamily: defaultFont,
       fontSize: 12,
-      fontWeight: 600,
+      fontWeight: 400,
     },
     subscriptionsWrapper: {
       width: "100%",
@@ -521,6 +522,7 @@ const BrochureView = () => {
                                     {item.productUse}
                                   </Text>
                                 </View>
+                                
                               </View>
 
                               {item.productBenefits && (
@@ -534,10 +536,10 @@ const BrochureView = () => {
                                 </Fragment>
                               )}
                               <View style={{ paddingRight: 15 }}>
-                                <Text style={styles.productCardPrice}>
-                                  INR {item.retailPrice} /-
-                                </Text>
-                              </View>
+                                  <Text style={styles.productCardPrice}>
+                                    INR {item.retailPrice} /-
+                                  </Text>
+                                </View>
 
                               <View>
                                 <Text style={styles.productCardMatches}>
@@ -633,7 +635,7 @@ const BrochureView = () => {
                                       </Text>
                                     </Fragment>
                                   )}
-                                  <View style={{ paddingBottom: 15 }}>
+                                   <View style={{ paddingBottom: 15 }}>
                                     <Text style={styles.productCardPrice}>
                                       INR {item?.retailPrice} /-
                                     </Text>

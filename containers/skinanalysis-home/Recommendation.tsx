@@ -28,8 +28,9 @@ import Routine from "./Recommendations/Routines";
 import CoverPage from "./Recommendations/Cover";
 import UserInfo from "./Recommendations/UserInfo";
 import PreventingView from "./Recommendations/Preventing";
-import ProductsView from "./Recommendations/Products";
+
 import CosmeticRecommdations from "./Recommendations/CosmeticRecommdations";
+import ProductsView from "./Recommendations/Products";
 
 const defaultFont = "Roboto";
 const extraBold = `/fonts/OpenSans-ExtraBold.ttf`;
