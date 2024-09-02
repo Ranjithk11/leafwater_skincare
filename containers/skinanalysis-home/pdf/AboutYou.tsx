@@ -172,7 +172,7 @@ const AboutYou = ({
           >
             NIL
           </Text> */}
-          <Text
+          {/* <Text
             style={{
               fontFamily: fontFamily,
               fontSize: 20,
@@ -182,7 +182,7 @@ const AboutYou = ({
             }}
           >
             Medications & Allergies
-          </Text>
+          </Text> */}
         </View>
       </View>
     </Page>

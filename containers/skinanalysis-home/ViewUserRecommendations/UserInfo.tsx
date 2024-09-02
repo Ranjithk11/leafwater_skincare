@@ -155,12 +155,12 @@ const UserInfo = ({ useData, dataImageInfo }: UserInfoProps) => {
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography variant="subtitle1" textAlign="left">
+                  {/* <Typography variant="subtitle1" textAlign="left">
                     NIL
                   </Typography>
                   <Typography variant="h5" textAlign="left">
                     Medications & Allergies
-                  </Typography>
+                  </Typography> */}
                 </Grid>
               </Grid>
             </Box>

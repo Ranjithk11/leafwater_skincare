@@ -1,8 +1,8 @@
-import React from "react";
-import BrouchurePage from "./page";
+// import React from "react";
+// import BrouchurePage from "./page";
 
-const BrouchureDefaultView = () => {
-  return <BrouchurePage />;
-};
+// const BrouchureDefaultView = () => {
+//   return <BrouchurePage />;
+// };
 
-export default BrouchureDefaultView;
+// export default BrouchureDefaultView;

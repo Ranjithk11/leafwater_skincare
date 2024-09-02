@@ -198,7 +198,7 @@ const HomeLayout = ({ children }: HomeLayoutProps) => {
             </Grid>
           </Grid>
         </Box>
-        <Box
+        {/* <Box
           component="div"
           className="DrawerTail"
           onClick={() => handleRouter(APP_ROUTES.BROCHURE)}
@@ -216,7 +216,7 @@ const HomeLayout = ({ children }: HomeLayoutProps) => {
               <Typography variant="body1">Brochure</Typography>
             </Grid>
           </Grid>
-        </Box>
+        </Box> */}
         <Box component="div" className="DrawerTail">
           <Grid
             container
