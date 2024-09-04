@@ -229,7 +229,7 @@ const SkinAnalysisRecommendation = () => {
           <Box p={2} component="div" className="sectionHeader">
             <Grid container alignItems="center" justifyContent="space-between">
               <Grid item>
-                <Typography color="white">
+                <Typography color="green">
                   Visit Count : {data?.data?.countTimeseries}
                 </Typography>
               </Grid>
