@@ -5,6 +5,7 @@ import { styled } from "@mui/material/styles";
 import React from "react";
 import ProductCard from "../Recommendations/ProductCard";
 
+
 const StyledProductsWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
   paddingTop: 75,
@@ -50,6 +51,8 @@ interface ProductsViewProps {
 }
 
 const ProductsView = ({ data }: ProductsViewProps) => {
+
+
   return (
     <StyledProductsWrapper>
       <Container maxWidth="lg">
@@ -60,16 +63,16 @@ const ProductsView = ({ data }: ProductsViewProps) => {
                 Our Recommendations
               </Typography>
               <Typography textAlign="center" variant="h3">
-                To<span> Your Glow</span>On
+                To<span> Get Your Glow</span>On
               </Typography>
             </Box>
           </Grid>
         </Grid>
         <Box pt={5}>
-          {data?.data?.productRecommendation?.recommendedProducts?.highRecommendation?.map(
+          {data?.data?.[0]?.recommendedProducts?.highRecommendation?.map(
             (recommended: any) => (
               <Grid container key={recommended?.productCategory?._id}>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <Box mb={3} mt={3}>
                     <Typography variant="h6">
                       {recommended?.productCategory?.title}
@@ -77,7 +80,7 @@ const ProductsView = ({ data }: ProductsViewProps) => {
                   </Box>
                 </Grid>
 
-                <Grid container spacing={2} item xs={12}>
+                <Grid container spacing={2} item xs={12} alignItems="stretch">
                   {recommended?.products?.map((product: any) => (
                     <Grid key={product?._id} item xs={6} md={4}>
                       <ProductCard {...product} />
@@ -94,3 +97,6 @@ const ProductsView = ({ data }: ProductsViewProps) => {
 };
 
 export default ProductsView;
+
+
+

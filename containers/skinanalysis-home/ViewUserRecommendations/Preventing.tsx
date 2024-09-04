@@ -1,15 +1,13 @@
-"use client";
 import { Divider, Grid, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import { useSession } from "next-auth/react";
-import { useGetUploadImageInfoMutation } from "@/redux/api/analysisApi";
 
 interface PreventingInfoProps {
   useData: any;
-  detectedAttributes: any;
+  data: any;
 }
 
 const StyledPreventingWrapper = styled(Box)(({ theme }) => ({
@@ -82,25 +80,8 @@ const StyledPreventingWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
-const PreventingView = ({
-  useData,
-  detectedAttributes,
-}: PreventingInfoProps) => {
-  const [
-    getUploadImageInfo,
-    { data: dataImageInfo, isLoading: isLoadingImageInfo },
-  ] = useGetUploadImageInfoMutation();
-
-
-
-  useEffect(() => {
-    if (useData) {
-      getUploadImageInfo({
-        userId: useData?.data?.user?._id,
-        fileName: useData?.data?.productRecommendation?.analysedImages[0]?.fileName,
-      });
-    }
-  }, [useData]);
+const PreventingView = ({ useData, data }: PreventingInfoProps) => {
+  const { data: session } = useSession();
 
   return (
     <StyledPreventingWrapper>
@@ -130,29 +111,64 @@ const PreventingView = ({
               <Box
                 component="div"
                 className="user_profile_image"
-                sx={{ backgroundImage: `url(${dataImageInfo?.data?.url})` }}
+                sx={{ backgroundImage: `url(${useData?.data?.url})` }}
               ></Box>
             </Grid>
             <Grid container item xs={12} md={6}>
               <Grid item xs={12}>
+                {session?.user?.skinType && (
+                  <Fragment>
+                    <Typography
+                      mb={2}
+                      fontWeight={700}
+                      variant="subtitle1"
+                      gutterBottom
+                    >
+                      Your Skin Type
+                    </Typography>
+                    <Typography fontWeight={700} variant="h6" gutterBottom>
+                      {session?.user?.skinType}
+                    </Typography>
+                    <Box mt={2} mb={2}>
+                      <Divider />
+                    </Box>
+                  </Fragment>
+                )}
+
                 <Typography
                   mb={2}
                   fontWeight={700}
                   variant="subtitle1"
                   gutterBottom
                 >
-                  Skin Analysis Summary
+                  Skin Analysis Atributes
                 </Typography>
-                {detectedAttributes?.map((item: string, index: number) => (
-                  <Typography
-                    key={index}
-                    fontWeight={700}
-                    variant="h6"
-                    gutterBottom
-                  >
-                    {item.replace("_", " ")}
-                  </Typography>
-                ))}
+                {data?.data?.[0]?.detectedAttributes?.map(
+                  (item: string, index: number) => (
+                    <Typography
+                      key={index}
+                      fontWeight={700}
+                      variant="h6"
+                      gutterBottom
+                    >
+                      {item.replace("_", " ")}
+                    </Typography>
+                  )
+                )}
+
+                {data?.data?.[0]?.skinSummary && (
+                  <Box mt={2}>
+                    <Typography
+                      mb={2}
+                      fontWeight={700}
+                      variant="subtitle1"
+                      gutterBottom
+                    >
+                      Skin Analysis Summary
+                    </Typography>
+                    <Typography fontWeight={700}>{data?.data?.[0]?.skinSummary}</Typography>
+                  </Box>
+                )}
               </Grid>
             </Grid>
           </Grid>
