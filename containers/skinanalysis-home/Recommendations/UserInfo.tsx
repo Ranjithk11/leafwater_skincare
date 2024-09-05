@@ -156,14 +156,14 @@ const UserInfo = ({ useData, dataFUQR }: UserInfoProps) => {
                     {dataFUQR?.gender}
                   </Typography>
                 </Grid>
-                <Grid item xs={12}>
-                  {/* <Typography variant="subtitle1" textAlign="left">
+                {/* <Grid item xs={12}>
+                  <Typography variant="subtitle1" textAlign="left">
                     NIL
                   </Typography>
                   <Typography variant="h5" textAlign="left">
                     Medications & Allergies
-                  </Typography> */}
-                </Grid>
+                  </Typography>
+                </Grid> */}
               </Grid>
             </Box>
           </Grid>

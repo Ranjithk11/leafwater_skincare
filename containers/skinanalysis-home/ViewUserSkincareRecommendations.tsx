@@ -1,78 +1,43 @@
 "use client";
 import {
   useGetUploadImageInfoMutation,
-  useLazyFetchRecommnedSkinAttributesQuery,
-  useLazyFetchUserQuestionsResponseQuery,
+  useLazyFetchRecommnedSkinAttributesByIdQuery,
 } from "@/redux/api/analysisApi";
+import { useSearchParams } from "next/navigation";
 import {
-  Document,
-  Page,
-  Text,
-  View,
-  Font,
-  StyleSheet,
-  PDFViewer,
-  Image,
-} from "@react-pdf/renderer";
-
-import { Box, Card, CardContent, Container, Grid, styled, Typography } from "@mui/material";
-import { useSession } from "next-auth/react";
+  Box,
+  Container,
+  styled,
+  Typography,
+  Grid,
+  Button,
+} from "@mui/material";
 import React, { Fragment, useEffect } from "react";
-import { APP_COLORS } from "@/theme/colors/colors";
 import LoadingComponent from "@/components/loaders/Loading";
-
 import SalonServices from "./Recommendations/SalonServices";
 import DietChart from "./Recommendations/DietChart";
 import MeetTeam from "./Recommendations/MeetTeam";
 import Routine from "./Recommendations/Routines";
 import CoverPage from "./Recommendations/Cover";
-import UserInfo from "./Recommendations/UserInfo";
-import PreventingView from "./Recommendations/Preventing";
-
-import CosmeticRecommdations from "./Recommendations/CosmeticRecommdations";
-import ProductsView from "./Recommendations/Products";
+import ProductsView from "./ViewUserRecommendations/Products";
+import UserInfo from "./ViewUserRecommendations/UserInfo";
+import PreventingView from "./ViewUserRecommendations/Preventing";
 import DownloadPdf from "./download-pdf";
+import { BiBorderRadius } from "react-icons/bi";
+import _ from "lodash";
+import CosmeticRecommdations from "./Recommendations/CosmeticRecommdations";
 
-
-const defaultFont = "Roboto";
-const extraBold = `/fonts/OpenSans-ExtraBold.ttf`;
-const medium = `/fonts/OpenSans-Medium.ttf`;
-const regular = `/fonts/OpenSans-Regular.ttf`;
-const semiBold = `/fonts/OpenSans-SemiBold.ttf`;
-
-Font.register({
-  family: defaultFont,
-  fonts: [
-    {
-      src: extraBold,
-      fontWeight: 900,
-      fontStyle: "normal",
-    },
-    {
-      src: medium,
-      fontWeight: 500,
-      fontStyle: "normal",
-    },
-    {
-      src: regular,
-      fontWeight: 400,
-      fontStyle: "normal",
-    },
-    {
-      src: semiBold,
-      fontWeight: 600,
-      fontStyle: "normal",
-    },
-  ],
-});
-
-const StyledSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
+const StyledUserSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
   height: "100vh",
   position: "relative",
   overflowX: "hidden",
   backgroundColor: theme.palette.grey[100],
   overflowY: "auto",
-  paddingTop: 64,
+  paddingTop: 0,
+  "& .sectionHeader": {
+    width: "100%",
+    backgroundColor: theme.palette.common.black,
+  },
   "& .section_loading_indicator": {
     position: "absolute",
     width: "100%",
@@ -88,180 +53,110 @@ const StyledSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
     fontWeight: 700,
     fontSize: 26,
   },
+  "& a": {
+    backgroundColor: theme.palette.primary.main,
+    textDecoration: "none",
+    color: theme.palette.common.white,
+    padding: 8,
+    minWidth: 200,
+    textAlign: "center",
+    fontSize: 14,
+    borderRadius: 5,
+  },
 }));
 
-const SkinAnalysisRecommendation = () => {
-  const { data: session } = useSession();
+const UserSkinAnalysisRecommendation = () => {
+  const searchParams = useSearchParams();
+  const [fetchRecommnedSkinAttributesById, { isLoading, isError, data }] =
+    useLazyFetchRecommnedSkinAttributesByIdQuery();
 
-  const [
-    fetchUserQuestionsResponse,
-    { isLoading: isLoadingFUQR, data: dataFUQR },
-  ] = useLazyFetchUserQuestionsResponseQuery();
-
-  const [fetchRecommnedSkinAttributes, { isLoading, isError, data }] =
-    useLazyFetchRecommnedSkinAttributesQuery();
   const [
     getUploadImageInfo,
     { data: dataImageInfo, isLoading: isLoadingImageInfo },
   ] = useGetUploadImageInfoMutation();
 
   useEffect(() => {
-    if (session?.user) {
-      fetchRecommnedSkinAttributes({
-        userId: session?.user?.id as string,
-      });
-      getUploadImageInfo({
-        userId: session?.user?.id as string,
-        fileName: session?.user?.selfyImage as string,
-      });
-      fetchUserQuestionsResponse({
-        userId: session?.user?.id as string,
+    if (searchParams) {
+      fetchRecommnedSkinAttributesById({
+        userId: searchParams.get("userId") as string,
+        productRecommendationId: searchParams.get(
+          "productRecommendationId"
+        ) as string,
       });
     }
-  }, [session]);
+  }, [searchParams]);
 
-  const styles = StyleSheet.create({
-    page: {
-      display: "flex",
-      flexDirection: "column",
-      padding: 20,
-    },
-    pageNumber: {
-      fontSize: 20,
-      fontWeight: 700,
-      color: "#e0e0e0",
-    },
-    pageHeader: {
-      width: "100%",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-    },
-    placeHolder: {},
-    section: {
-      margin: 10,
-      padding: 10,
-    },
-    viewer: {
-      width: "100%", //the pdf viewer will take up all of the width and height
-      height: "100%",
-    },
-    image: {
-      width: 200,
-    },
-    productCardWrapper: {
-      width: "100%",
-      display: "flex",
-      position: "relative",
-      flexDirection: "row",
-      alignItems: "stretch",
-      justifyContent: "center",
-      borderBottom: `1px solid #ecf0f1`,
-    },
-    productCardImage: {
-      width: 150,
-      minHeight: 132,
-      height: 132,
-    },
-    productCardContent: {
-      padding: 15,
-    
-    },
-    productCardTitle: {
-      fontFamily: defaultFont,
-      fontSize: 16,
-      fontWeight: 600,
-      marginBottom: 3,
-    },
-    productCardCategoryTitle: {
-      fontSize: 16,
-      fontFamily: defaultFont,
-      fontWeight: 800,
-    },
-    productCardInfo: {
-      fontFamily: defaultFont,
-      fontSize: 12,
-      fontWeight: 400,
-      color: "#7f8c8d",
-      marginBottom: 5,
-    },
-    productCardSubtitle: {
-      fontFamily: defaultFont,
-      fontSize: 14,
-      fontWeight: 600,
-    },
-    productCardPrice: {
-      fontFamily: defaultFont,
-      fontSize: 18,
-      fontWeight: 800,
-      color: APP_COLORS.PRIMARY_COLOR,
-    },
-    productCardMatches: {
-      fontFamily: defaultFont,
-      fontSize: 12,
-      fontWeight: 600,
-    },
-    subscriptionsWrapper: {
-      width: "100%",
-      display: "flex",
-      flexDirection: "row",
-    },
-    subscriptionsBox: {},
-    morningRoutneWrapper: {
-      flex: 1,
-      width: "100%",
-      // backgroundColor: "#ffeaa7",
-      padding: 20,
-      display: "flex",
-      flexDirection: "column",
-    },
-    nightRoutneWrapper: {
-      flex: 1,
-      width: "100%",
-      backgroundColor: "#212121",
-      padding: 20,
-    },
-  });
+  useEffect(() => {
+    if (!_.isEmpty(data)) {
+      getUploadImageInfo({
+        userId: data?.data?.user?._id,
+        fileName: data?.data?.productRecommendation?.capturedImages[0]?.fileName,
+      });
+    }
+  }, [data]);
+ console.log(data)
   return (
-    <StyledSkinAnalysisRecommendation disableGutters maxWidth={false}>
-      {!isLoading && data && !isLoadingImageInfo && (
+    <StyledUserSkinAnalysisRecommendation disableGutters maxWidth={false}>
+      {!isLoading && !isError && !isLoadingImageInfo && data && (
         <Fragment>
           <Box p={2} component="div" className="sectionHeader">
             <Grid container alignItems="center" justifyContent="space-between">
               <Grid item>
-                <Typography color="green">
+                <Typography color="white">
                   Visit Count : {data?.data?.countTimeseries}
                 </Typography>
               </Grid>
-              <Grid item>
+              {/* <Grid item>
                 <DownloadPdf
                   recommendationData={data?.data}
                   dataImageInfo={dataImageInfo}
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
-          // </Box>
+          </Box>
           <CoverPage />
-          <UserInfo useData={dataImageInfo} dataFUQR={dataFUQR} />
-          <PreventingView useData={dataImageInfo} data={data} />
+          <UserInfo useData={data?.data?.user} dataImageInfo={dataImageInfo}/>
+          <PreventingView
+            useData={data}
+            skinSummary={data?.data?.productRecommendation?.skinSummary}
+            detectedAttributes={
+              data?.data?.productRecommendation.detectedAttributes
+            }
+          />
           <ProductsView data={data} />
           <Routine />
-          <SalonServices data={data?.data?.[0]?.recommendedSalonServices || []} />
+          <SalonServices
+            data={data?.data?.productRecommendation?.recommendedSalonServices || []}
+          />
           <CosmeticRecommdations
-            data={data?.data?.[0]?.recommendedCosmeticServices || []}
+            data={data?.data?.productRecommendation?.recommendedCosmeticServices || []}
           />
           <DietChart />
           <MeetTeam />
         </Fragment>
       )}
+      {(isLoading || isLoadingImageInfo) &&
+        !isError &&
+        !data &&
+        !dataImageInfo && (
+          <Box component="div" className="section_loading_indicator">
+            <LoadingComponent />
+          </Box>
+        )}
 
-      {(isLoadingImageInfo || (isLoading && !data)) && (
+      {!isLoading && isError && !data && (
         <Box component="div" className="section_loading_indicator">
-          <LoadingComponent />
+          <img src="/icons/no-content.png" />
+          <Typography fontWeight={700} textAlign="center" variant="h6">
+            No Recommendations Found!
+          </Typography>
+          <Typography textAlign="center">
+            Sorry, we couldn't find ay results
+          </Typography>
         </Box>
       )}
-    </StyledSkinAnalysisRecommendation>
+    </StyledUserSkinAnalysisRecommendation>
   );
 };
 
-export default SkinAnalysisRecommendation;
+export default UserSkinAnalysisRecommendation;

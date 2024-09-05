@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 
 interface UserInfoProps {
   useData: any;
-  dataFUQR: any;
+  dataImageInfo: any;
 }
 
 const StyledUseInfoWrapper = styled(Box)(({ theme }) => ({
@@ -92,9 +92,7 @@ const StyledUseInfoWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
-const UserInfo = ({ useData, dataFUQR }: UserInfoProps) => {
-  const { data: session } = useSession();
-
+const UserInfo = ({ useData, dataImageInfo }: UserInfoProps) => {
   return (
     <StyledUseInfoWrapper>
       <Container maxWidth="lg">
@@ -113,7 +111,7 @@ const UserInfo = ({ useData, dataFUQR }: UserInfoProps) => {
             <Box
               component="div"
               className="profile_image"
-              style={{ backgroundImage: `url(${useData?.data?.url})` }}
+              style={{ backgroundImage: `url(${dataImageInfo?.data?.url})` }}
             />
           </Grid>
           <Grid item>
@@ -129,7 +127,7 @@ const UserInfo = ({ useData, dataFUQR }: UserInfoProps) => {
                     Name
                   </Typography>
                   <Typography variant="h5" textAlign="left">
-                    {session?.user?.firstName}
+                    {useData?.name}
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
@@ -137,7 +135,7 @@ const UserInfo = ({ useData, dataFUQR }: UserInfoProps) => {
                     Age
                   </Typography>
                   <Typography variant="h5" textAlign="right">
-                    {dataFUQR?.age}
+                    {useData?.onBoardingQuestions[0]?.responses?.[0]?.value}
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
@@ -145,7 +143,7 @@ const UserInfo = ({ useData, dataFUQR }: UserInfoProps) => {
                     Phone Number
                   </Typography>
                   <Typography variant="h5" textAlign="left">
-                    {session?.user?.mobileNumber}
+                    {useData?.phoneNumber}
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
@@ -153,17 +151,17 @@ const UserInfo = ({ useData, dataFUQR }: UserInfoProps) => {
                     Gender
                   </Typography>
                   <Typography variant="h5" textAlign="right">
-                    {dataFUQR?.gender}
+                    {useData?.onBoardingQuestions[1]?.responses?.[0]?.value}
                   </Typography>
                 </Grid>
-                <Grid item xs={12}>
-                  {/* <Typography variant="subtitle1" textAlign="left">
+                {/* <Grid item xs={12}>
+                  <Typography variant="subtitle1" textAlign="left">
                     NIL
                   </Typography>
                   <Typography variant="h5" textAlign="left">
                     Medications & Allergies
-                  </Typography> */}
-                </Grid>
+                  </Typography>
+                </Grid> */}
               </Grid>
             </Box>
           </Grid>
