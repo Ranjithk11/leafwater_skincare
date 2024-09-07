@@ -8,7 +8,7 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import { capitalizeWords } from "@/utils/func";
+import { capitalizeWords, shouldForwardProp } from "@/utils/func";
 
 interface ProductCardProps {
   ribbenColor?: string;
@@ -18,9 +18,13 @@ interface ProductCardProps {
   retailPrice: string;
   matches: any[];
   images: any[];
+  enabledMask?: boolean;
 }
 
-const StyledProductCard = styled(Card)(({ theme }) => ({
+const StyledProductCard = styled(Card, {
+  shouldForwardProp: (prop) =>
+    shouldForwardProp<{ enabledMask?: boolean }>(["enabledMask"], prop),
+})<{ enabledMask?: boolean }>(({ theme, enabledMask }) => ({
   height: "100%",
   width: "100%",
   padding: 40,
@@ -35,6 +39,10 @@ const StyledProductCard = styled(Card)(({ theme }) => ({
     overflow: "hidden",
     textOverflow: "ellipsis",
     display: "-webkit-box",
+
+    ...(enabledMask && {
+      filter: `blur(1rem)`,
+    }),
     WebkitLineClamp: "2",
     WebkitBoxOrient: "vertical",
     [theme.breakpoints.only("xs")]: {
@@ -50,6 +58,9 @@ const StyledProductCard = styled(Card)(({ theme }) => ({
     overflow: "hidden",
     textOverflow: "ellipsis",
     display: "-webkit-box",
+    ...(enabledMask && {
+      filter: `blur(1rem)`,
+    }),
     WebkitLineClamp: "2",
     WebkitBoxOrient: "vertical",
     [theme.breakpoints.only("xs")]: {
@@ -59,6 +70,9 @@ const StyledProductCard = styled(Card)(({ theme }) => ({
     },
   },
   "& .MuiTypography-h6": {
+    ...(enabledMask && {
+      filter: `blur(1rem)`,
+    }),
     [theme.breakpoints.only("xs")]: {
       fontSize: 18,
     },
@@ -69,12 +83,31 @@ const StyledProductCard = styled(Card)(({ theme }) => ({
     padding: 10,
     height: 200,
     marginBottom: 20,
+    ...(enabledMask && {
+      filter: `blur(1rem)`,
+    }),
     [theme.breakpoints.only("xs")]: {
       height: 150,
     },
     backgroundRepeat: "no-repeat",
     backgroundSize: "contain",
     backgroundPosition: "center",
+  },
+  "& .product-masking": {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    top: 0,
+    left: 0,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  "& .chip": {
+    ...(enabledMask && {
+      filter: `blur(1rem)`,
+    }),
   },
 }));
 
@@ -85,10 +118,11 @@ const ProductCard = ({
   retailPrice,
   matches,
   images,
+  enabledMask,
 }: ProductCardProps) => {
   return (
     <Box sx={{ position: "relative", height: "100%" }}>
-      <StyledProductCard>
+      <StyledProductCard enabledMask={enabledMask}>
         <Box
           component="div"
           className="product_image"
@@ -103,10 +137,11 @@ const ProductCard = ({
                 <Grid item>
                   <Chip
                     variant="outlined"
+                    className="chip"
                     style={{ borderRadius: 5 }}
                     color="primary"
                     size="small"
-                    label={matches?.[0]?.name?.replace("_"," ")}
+                    label={matches?.[0]?.name?.replace("_", " ")}
                   />
                 </Grid>
               </Grid>
@@ -127,6 +162,23 @@ const ProductCard = ({
             </Box>
           </Grid>
         </Grid>
+        {enabledMask && (
+          <Box component="div" className="product-masking">
+            <Grid container>
+              <Grid item xs={12}>
+                <Typography textAlign="center" variant="subtitle2">
+                  To View more products{" "}
+                </Typography>
+                <Typography mt={1} textAlign="center" variant="subtitle2">
+                  Call Us at{" "}
+                  <span>
+                    <b> +91 8977016605</b>
+                  </span>
+                </Typography>
+              </Grid>
+            </Grid>
+          </Box>
+        )}
       </StyledProductCard>
 
       <Box component="div" className="ribbon">
