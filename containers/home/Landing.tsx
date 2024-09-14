@@ -213,7 +213,9 @@ const HomeLanding = () => {
         <Box component="div" className="centered_box">
           {sendTo && (
             <OtpForm
-              onClickBackButton={() => {}}
+              onClickBackButton={() => {
+                setSendTo(null)
+              }}
               onClickResendOtp={handleResentOtp}
               handleSubmit={handleSubmit}
               onSubmitForm={handleOtp}
@@ -328,7 +330,7 @@ const HomeLanding = () => {
                   sx={{ borderRadius: 100, marginTop: 2 }}
                   disabled={isSubmitted}
                 >
-                  Skin Analysis
+                  Start Analysis
                 </Button>
               </Grid>
             </Grid>
