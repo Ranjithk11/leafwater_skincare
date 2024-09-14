@@ -94,7 +94,7 @@ const UserSkinAnalysisRecommendation = () => {
       });
     }
   }, [data]);
- console.log(data)
+
   return (
     <StyledUserSkinAnalysisRecommendation disableGutters maxWidth={false}>
       {!isLoading && !isError && !isLoadingImageInfo && data && (

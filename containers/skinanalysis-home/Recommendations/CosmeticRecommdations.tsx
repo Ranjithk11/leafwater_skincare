@@ -46,7 +46,7 @@ const StyledCosmeticRecommdations = styled(Box)(({ theme }) => ({
 }));
 
 const CosmeticRecommdations = ({ data }: CosmeticRecommdationsProps) => {
-  console.log(data);  
+  
   return (
     <StyledCosmeticRecommdations>
       <Container maxWidth="lg">
