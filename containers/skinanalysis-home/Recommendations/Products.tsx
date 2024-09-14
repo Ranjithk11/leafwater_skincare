@@ -47,12 +47,9 @@ const StyledProductsWrapper = styled(Box)(({ theme }) => ({
 
 interface ProductsViewProps {
   data: any;
- 
 }
 
 const ProductsView = ({ data }: ProductsViewProps) => {
-
-
   return (
     <StyledProductsWrapper>
       <Container maxWidth="lg">
@@ -81,10 +78,16 @@ const ProductsView = ({ data }: ProductsViewProps) => {
                 </Grid>
 
                 <Grid container spacing={2} item xs={12} alignItems="stretch">
-                  {recommended?.products?.map((product: any,index:number) => (
+                  {recommended?.products?.map((product: any, index: number) => (
                     <Grid key={product?._id} item xs={6} md={4}>
-                      <ProductCard {...product} enabledMask={ index > 0} />
-
+                      <ProductCard
+                        {...product}
+                        enabledMask={
+                          data?.data?.user?.isPremiumCustomer
+                            ? false
+                            : index > 0
+                        }
+                      />
                     </Grid>
                   ))}
                 </Grid>
