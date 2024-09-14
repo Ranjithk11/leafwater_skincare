@@ -7,4 +7,7 @@ export enum API_ROUTES {
   FETCH_SKIN_CARE_RECOMMENDATIONS = "/fetch-recommendations",
   FETCH_SKIN_CARE_RECOMMENDATIONS_BY_ID = "/fetch-recommendations-by-id",
   FETCH_USER_QUESTION_RESPONSE = "/user/get-question-responses",
+  USER_SEND_OTP = "/user/send-otp",
+  USER_VERIFY_OTP = "/user/verify-otp",
+  USER_LOGIN = "/user/login",
 }

@@ -31,7 +31,7 @@ export const analysisApi = createApi({
           ...response,
           data: [
             ...questions,
-            { responseType: "LOGIN", value: "Basic Details" },
+            { responseType: "REGISTER", value: "Basic Details" },
           ],
         };
       },
@@ -109,7 +109,8 @@ export const analysisApi = createApi({
         productRecommendationId: string;
       }
     >({
-      query: ({ userId, productRecommendationId }) => `${API_ROUTES.FETCH_SKIN_CARE_RECOMMENDATIONS_BY_ID}?userId=${userId}&productRecommendationId=${productRecommendationId}`,
+      query: ({ userId, productRecommendationId }) =>
+        `${API_ROUTES.FETCH_SKIN_CARE_RECOMMENDATIONS_BY_ID}?userId=${userId}&productRecommendationId=${productRecommendationId}`,
       // query: ({ userId, productRecommendationId }) => {
       //   return {
       //     url: API_ROUTES.FETCH_SKIN_CARE_RECOMMENDATIONS_BY_ID,
@@ -154,5 +155,5 @@ export const {
   useGetUploadImageInfoMutation,
   useLazyFetchRecommnedSkinAttributesQuery,
   useLazyFetchUserQuestionsResponseQuery,
-  useLazyFetchRecommnedSkinAttributesByIdQuery
+  useLazyFetchRecommnedSkinAttributesByIdQuery,
 } = analysisApi;

@@ -17,6 +17,7 @@ declare module "next-auth" {
     isProfileCompleted?: boolean;
     dateOfBirth?: string;
     onBoardingQuestions: any[];
+    isOtpVerified?:boolean;
   }
 
   interface Session {
@@ -38,6 +39,7 @@ declare module "next-auth" {
       dateOfBirth?: string;
       role?: string;
       onBoardingQuestions: any[];
+      isOtpVerified?:boolean;
     };
   }
 }

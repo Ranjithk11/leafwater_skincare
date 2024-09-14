@@ -13,6 +13,7 @@ interface TextInputFieldComponentProps {
   defaultValue: string;
   textFieldProps: TextFieldProps;
   onInputChange?: (value: any) => void;
+  showErrorMessage?: boolean;
 }
 
 const TextInputFieldComponent = ({
@@ -23,6 +24,7 @@ const TextInputFieldComponent = ({
   label,
   defaultValue,
   textFieldProps,
+  showErrorMessage=true,
   onInputChange,
 }: TextInputFieldComponentProps) => {
   return (
@@ -48,7 +50,7 @@ const TextInputFieldComponent = ({
                 }}
                 {...textFieldProps}
               />
-              {!!fieldState?.error && (
+             {showErrorMessage && !!fieldState?.error && (
                 <FormHelperText sx={{ marginLeft: 0 }} error={true}>
                   {fieldState?.error?.message}
                 </FormHelperText>

@@ -1,6 +1,7 @@
 import { JWT } from "next-auth/jwt";
 import { API_ROUTES } from "../routes/apiRoutes";
 import { Session, User } from "next-auth";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface UserLoginPayload {
   phoneNumber: string;
@@ -8,6 +9,26 @@ interface UserLoginPayload {
   name: string;
   email: string;
 }
+
+export const loginUser = async (
+  input: string,
+  inputType: "phoneNumber" | "email"
+) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}${API_ROUTES.USER_LOGIN}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        input: input,
+        inputType: inputType,
+      }),
+    }
+  );
+  const data = await response.json();
+  return data;
+};
+
 export const saveUser = async (payload: UserLoginPayload) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}${API_ROUTES.SAVE_USER}`,
@@ -43,6 +64,7 @@ export const updateToken = (token: JWT, user: User) => {
     token.selfyImage = user?.selfyImage;
     token.selfyImagePath = user?.selfyImagePath;
     token.skinType = user?.skinType;
+    token.isOtpVerified = user?.isOtpVerified;
   }
   return token;
 };
@@ -62,6 +84,41 @@ export const updateSession = (session: Session, token: JWT) => {
     session.user.selfyImage = token?.selfyImage as string;
     session.user.selfyImagePath = token?.selfyImagePath as string;
     session.user.skinType = token?.skinType as string;
+    session.user.isOtpVerified = token?.isOtpVerified as boolean;
   }
   return session;
 };
+
+export const authApi = createApi({
+  reducerPath: "authApi",
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_URL }),
+  tagTypes: ["authApi"],
+  endpoints: (builder) => ({
+    sendOtp: builder.mutation<
+      any,
+      { input: string; action: string; inputType: string }
+    >({
+      query: (body) => {
+        return {
+          url: API_ROUTES.USER_SEND_OTP,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    verifyOtp: builder.mutation<
+      any,
+      { input: string; action: string; otp: number }
+    >({
+      query: (body) => {
+        return {
+          url: API_ROUTES.USER_VERIFY_OTP,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+  }),
+});
+
+export const { useSendOtpMutation, useVerifyOtpMutation } = authApi;

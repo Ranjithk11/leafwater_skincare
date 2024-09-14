@@ -10,6 +10,7 @@ interface FormMobileInputProps extends MuiTelInputProps {
   label?: string;
   defaultValue: string;
   size?:"small"|"medium"
+  showErrorMessage?: boolean;
 }
 
 const FormMobileInput: React.FC<FormMobileInputProps> = ({
@@ -19,6 +20,7 @@ const FormMobileInput: React.FC<FormMobileInputProps> = ({
   error,
   label,
   size,
+  showErrorMessage=true,
   defaultValue,
   ...props
 }) => {
@@ -49,7 +51,13 @@ const FormMobileInput: React.FC<FormMobileInputProps> = ({
             value={value}
             onChange={onChange}
             error={fieldState.invalid}
-            helperText={fieldState.invalid ? "Mobile number is invalid" : ""}
+            helperText={
+              showErrorMessage
+                ? fieldState.invalid
+                  ? "Mobile number is invalid"
+                  : ""
+                : ""
+            }
             {...props}
           />
         )}

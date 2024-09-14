@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Control, Controller, FieldValues } from "react-hook-form";
 import FormControl from "@mui/material/FormControl";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
@@ -9,6 +9,7 @@ import {
   Select,
   SelectProps,
 } from "@mui/material";
+import { Icon } from "@iconify/react";
 
 interface SelectInputFieldComponentProps {
   id: string;
@@ -21,6 +22,8 @@ interface SelectInputFieldComponentProps {
   targetValue:string;
   options: any[];
   selectFilesProps?: SelectProps;
+  displayIcon?: boolean;
+  iconName?: string;
   size?: "small" | "medium";
 }
 
@@ -35,7 +38,9 @@ const SelectInputFieldComponent = ({
   defaultValue,
   selectFilesProps,
   displayLabelName,
-  targetValue
+  targetValue,
+  displayIcon = false,
+  iconName,
 }: SelectInputFieldComponentProps) => {
   return (
     <Controller
@@ -58,7 +63,12 @@ const SelectInputFieldComponent = ({
             >
               {options.map((option, index) => (
                 <MenuItem key={index} value={option[`${targetValue}`]}>
-                  {option[`${displayLabelName}`]}
+                {displayIcon && (
+                    <Icon style={{fontSize:18}} icon={option[`${iconName}`] as string} />
+                  )}
+                  {!displayIcon && (
+                    <Fragment>{option[`${displayLabelName}`]}</Fragment>
+                  )}
                 </MenuItem>
               ))}
             </Select>

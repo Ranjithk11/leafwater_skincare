@@ -80,8 +80,7 @@ const ProductsView = ({ data }: ProductsViewProps) => {
                 <Grid container spacing={2} item xs={12}>
                   {recommended?.products?.map((product: any,index:number) => (
                     <Grid key={product?._id} item xs={6} md={4}>
-                      <ProductCard {...product} enabledMask={index>0}>
-                        </ProductCard> 
+                      <ProductCard {...product} enabledMask={index>0} />
                     </Grid>
                   ))}
                 </Grid>

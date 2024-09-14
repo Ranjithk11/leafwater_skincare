@@ -1,7 +1,8 @@
 import { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { saveUser, updateSession, updateToken } from "@/redux/api/authApi";
+import { loginUser, saveUser, updateSession, updateToken } from "@/redux/api/authApi";
+import _ from "lodash";
 
 const authOptions: AuthOptions = {
   session: {
@@ -18,12 +19,25 @@ const authOptions: AuthOptions = {
       credentials: {},
       authorize: async (credentials: any, _req) => {
         let response: any = {};
-        response = await saveUser({
-          phoneNumber: credentials?.phoneNumber,
-          name: credentials?.name,
-          email: credentials?.email,
-          onBoardingQuestions: JSON.parse(credentials?.onBoardingQuestions),
-        });
+        if (credentials?.actionType === "login") {
+          response = await loginUser(
+            credentials?.input,
+            credentials?.loginType
+          );
+        }
+        if (credentials?.actionType === "register") {
+          response = await saveUser({
+            phoneNumber: credentials?.phoneNumber,
+            name: credentials?.name,
+            email: credentials?.email,
+            onBoardingQuestions: JSON.parse(credentials?.onBoardingQuestions),
+          });
+        }
+
+        if (response?.status === "success" && _.isEmpty(response?.data)) {
+          return null;
+        }
+       
 
         return {
           id: response?.data?._id,
@@ -36,6 +50,7 @@ const authOptions: AuthOptions = {
           isEmailVerified: false,
           isProfileCompleted: false,
           gender: "",
+          isOtpVerified: response?.data?.isOtpVerified,
         };
       },
     }),

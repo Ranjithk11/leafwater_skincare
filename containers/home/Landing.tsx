@@ -1,11 +1,30 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
-import { Box, Button, Container, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import Marquee from "react-fast-marquee";
 import { useRouter } from "next/navigation";
 import { APP_ROUTES } from "@/utils/routes";
+import FormMobileInput from "@/components/form-felds/phoneInput";
+import { matchIsValidTel } from "mui-tel-input";
+import { useForm } from "react-hook-form";
+import SelectInputFieldComponent from "@/components/form-felds/SelectInput";
+import TextInputFieldComponent from "@/components/form-felds/textInputField";
+import { isValidateEmail } from "@/utils/func";
+import { useVerifyOtpMutation, useSendOtpMutation } from "@/redux/api/authApi";
+import { parsePhoneNumber } from "libphonenumber-js";
+import { toast } from "react-toastify";
+import { signIn } from "next-auth/react";
+import OtpForm from "../forms/OtpForm";
+import { grey } from "@mui/material/colors";
 
 const StyledHomeLanding = styled(Container)(({ theme }) => ({
   height: `calc(100dvh)`,
@@ -23,7 +42,7 @@ const StyledHomeLanding = styled(Container)(({ theme }) => ({
     position: "absolute",
     width: "100%",
     height: "100%",
-    [theme.breakpoints.only("xs")]:{
+    [theme.breakpoints.only("xs")]: {
       backgroundColor: "rgba(0,0,0,0.5)",
     },
     backgroundColor: "rgba(0,0,0,0.2)",
@@ -35,11 +54,11 @@ const StyledHomeLanding = styled(Container)(({ theme }) => ({
   },
 
   "& .centered_box": {
-    padding: 40,
+    padding: 20,
     backgroundColor: theme.palette.common.white,
     width: 450,
-    [theme.breakpoints.only("xs")]:{
-      width: 320
+    [theme.breakpoints.only("xs")]: {
+      width: 320,
     },
     "& .MuiTypography-h5": {
       fontSize: 31,
@@ -86,11 +105,104 @@ const StyledHomeLanding = styled(Container)(({ theme }) => ({
 
 const HomeLanding = () => {
   const router = useRouter();
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const theme = useTheme();
+  const [sendTo, setSendTo] = useState<string | null>(null);
   const isSmDevice = useMediaQuery(theme.breakpoints.up("lg"));
+  const { control, handleSubmit, watch } = useForm({
+    defaultValues: {
+      loginType: "phoneNumber",
+    },
+  });
+  const [verifyOtp, { isLoading: isLoadingVerifyOtp }] = useVerifyOtpMutation();
+  const [sendOtp, { isLoading: isLoadingResentOtp }] = useSendOtpMutation();
+  const watchChangeLoginType = watch("loginType");
+
+  // Submit Form
+  const onSubmit = async (data: any) => {
+    let input = "";
+    setIsSubmitted(true);
+    if (data?.loginType === "phoneNumber") {
+      const mobileNumber = parsePhoneNumber(data?.phoneNumber);
+      input = mobileNumber.number;
+    }
+    if (data?.loginType === "email") {
+      input = data.email;
+    }
+    const response = await signIn("credentials", {
+      input: input,
+      redirect: false,
+      actionType: "login",
+      loginType: data?.loginType,
+    });
+    if (response) {
+      setSendTo(input);
+      setIsSubmitted(false);
+      toast.success(
+        `Your OTP has been successfully sent to your registered ${watchChangeLoginType} ${input}`
+      );
+    }
+  };
+
+  // handle OTP
+  const handleOtp = (data: any) => {
+    verifyOtp({
+      input: sendTo as string,
+      action: "otpVerifyLogin",
+      otp: Number(data?.otp),
+    })
+      .then((response: any) => {
+        if (response?.error?.data?.status === "failure") {
+          toast.error(response?.error?.data?.message);
+        } else {
+          toast.success(
+            "Your OTP has been successfully verified. You can now proceed with your request."
+          );
+          router.replace(
+            `${APP_ROUTES.SKIN_ANALYSIS}?isValidated=true&loginType=${watchChangeLoginType}&value=${sendTo}`
+          );
+        }
+      })
+      .catch((error) => {
+        toast.error("Something went to wrong please try again...");
+      });
+  };
+
+  //handle resend OTP
+  const handleResentOtp = () => {
+    sendOtp({
+      input: sendTo as string,
+      inputType: watchChangeLoginType,
+      action: "otpVerifyLogin",
+    })
+      .then((response: any) => {
+        if (response?.data?.status === "success") {
+          toast.success(
+            `As requested, a new One-Time Password (OTP) has been sent to your registered ${watchChangeLoginType} ${sendTo}`
+          );
+        } else {
+          toast.error("Something went to wrong please try again...");
+        }
+      })
+      .catch((error) => {
+        toast.error("Something went to wrong please try again...");
+      });
+  };
+
+  // handle skip
+  const handleSkip = () => {
+    router.replace(
+      `${APP_ROUTES.SKIN_ANALYSIS}?isValidated=false&loginType=${watchChangeLoginType}`
+    );
+  };
+
   return (
     <StyledHomeLanding maxWidth={false} disableGutters>
-      <Marquee gradient={isSmDevice?true:false} gradientColor="black" style={{}}>
+      <Marquee
+        gradient={isSmDevice ? true : false}
+        gradientColor="black"
+        style={{}}
+      >
         <Box
           component="div"
           className="marquee_sliding"
@@ -99,36 +211,128 @@ const HomeLanding = () => {
       </Marquee>
       <Box className="overly_layer">
         <Box component="div" className="centered_box">
-          <Grid
-            container
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Grid item>
-              <img width={100} src="/logo/leafwater.png" alt="leaf-water" />
+          {sendTo && (
+            <OtpForm
+              onClickBackButton={() => {}}
+              onClickResendOtp={handleResentOtp}
+              handleSubmit={handleSubmit}
+              onSubmitForm={handleOtp}
+              control={control}
+              sendTo={sendTo}
+              isLoadinResendOtp={isLoadingResentOtp}
+              isVerifyLoading={isLoadingVerifyOtp}
+              watchChangeLoginType={watchChangeLoginType}
+            />
+          )}
+          {!sendTo && (
+            <Grid
+              container
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              spacing={1}
+            >
+              <Grid item xs={12} container alignItems="center">
+                <Grid item xs ></Grid>
+                <Grid item>
+                  <Button
+                    onClick={handleSkip}
+                    variant="text"
+                    color="inherit"
+                    size="small"
+                    sx={{ borderRadius: 100, marginTop: 2, color: grey }}
+                  >
+                    Skip
+                  </Button>
+                </Grid>
+              </Grid>
+              <Grid item mb={2} xs={12} sx={{ textAlign: "center" }}>
+                <img width={100} src="/logo/leafwater.png" alt="leaf-water" />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography color="secondary" fontWeight={900} variant="h5">
+                  Personalized <span className="__span">Skincare</span>
+                </Typography>
+                <Typography mb={2} variant="body2">
+                  Recommendations based on analysis results.
+                </Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <SelectInputFieldComponent
+                  control={control}
+                  id="loginType"
+                  name="loginType"
+                  displayIcon={true}
+                  label=""
+                  iconName="iconName"
+                  defaultValue="phoneNumber"
+                  targetValue="value"
+                  size="medium"
+                  options={[
+                    {
+                      name: "Phone",
+                      value: "phoneNumber",
+                      iconName: "fluent:phone-16-regular",
+                    },
+                    {
+                      name: "Email",
+                      value: "email",
+                      iconName: "mdi:email-outline",
+                    },
+                  ]}
+                />
+              </Grid>
+              <Grid item xs={10}>
+                <Box ml={1}>
+                  {watchChangeLoginType === "phoneNumber" && (
+                    <FormMobileInput
+                      showErrorMessage={false}
+                      name="phoneNumber"
+                      size="medium"
+                      rules={{
+                        required: "This is a required field",
+                        validate: matchIsValidTel,
+                      }}
+                      control={control}
+                      defaultValue=""
+                      id="form-phone-input"
+                      fullWidth={true}
+                    />
+                  )}
+                  {watchChangeLoginType === "email" && (
+                    <TextInputFieldComponent
+                      name="email"
+                      control={control}
+                      id="email"
+                      label=""
+                      showErrorMessage={false}
+                      textFieldProps={{
+                        fullWidth: true,
+                        placeholder: "Enter email address",
+                      }}
+                      defaultValue=""
+                      rules={{
+                        required: "This is a required field",
+                        validate: isValidateEmail,
+                      }}
+                    />
+                  )}
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  onClick={handleSubmit(onSubmit)}
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  sx={{ borderRadius: 100, marginTop: 2 }}
+                  disabled={isSubmitted}
+                >
+                  Skin Analysis
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Typography color="secondary" fontWeight={900} variant="h5">
-                Personalized <span className="__span">Skincare</span>
-              </Typography>
-              <Typography variant="body2">
-                Recommendations based on analysis results.
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Button
-                onClick={() => router.push(APP_ROUTES.SKIN_ANALYSIS)}
-                endIcon={<KeyboardDoubleArrowRightIcon />}
-                variant="contained"
-                color="primary"
-                size="large"
-                sx={{ borderRadius: 100, marginTop: 2 }}
-              >
-                Start Analysis
-              </Button>
-            </Grid>
-          </Grid>
+          )}
         </Box>
       </Box>
     </StyledHomeLanding>
