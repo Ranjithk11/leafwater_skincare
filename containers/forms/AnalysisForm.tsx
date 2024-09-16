@@ -141,7 +141,7 @@ const AnalysisForm = () => {
         value: session?.user?.mobileNumber,
         readOnly: true,
       };
-    } else if (searchParams.get("loginType") === "phone") {
+    } else if (searchParams.get("loginType") === "phoneNumber") {
       return {
         value: searchParams.get("value"),
         readOnly: true,
