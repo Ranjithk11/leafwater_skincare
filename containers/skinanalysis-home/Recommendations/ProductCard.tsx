@@ -165,7 +165,7 @@ const ProductCard = ({
             <Box>
               <Typography variant="h6">INR {retailPrice}/-</Typography>
             </Box>
-            <Grid>
+            {/* <Grid>
               <Button
                 variant="contained"
                 color="primary"
@@ -174,7 +174,7 @@ const ProductCard = ({
               >
                 Add to Cart
               </Button>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
         {enabledMask && (
