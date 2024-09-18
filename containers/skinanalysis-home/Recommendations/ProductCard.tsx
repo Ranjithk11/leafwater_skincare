@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import Card from "@mui/material/Card";
 import {
   Box,
+  Button,
   CardContent,
   Chip,
   Grid,
@@ -120,6 +121,10 @@ const ProductCard = ({
   images,
   enabledMask,
 }: ProductCardProps) => {
+  function handleAddToCart() {
+    window.open(`https://leafwater.in/products/${name}`,"_blank")
+  }
+
   return (
     <Box sx={{ position: "relative", height: "100%" }}>
       <StyledProductCard enabledMask={enabledMask}>
@@ -160,6 +165,16 @@ const ProductCard = ({
             <Box>
               <Typography variant="h6">INR {retailPrice}/-</Typography>
             </Box>
+            <Grid>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleAddToCart()}   
+                sx={{ marginTop: 2 }}
+              >
+                Add to Cart
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
         {enabledMask && (

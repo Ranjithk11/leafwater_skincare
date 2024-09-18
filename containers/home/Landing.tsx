@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { styled } from "@mui/material/styles";
 import {
   Box,
@@ -25,6 +25,7 @@ import { toast } from "react-toastify";
 import { signIn } from "next-auth/react";
 import OtpForm from "../forms/OtpForm";
 import { grey } from "@mui/material/colors";
+import { useFetchLatestRecommendationsByFilterMutation } from "@/redux/api/analysisApi";
 
 const StyledHomeLanding = styled(Container)(({ theme }) => ({
   height: `calc(100dvh)`,
@@ -108,12 +109,18 @@ const HomeLanding = () => {
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const theme = useTheme();
   const [sendTo, setSendTo] = useState<string | null>(null);
+  const [isGetReport, setIsGetReport] = useState<boolean>(false);
+
   const isSmDevice = useMediaQuery(theme.breakpoints.up("lg"));
   const { control, handleSubmit, watch } = useForm({
     defaultValues: {
       loginType: "phoneNumber",
     },
   });
+  const [
+    fetchLatestRecommendationsByFilter,
+    { isLoading: isLoadingLatestRecByFilter },
+  ] = useFetchLatestRecommendationsByFilterMutation();
   const [verifyOtp, { isLoading: isLoadingVerifyOtp }] = useVerifyOtpMutation();
   const [sendOtp, { isLoading: isLoadingResentOtp }] = useSendOtpMutation();
   const watchChangeLoginType = watch("loginType");
@@ -158,9 +165,17 @@ const HomeLanding = () => {
           toast.success(
             "Your OTP has been successfully verified. You can now proceed with your request."
           );
-          router.replace(
-            `${APP_ROUTES.SKIN_ANALYSIS}?isValidated=true&loginType=${watchChangeLoginType}&value=${sendTo}`
-          );
+          fetchLatestRecommendationsByFilter({
+            input: sendTo as string,
+          })
+            .then((res: any) => {
+              router.push(
+                `${APP_ROUTES.VIEW_SKINCARE_REC_VIA_PUBLIC_URL}?userId=${res?.data?.data?.user?._id}&productRecommendationId=${res?.data?.data?.productRecommendation?._id}`
+              );
+            })
+            .catch((error) => {
+              toast.error("Something went to wrong please try again...");
+            });
         }
       })
       .catch((error) => {
@@ -192,7 +207,7 @@ const HomeLanding = () => {
   // handle skip
   const handleSkip = () => {
     router.replace(
-      `${APP_ROUTES.SKIN_ANALYSIS}?isValidated=false&loginType=${watchChangeLoginType}`
+      `${APP_ROUTES.SKIN_ANALYSIS}`
     );
   };
 
@@ -209,20 +224,23 @@ const HomeLanding = () => {
           sx={{ backgroundImage: `url(/images/skincare_bg.png)` }}
         ></Box>
       </Marquee>
+
       <Box className="overly_layer">
         <Box component="div" className="centered_box">
           {sendTo && (
             <OtpForm
               onClickBackButton={() => {
-                setSendTo(null)
+                setSendTo(null);
               }}
               onClickResendOtp={handleResentOtp}
               handleSubmit={handleSubmit}
               onSubmitForm={handleOtp}
               control={control}
               sendTo={sendTo}
-              isLoadinResendOtp={isLoadingResentOtp}
-              isVerifyLoading={isLoadingVerifyOtp}
+              isLoadinResendOtp={
+                isLoadingResentOtp || isLoadingLatestRecByFilter
+              }
+              isVerifyLoading={isLoadingVerifyOtp || isLoadingLatestRecByFilter}
               watchChangeLoginType={watchChangeLoginType}
             />
           )}
@@ -235,17 +253,34 @@ const HomeLanding = () => {
               spacing={1}
             >
               <Grid item xs={12} container alignItems="center">
-                <Grid item xs ></Grid>
+                <Grid item xs></Grid>
                 <Grid item>
-                  <Button
-                    onClick={handleSkip}
-                    variant="text"
-                    color="inherit"
-                    size="small"
-                    sx={{ borderRadius: 100, marginTop: 2, color: grey }}
-                  >
-                    Skip
-                  </Button>
+                  {!isGetReport && (
+                    <Button
+                      onClick={() => {
+                        setIsGetReport(true);
+                      }}
+                      variant="text"
+                      color="inherit"
+                      size="small"
+                      sx={{ borderRadius: 100, marginTop: 2, color: grey }}
+                    >
+                      Get My Report
+                    </Button>
+                  )}
+                  {isGetReport && (
+                    <Button
+                      onClick={() => {
+                        setIsGetReport(false);
+                      }}
+                      variant="text"
+                      color="inherit"
+                      size="small"
+                      sx={{ borderRadius: 100, marginTop: 2, color: grey }}
+                    >
+                      Back
+                    </Button>
+                  )}
                 </Grid>
               </Grid>
               <Grid item mb={2} xs={12} sx={{ textAlign: "center" }}>
@@ -259,80 +294,103 @@ const HomeLanding = () => {
                   Recommendations based on analysis results.
                 </Typography>
               </Grid>
-              <Grid item xs={2}>
-                <SelectInputFieldComponent
-                  control={control}
-                  id="loginType"
-                  name="loginType"
-                  displayIcon={true}
-                  label=""
-                  iconName="iconName"
-                  defaultValue="phoneNumber"
-                  targetValue="value"
-                  size="medium"
-                  options={[
-                    {
-                      name: "Phone",
-                      value: "phoneNumber",
-                      iconName: "fluent:phone-16-regular",
-                    },
-                    {
-                      name: "Email",
-                      value: "email",
-                      iconName: "mdi:email-outline",
-                    },
-                  ]}
-                />
-              </Grid>
-              <Grid item xs={10}>
-                <Box ml={1}>
-                  {watchChangeLoginType === "phoneNumber" && (
-                    <FormMobileInput
-                      showErrorMessage={false}
-                      name="phoneNumber"
-                      size="medium"
-                      rules={{
-                        required: "This is a required field",
-                        validate: matchIsValidTel,
-                      }}
+              {isGetReport && (
+                <Fragment>
+                  <Grid item xs={2}>
+                    <SelectInputFieldComponent
                       control={control}
-                      defaultValue=""
-                      id="form-phone-input"
-                      fullWidth={true}
-                    />
-                  )}
-                  {watchChangeLoginType === "email" && (
-                    <TextInputFieldComponent
-                      name="email"
-                      control={control}
-                      id="email"
+                      id="loginType"
+                      name="loginType"
+                      displayIcon={true}
                       label=""
-                      showErrorMessage={false}
-                      textFieldProps={{
-                        fullWidth: true,
-                        placeholder: "Enter email address",
-                      }}
-                      defaultValue=""
-                      rules={{
-                        required: "This is a required field",
-                        validate: isValidateEmail,
-                      }}
+                      iconName="iconName"
+                      defaultValue="phoneNumber"
+                      targetValue="value"
+                      size="medium"
+                      options={[
+                        {
+                          name: "Phone",
+                          value: "phoneNumber",
+                          iconName: "fluent:phone-16-regular",
+                        },
+                        {
+                          name: "Email",
+                          value: "email",
+                          iconName: "mdi:email-outline",
+                        },
+                      ]}
                     />
-                  )}
-                </Box>
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  onClick={handleSubmit(onSubmit)}
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  sx={{ borderRadius: 100, marginTop: 2 }}
-                  disabled={isSubmitted}
-                >
-                  Start Analysis
-                </Button>
-              </Grid>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <Box ml={1}>
+                      {watchChangeLoginType === "phoneNumber" && (
+                        <FormMobileInput
+                          showErrorMessage={false}
+                          name="phoneNumber"
+                          size="medium"
+                          rules={{
+                            required: "This is a required field",
+                            validate: matchIsValidTel,
+                          }}
+                          control={control}
+                          defaultValue=""
+                          id="form-phone-input"
+                          fullWidth={true}
+                        />
+                      )}
+                      {watchChangeLoginType === "email" && (
+                        <TextInputFieldComponent
+                          name="email"
+                          control={control}
+                          id="email"
+                          label=""
+                          showErrorMessage={false}
+                          textFieldProps={{
+                            fullWidth: true,
+                            placeholder: "Enter email address",
+                          }}
+                          defaultValue=""
+                          rules={{
+                            required: "This is a required field",
+                            validate: isValidateEmail,
+                          }}
+                        />
+                      )}
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button
+                      onClick={handleSubmit(onSubmit)}
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      sx={{ borderRadius: 100, marginTop: 2 }}
+                      disabled={isSubmitted}
+                    >
+                      Submit
+                    </Button>
+                  </Grid>
+                </Fragment>
+              )}
+
+              {!isGetReport && (
+                <Fragment>
+                  <Grid item xs={12}>
+                    <Button
+                      onClick={() => {
+                        handleSkip();
+                      }}
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      sx={{ borderRadius: 100, marginTop: 2 }}
+                      disabled={isSubmitted}
+                    >
+                      Start Analysis
+                    </Button>
+                  </Grid>
+                </Fragment>
+              )}
             </Grid>
           )}
         </Box>

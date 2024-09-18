@@ -94,19 +94,14 @@ const AnalysisForm = () => {
           redirect: false,
           actionType: "register",
           countryCode: parseNumber.countryCallingCode,
-          isValidated:
-            searchParams.get("isValidated") === "true" ? true : false,
+          isValidated:false
         });
         if (authResponse?.error) {
           alert("Something went wrong please try again");
           setIsSubmit(false);
         } else {
           setIsSubmit(false);
-          if (searchParams.get("isValidated") === "false") {
-            setShowOtpForm(true);
-          } else {
-            router.replace(APP_ROUTES.SELFIE);
-          }
+          setShowOtpForm(true);
         }
       } else {
         setQusIndex(qusIndex + 1);
@@ -144,7 +139,7 @@ const AnalysisForm = () => {
     } else if (searchParams.get("loginType") === "phoneNumber") {
       return {
         value: searchParams.get("value"),
-        readOnly: true,
+        readOnly: searchParams.get("value") ? true : false,
       };
     } else {
       return {
@@ -162,7 +157,7 @@ const AnalysisForm = () => {
     } else if (searchParams.get("loginType") === "email") {
       return {
         value: searchParams.get("value"),
-        readOnly: true,
+        readOnly: searchParams.get("value") ? true : false,
       };
     } else {
       return {
@@ -232,15 +227,10 @@ const AnalysisForm = () => {
                 handleSubmit={handleSubmit}
                 onSubmitForm={handleOtp}
                 control={control}
-                sendTo={
-                  (searchParams.get("value") as string) ||
-                  getValues("phoneNumber")
-                }
+                sendTo={`${getValues("phoneNumber")} or ${getValues("email")}`}
                 isLoadinResendOtp={false}
                 isVerifyLoading={false}
-                watchChangeLoginType={
-                  (searchParams.get("loginType") as string) || "phoneNumber"
-                }
+                watchChangeLoginType={"phoneNumber or email id"}
               />
             )}
             {!showOtpForm && (
@@ -324,7 +314,7 @@ const AnalysisForm = () => {
                                   fullWidth: true,
                                   placeholder: "Enter name",
                                 }}
-                                defaultValue={session?.user?.name || ""}
+                                defaultValue={""}
                                 rules={{
                                   required: "This is a required field",
                                 }}
@@ -339,12 +329,8 @@ const AnalysisForm = () => {
                                 textFieldProps={{
                                   fullWidth: true,
                                   placeholder: "Enter email address",
-                                  disabled:
-                                    getDefaultEmailInputValue().readOnly,
                                 }}
-                                defaultValue={
-                                  getDefaultEmailInputValue().value as string
-                                }
+                                defaultValue=""
                                 rules={{
                                   required: "This is a required field",
                                   validate: isValidateEmail,
@@ -361,20 +347,11 @@ const AnalysisForm = () => {
                                   validate: matchIsValidTel,
                                 }}
                                 control={control}
-                                disabled={
-                                  getDefaultPhoneInputValue()
-                                    .readOnly as boolean
-                                }
-                                defaultValue={
-                                  getDefaultPhoneInputValue().value as string
-                                }
+                                defaultValue=""
                                 id="form-phone-input"
                               />
                             </Grid>
                           </Fragment>
-                        )}
-                        {question?.responseType === "OTP" && (
-                          <div>Otp Screen</div>
                         )}
                       </Fragment>
                     )}

@@ -111,16 +111,6 @@ export const analysisApi = createApi({
     >({
       query: ({ userId, productRecommendationId }) =>
         `${API_ROUTES.FETCH_SKIN_CARE_RECOMMENDATIONS_BY_ID}?userId=${userId}&productRecommendationId=${productRecommendationId}`,
-      // query: ({ userId, productRecommendationId }) => {
-      //   return {
-      //     url: API_ROUTES.FETCH_SKIN_CARE_RECOMMENDATIONS_BY_ID,
-      //     method: "GET",
-      //     params: {
-      //       userId,
-      //       productRecommendationId,
-      //     },
-      //   };
-      // },
     }),
     fetchUserQuestionsResponse: builder.query<any, { userId: string }>({
       query: ({ userId }) =>
@@ -144,6 +134,20 @@ export const analysisApi = createApi({
         };
       },
     }),
+    fetchLatestRecommendationsByFilter: builder.mutation<
+      any,
+      { input: string }
+    >({
+      query: ({ input }) => {
+        return {
+          url: API_ROUTES.FETCH_LATEST_RECOMMENDATION_BY_FILTER,
+          method: "POST",
+          body: {
+            input,
+          },
+        };
+      },
+    }),
   }),
 });
 
@@ -156,4 +160,5 @@ export const {
   useLazyFetchRecommnedSkinAttributesQuery,
   useLazyFetchUserQuestionsResponseQuery,
   useLazyFetchRecommnedSkinAttributesByIdQuery,
+  useFetchLatestRecommendationsByFilterMutation
 } = analysisApi;

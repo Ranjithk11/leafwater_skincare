@@ -22,10 +22,9 @@ import CoverPage from "./Recommendations/Cover";
 import ProductsView from "./ViewUserRecommendations/Products";
 import UserInfo from "./ViewUserRecommendations/UserInfo";
 import PreventingView from "./ViewUserRecommendations/Preventing";
-import DownloadPdf from "./download-pdf";
-import { BiBorderRadius } from "react-icons/bi";
 import _ from "lodash";
 import CosmeticRecommdations from "./Recommendations/CosmeticRecommdations";
+import {useRouter} from "next/navigation";
 
 const StyledUserSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
   height: "100vh",
@@ -67,6 +66,7 @@ const StyledUserSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
 
 const UserSkinAnalysisRecommendation = () => {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [fetchRecommnedSkinAttributesById, { isLoading, isError, data }] =
     useLazyFetchRecommnedSkinAttributesByIdQuery();
 
@@ -94,7 +94,6 @@ const UserSkinAnalysisRecommendation = () => {
       });
     }
   }, [data]);
-
   return (
     <StyledUserSkinAnalysisRecommendation disableGutters maxWidth={false}>
       {!isLoading && !isError && !isLoadingImageInfo && data && (
@@ -106,12 +105,6 @@ const UserSkinAnalysisRecommendation = () => {
                   Visit Count : {data?.data?.countTimeseries}
                 </Typography>
               </Grid>
-              {/* <Grid item>
-                <DownloadPdf
-                  recommendationData={data?.data}
-                  dataImageInfo={dataImageInfo}
-                />
-              </Grid> */}
             </Grid>
           </Box>
           <CoverPage />
@@ -153,6 +146,11 @@ const UserSkinAnalysisRecommendation = () => {
           <Typography textAlign="center">
             Sorry, we couldn't find ay results
           </Typography>
+          <Box mt={3}>
+            <Button onClick={()=>{
+              router.replace("/");
+            }}>Go to Skin Analysis</Button>
+          </Box>
         </Box>
       )}
     </StyledUserSkinAnalysisRecommendation>
