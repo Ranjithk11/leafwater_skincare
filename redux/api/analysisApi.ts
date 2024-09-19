@@ -148,6 +148,10 @@ export const analysisApi = createApi({
         };
       },
     }),
+    fetchAdminRecommendationsById: builder.query<any, { userId: string }>({
+      query: ({ userId }) =>
+        `${API_ROUTES.FETCH_ADMIN_RECOMMENDATION_BY_ID}?userId=${userId}`,
+    }),
   }),
 });
 
@@ -160,5 +164,7 @@ export const {
   useLazyFetchRecommnedSkinAttributesQuery,
   useLazyFetchUserQuestionsResponseQuery,
   useLazyFetchRecommnedSkinAttributesByIdQuery,
-  useFetchLatestRecommendationsByFilterMutation
+  useFetchLatestRecommendationsByFilterMutation,
+  useLazyFetchAdminRecommendationsByIdQuery,
+  useFetchAdminRecommendationsByIdQuery
 } = analysisApi;

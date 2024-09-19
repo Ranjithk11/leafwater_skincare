@@ -10,5 +10,6 @@ export enum API_ROUTES {
   USER_SEND_OTP = "/user/send-otp",
   USER_VERIFY_OTP = "/user/verify-otp",
   USER_LOGIN = "/user/login",
-  FETCH_LATEST_RECOMMENDATION_BY_FILTER="/fetch-latest-recommendation-by-filter"
+  FETCH_LATEST_RECOMMENDATION_BY_FILTER = "/fetch-latest-recommendation-by-filter",
+  FETCH_ADMIN_RECOMMENDATION_BY_ID = "/fetch-admin-recommendations-by-id",
 }

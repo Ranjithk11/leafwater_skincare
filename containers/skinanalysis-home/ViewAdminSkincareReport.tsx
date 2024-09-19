@@ -1,6 +1,7 @@
 "use client";
 import {
   useGetUploadImageInfoMutation,
+  useLazyFetchAdminRecommendationsByIdQuery,
   useLazyFetchRecommnedSkinAttributesByIdQuery,
 } from "@/redux/api/analysisApi";
 import { useSearchParams } from "next/navigation";
@@ -24,9 +25,9 @@ import UserInfo from "./ViewUserRecommendations/UserInfo";
 import PreventingView from "./ViewUserRecommendations/Preventing";
 import _ from "lodash";
 import CosmeticRecommdations from "./Recommendations/CosmeticRecommdations";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 
-const StyledUserSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
+const StyledViewAdminSkincareReport = styled(Container)(({ theme }) => ({
   height: "100vh",
   position: "relative",
   overflowX: "hidden",
@@ -64,11 +65,11 @@ const StyledUserSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
   },
 }));
 
-const UserSkinAnalysisRecommendation = () => {
+const ViewAdminSkincareReport = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [fetchRecommnedSkinAttributesById, { isLoading, isError, data }] =
-    useLazyFetchRecommnedSkinAttributesByIdQuery();
+  const [fetchAdminRecommendationsById, { isLoading, isError, data }] =
+    useLazyFetchAdminRecommendationsByIdQuery();
 
   const [
     getUploadImageInfo,
@@ -77,11 +78,8 @@ const UserSkinAnalysisRecommendation = () => {
 
   useEffect(() => {
     if (searchParams) {
-      fetchRecommnedSkinAttributesById({
+      fetchAdminRecommendationsById({
         userId: searchParams.get("userId") as string,
-        productRecommendationId: searchParams.get(
-          "productRecommendationId"
-        ) as string,
       });
     }
   }, [searchParams]);
@@ -90,12 +88,16 @@ const UserSkinAnalysisRecommendation = () => {
     if (!_.isEmpty(data)) {
       getUploadImageInfo({
         userId: data?.data?.user?._id,
-        fileName: data?.data?.productRecommendation?.capturedImages[0]?.fileName,
+        fileName:
+          data?.data?.productRecommendation?.capturedImages[0]?.fileName,
       });
     }
   }, [data]);
+
+  console.log(data);
+
   return (
-    <StyledUserSkinAnalysisRecommendation disableGutters maxWidth={false}>
+    <StyledViewAdminSkincareReport disableGutters maxWidth={false}>
       {!isLoading && !isError && !isLoadingImageInfo && data && (
         <Fragment>
           <Box p={2} component="div" className="sectionHeader">
@@ -108,7 +110,7 @@ const UserSkinAnalysisRecommendation = () => {
             </Grid>
           </Box>
           <CoverPage />
-          <UserInfo useData={data?.data?.user} dataImageInfo={dataImageInfo}/>
+          <UserInfo useData={data?.data?.user} dataImageInfo={dataImageInfo} />
           <PreventingView
             useData={data}
             skinSummary={data?.data?.productRecommendation?.skinSummary}
@@ -116,13 +118,18 @@ const UserSkinAnalysisRecommendation = () => {
               data?.data?.productRecommendation.detectedAttributes
             }
           />
-          <ProductsView data={data} />
+          <ProductsView data={data} isAdminView={true} />
           <Routine />
           <SalonServices
-            data={data?.data?.productRecommendation?.recommendedSalonServices || []}
+            data={
+              data?.data?.productRecommendation?.recommendedSalonServices || []
+            }
           />
           <CosmeticRecommdations
-            data={data?.data?.productRecommendation?.recommendedCosmeticServices || []}
+            data={
+              data?.data?.productRecommendation?.recommendedCosmeticServices ||
+              []
+            }
           />
           <DietChart />
           <MeetTeam />
@@ -147,14 +154,18 @@ const UserSkinAnalysisRecommendation = () => {
             Sorry, we couldn't find any results
           </Typography>
           <Box mt={3}>
-            <Button onClick={()=>{
-              router.replace("/");
-            }}>Go to Skin Analysis</Button>
+            <Button
+              onClick={() => {
+                router.replace("/");
+              }}
+            >
+              Go to Skin Analysis
+            </Button>
           </Box>
         </Box>
       )}
-    </StyledUserSkinAnalysisRecommendation>
+    </StyledViewAdminSkincareReport>
   );
 };
 
-export default UserSkinAnalysisRecommendation;
+export default ViewAdminSkincareReport;

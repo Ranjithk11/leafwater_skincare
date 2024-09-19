@@ -37,7 +37,7 @@ const OtpForm = ({
     >
       <Grid item xs={12}>
         <Typography fontWeight={700} textAlign="center" variant="h6">
-          Enter Varification Code
+          Enter Verification Code
         </Typography>
         <Typography sx={{ fontSize: 12 }} textAlign="center" variant="body2">
           We have send an OTP on given {watchChangeLoginType}

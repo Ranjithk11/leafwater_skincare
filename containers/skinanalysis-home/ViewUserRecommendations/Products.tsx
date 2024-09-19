@@ -47,9 +47,22 @@ const StyledProductsWrapper = styled(Box)(({ theme }) => ({
 
 interface ProductsViewProps {
   data: any;
+  isAdminView?: boolean;
 }
 
-const ProductsView = ({ data }: ProductsViewProps) => {
+const ProductsView = ({ data, isAdminView = false }: ProductsViewProps) => {
+  const checkIsMaskedProducts = (index: number) => {
+    if (isAdminView || data?.data?.user?.isPremiumCustomer) {
+      return false;
+    } else {
+      if (index > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+
   return (
     <StyledProductsWrapper>
       <Container maxWidth="lg">
@@ -60,7 +73,7 @@ const ProductsView = ({ data }: ProductsViewProps) => {
                 Our Recommendations
               </Typography>
               <Typography textAlign="center" variant="h3">
-                To<span> Your Glow</span>On
+                To<span> Get Your Glow</span>On
               </Typography>
             </Box>
           </Grid>
@@ -82,11 +95,7 @@ const ProductsView = ({ data }: ProductsViewProps) => {
                     <Grid key={product?._id} item xs={6} md={4}>
                       <ProductCard
                         {...product}
-                        enabledMask={
-                          data?.data?.user?.isPremiumCustomer
-                            ? false
-                            : index > 0
-                        }
+                        enabledMask={checkIsMaskedProducts(index)}
                       />
                     </Grid>
                   ))}

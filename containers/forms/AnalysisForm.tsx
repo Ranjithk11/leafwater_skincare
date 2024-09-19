@@ -199,7 +199,7 @@ const AnalysisForm = () => {
       .then((response: any) => {
         if (response?.data?.status === "success") {
           toast.success(
-            `As requested, a new One-Time Password (OTP) has been sent to your registered phoneNumber ${getValues(
+            `As requested, a new One-Time Password (OTP) has been sent to your registered phone number ${getValues(
               "phoneNumber"
             )}`
           );
