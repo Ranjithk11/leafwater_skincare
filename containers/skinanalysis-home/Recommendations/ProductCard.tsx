@@ -124,7 +124,7 @@ const ProductCard = ({
   shopifyUrl,
 }: ProductCardProps) => {
   function handleAddToCart() {
-    window.open();
+    window.open(shopifyUrl);
   }
 
   return (
@@ -164,10 +164,7 @@ const ProductCard = ({
               </Box>
             )}
 
-            <Box>
-              <Typography variant="h6">INR {retailPrice}/-</Typography>
-            </Box>
-            {!enabledMask && shopifyUrl &&  (
+            {!enabledMask && shopifyUrl &&(
               <Grid>
                 <Button
                   variant="contained"
