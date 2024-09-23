@@ -167,7 +167,7 @@ const ProductCard = ({
             <Box>
               <Typography variant="h6">INR {retailPrice}/-</Typography>
             </Box>
-            {!enabledMask && (
+            {!enabledMask && shopifyUrl &&  (
               <Grid>
                 <Button
                   variant="contained"
@@ -181,7 +181,7 @@ const ProductCard = ({
             )}
           </Grid>
         </Grid>
-        {enabledMask && shopifyUrl && (
+        {enabledMask && (
           <Box component="div" className="product-masking">
             <Grid container>
               <Grid item xs={12}>
