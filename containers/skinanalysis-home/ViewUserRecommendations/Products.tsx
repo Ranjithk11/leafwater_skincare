@@ -95,7 +95,7 @@ const ProductsView = ({ data, isAdminView = false }: ProductsViewProps) => {
                     <Grid key={product?._id} item xs={6} md={4}>
                       <ProductCard
                         {...product}
-                        enabledMask={checkIsMaskedProducts(index)}
+                        // enabledMask={checkIsMaskedProducts(index)}
                       />
                     </Grid>
                   ))}

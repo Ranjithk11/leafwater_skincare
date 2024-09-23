@@ -170,7 +170,13 @@ const ProductCard = ({
                   variant="contained"
                   color="primary"
                   onClick={() => handleAddToCart()}
-                  sx={{ marginTop: 2 }}
+                  size="small"
+                  sx={{
+                    marginTop: 2,
+                    padding: '6px 12px', // Adjust padding for smaller button
+                    typography: 'body2', // Use body2 for smaller text
+                    whiteSpace: 'nowrap', // Prevent text wrapping
+                  }}
                 >
                   Add to Cart
                 </Button>

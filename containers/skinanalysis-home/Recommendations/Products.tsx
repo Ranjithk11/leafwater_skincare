@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
@@ -50,6 +50,8 @@ interface ProductsViewProps {
 }
 
 const ProductsView = ({ data }: ProductsViewProps) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <StyledProductsWrapper>
       <Container maxWidth="lg">
@@ -76,17 +78,26 @@ const ProductsView = ({ data }: ProductsViewProps) => {
                     </Typography>
                   </Box>
                 </Grid>
+                <Grid>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      overflowX: isMobile ? "auto" : "unset", // Enable horizontal scrolling on mobile
+                      flexWrap: isMobile ? "nowrap" : "wrap", // Prevent wrapping on mobile
+                    }}
+                  />
+                </Grid>
 
                 <Grid container spacing={2} item xs={12} alignItems="stretch">
                   {recommended?.products?.map((product: any, index: number) => (
                     <Grid key={product?._id} item xs={6} md={4}>
                       <ProductCard
                         {...product}
-                        enabledMask={
-                          data?.data?.user?.isPremiumCustomer
-                            ? false
-                            : index > 0
-                        }
+                        // enabledMask={
+                        //   data?.data?.user?.isPremiumCustomer
+                        //     ? false
+                        //     : index > 0
+                        // }
                       />
                     </Grid>
                   ))}
