@@ -20,6 +20,7 @@ interface ProductCardProps {
   matches: any[];
   images: any[];
   enabledMask?: boolean;
+  shopifyUrl: string;
 }
 
 const StyledProductCard = styled(Card, {
@@ -120,9 +121,10 @@ const ProductCard = ({
   matches,
   images,
   enabledMask,
+  shopifyUrl,
 }: ProductCardProps) => {
   function handleAddToCart() {
-    window.open(`https://leafwater.in/products/${name}`,"_blank")
+    window.open();
   }
 
   return (
@@ -165,19 +167,21 @@ const ProductCard = ({
             <Box>
               <Typography variant="h6">INR {retailPrice}/-</Typography>
             </Box>
-            {/* <Grid>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleAddToCart()}   
-                sx={{ marginTop: 2 }}
-              >
-                Add to Cart
-              </Button>
-            </Grid> */}
+            {!enabledMask && (
+              <Grid>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleAddToCart()}
+                  sx={{ marginTop: 2 }}
+                >
+                  Add to Cart
+                </Button>
+              </Grid>
+            )}
           </Grid>
         </Grid>
-        {enabledMask && (
+        {enabledMask && shopifyUrl && (
           <Box component="div" className="product-masking">
             <Grid container>
               <Grid item xs={12}>
