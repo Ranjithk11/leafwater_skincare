@@ -43,6 +43,45 @@ const StyledProductsWrapper = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.main,
     marginRight: 10,
   },
+  "& .skin-analysis-result": {
+    width: "100%",
+    display: "flex",
+    flexWrap: "warp",
+    overflow: "auto",
+    alignItems: "stretch",
+    "& .skin-analysis-box": {
+      minWidth: 250,
+      marginRight: 10,
+      minHeight: 170,
+      backgroundColor: "rgb(185, 133, 107)",
+      borderRadius: 10,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    "& .percentage-view": {
+      width: 75,
+      height: 75,
+      backgroundColor: `rgb(22, 32, 50)`,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      color: theme.palette.common.white,
+      borderRadius: "100%",
+    },
+    "& .skin-percentage-status": {
+      backgroundColor: `rgb(22, 32, 50)`,
+      paddingLeft: 5,
+      paddingRight: 5,
+      paddingTop: 2,
+      paddingBottom: 2,
+      color: theme.palette.common.white,
+      fontSize: 12,
+      borderRadius: 5,
+    },
+  },
 }));
 
 interface ProductsViewProps {
@@ -82,26 +121,50 @@ const ProductsView = ({ data }: ProductsViewProps) => {
                   <Box
                     sx={{
                       display: "flex",
-                      overflowX: isMobile ? "auto" : "unset", // Enable horizontal scrolling on mobile
-                      flexWrap: isMobile ? "nowrap" : "wrap", // Prevent wrapping on mobile
+                      overflowX: isMobile ? "auto" : "unset",
+                      flexWrap: isMobile ? "nowrap" : "wrap",
                     }}
                   />
                 </Grid>
 
-                <Grid container spacing={2} item xs={12} alignItems="stretch">
-                  {recommended?.products?.map((product: any, index: number) => (
-                    <Grid key={product?._id} item xs={6} md={4}>
-                      <ProductCard
-                        {...product}
-                        // enabledMask={
-                        //   data?.data?.user?.isPremiumCustomer
-                        //     ? false
-                        //     : index > 0
-                        // }
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
+                {isMobile && (
+                  <Grid item xs={12}>
+                    <Box component="div" className="skin-analysis-result">
+                      {recommended?.products?.map(
+                        (product: any, index: number) => (
+                          <ProductCard
+                             key={index}
+                             minWidth={300}
+                              {...product}
+                              // enabledMask={
+                              //   data?.data?.user?.isPremiumCustomer
+                              //     ? false
+                              //     : index > 0
+                              // }
+                            />
+                        )
+                      )}
+                    </Box>
+                  </Grid>
+                )}
+                {!isMobile && (
+                  <Grid container spacing={2} item xs={12} alignItems="stretch">
+                    {recommended?.products?.map(
+                      (product: any, index: number) => (
+                        <Grid key={product?._id} item xs={6} md={4}>
+                          <ProductCard
+                            {...product}
+                            // enabledMask={
+                            //   data?.data?.user?.isPremiumCustomer
+                            //     ? false
+                            //     : index > 0
+                            // }
+                          />
+                        </Grid>
+                      )
+                    )}
+                  </Grid>
+                )}
               </Grid>
             )
           )}

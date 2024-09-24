@@ -8,6 +8,7 @@ import { lightTheme } from "./config/config";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 const StyledMainContainer = styled("main")(({ theme }) => ({
   backgroundColor: theme.palette.common.white,
   minHeight: "calc(100dvh)",
