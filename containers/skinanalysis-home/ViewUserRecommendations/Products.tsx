@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
@@ -48,38 +48,6 @@ const StyledProductsWrapper = styled(Box)(({ theme }) => ({
     display: "flex",
     flexWrap: "warp",
     overflow: "auto",
-    "& .skin-analysis-box": {
-      minWidth: 250,
-      marginRight: 10,
-      minHeight: 170,
-      backgroundColor: "rgb(185, 133, 107)",
-      borderRadius: 10,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    "& .percentage-view": {
-      width: 75,
-      height: 75,
-      backgroundColor: `rgb(22, 32, 50)`,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      color: theme.palette.common.white,
-      borderRadius: "100%",
-    },
-    "& .skin-percentage-status": {
-      backgroundColor: `rgb(22, 32, 50)`,
-      paddingLeft: 5,
-      paddingRight: 5,
-      paddingTop: 2,
-      paddingBottom: 2,
-      color: theme.palette.common.white,
-      fontSize: 12,
-      borderRadius: 5,
-    },
   },
 }));
 
@@ -89,7 +57,8 @@ interface ProductsViewProps {
 }
 
 const ProductsView = ({ data, isAdminView = false }: ProductsViewProps) => {
-  
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const checkIsMaskedProducts = (index: number) => {
     if (isAdminView || data?.data?.user?.isPremiumCustomer) {
       return false;
@@ -129,20 +98,44 @@ const ProductsView = ({ data, isAdminView = false }: ProductsViewProps) => {
                   </Box>
                 </Grid>
                 
-
-                {}
-                <Grid container spacing={2} item xs={12}>
-                  {recommended?.products?.map((product: any, index: number) => (
-                    <Grid key={product?._id} item xs={6} md={4}>
-                      <ProductCard
-                      //  key={index}
-                      //  minWidth={300}
-                        {...product}
-                        // enabledMask={checkIsMaskedProducts(index)}
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
+                {isMobile && (
+                  <Grid item xs={12}>
+                    <Box component="div" className="skin-analysis-result">
+                      {recommended?.products?.map(
+                        (product: any, index: number) => (
+                          <ProductCard
+                             key={index}
+                             minWidth={300}
+                              {...product}
+                              // enabledMask={
+                              //   data?.data?.user?.isPremiumCustomer
+                              //     ? false
+                              //     : index > 0
+                              // }
+                            />
+                        )
+                      )}
+                    </Box>
+                  </Grid>
+                )}
+                {!isMobile && (
+                  <Grid container spacing={2} item xs={12} alignItems="stretch">
+                    {recommended?.products?.map(
+                      (product: any, index: number) => (
+                        <Grid key={product?._id} item xs={6} md={4}>
+                          <ProductCard
+                            {...product}
+                            // enabledMask={
+                            //   data?.data?.user?.isPremiumCustomer
+                            //     ? false
+                            //     : index > 0
+                            // }
+                          />
+                        </Grid>
+                      )
+                    )}
+                  </Grid>
+                )}
               </Grid>
             )
           )}
