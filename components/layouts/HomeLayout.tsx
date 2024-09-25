@@ -19,6 +19,7 @@ import { Icon } from "@iconify/react";
 import { APP_ROUTES } from "@/utils/routes";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
+import FooterComponent from "../footer";
 
 const drawerWidth = 200;
 interface HomeLayoutProps {

@@ -65,7 +65,7 @@ Font.register({
 });
 
 const StyledSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
-  height: "100vh",
+  minHeight: "100vh",
   position: "relative",
   overflowX: "hidden",
   backgroundColor: theme.palette.grey[100],

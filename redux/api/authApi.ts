@@ -8,6 +8,8 @@ interface UserLoginPayload {
   onBoardingQuestions: any[];
   name: string;
   email: string;
+  countryCode?:string;
+  isValidated?:boolean
 }
 
 export const loginUser = async (
@@ -40,6 +42,8 @@ export const saveUser = async (payload: UserLoginPayload) => {
         onBoardingQuestions: payload.onBoardingQuestions,
         name: payload.name,
         email: payload.email,
+        countryCode:payload.countryCode,
+        isValidated:payload.isValidated
       }),
     }
   );

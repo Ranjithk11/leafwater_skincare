@@ -1,7 +1,12 @@
 import { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { loginUser, saveUser, updateSession, updateToken } from "@/redux/api/authApi";
+import {
+  loginUser,
+  saveUser,
+  updateSession,
+  updateToken,
+} from "@/redux/api/authApi";
 import _ from "lodash";
 
 const authOptions: AuthOptions = {
@@ -31,13 +36,14 @@ const authOptions: AuthOptions = {
             name: credentials?.name,
             email: credentials?.email,
             onBoardingQuestions: JSON.parse(credentials?.onBoardingQuestions),
+            countryCode: credentials?.countryCode,
+            isValidated: credentials?.isValidated,
           });
         }
 
         if (response?.status === "success" && _.isEmpty(response?.data)) {
           return null;
         }
-       
 
         return {
           id: response?.data?._id,

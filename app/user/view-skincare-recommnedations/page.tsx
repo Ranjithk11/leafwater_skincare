@@ -7,7 +7,7 @@ import _ from "lodash";
 const ViewSkinCareRecommendations = () => {
   return (
     <VisiterLayout>
-      <UserSkinAnalysisRecommendation />;
+      <UserSkinAnalysisRecommendation />
     </VisiterLayout>
   );
 };
