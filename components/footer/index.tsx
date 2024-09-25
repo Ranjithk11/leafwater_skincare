@@ -5,25 +5,16 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import { BiSolidPhoneCall } from "react-icons/bi";
-import { FaTelegram } from "react-icons/fa";
-import {
-  AiOutlineMail,
-  AiOutlineTwitter,
-  AiFillInstagram,
-  AiFillFacebook,
-} from "react-icons/ai";
-import { RiWhatsappFill } from "react-icons/ri";
+import { AiFillInstagram, AiFillYoutube, AiFillFacebook } from "react-icons/ai";
 
 import Typography from "@mui/material/Typography";
 import { Divider, IconButton } from "@mui/material";
-import { companyEmailId, companyMobileNumber } from "@/utils/constants";
+import { APP_COLORS } from "@/theme/colors/colors";
+import { SOCIAL_LINKS } from "@/utils/constants";
+
 const StyledFooterMainBox = styled(Box)(({ theme }) => ({
   height: "100%",
-  backgroundColor: theme.palette.grey[900],
+  backgroundColor: APP_COLORS.DARK_NAVGREEN_BLUE,
   paddingTop: 75,
   paddingBottom: 75,
   "& .logo__title": {
@@ -32,27 +23,15 @@ const StyledFooterMainBox = styled(Box)(({ theme }) => ({
     fontWeight: 700,
   },
   "& .address": {
-    color: theme.palette.grey[700],
+    color: theme.palette.common.white,
     marginTop: 10,
+    fontSize: 14,
     width: "56%",
     margin: "0px auto",
   },
   "& .menu_heading": {
     color: theme.palette.common.white,
     marginBottom: 20,
-  },
-}));
-
-const StyledList = styled(List)(({ theme }) => ({
-  "& .MuiButtonBase-root": {
-    padding: 0,
-    color: theme.palette.grey[700],
-  },
-  "& .MuiListItemIcon-root": {
-    minWidth: 25,
-  },
-  "& .MuiListItemText-primary": {
-    color: `${theme.palette.grey[700]} !important`,
   },
 }));
 
@@ -64,6 +43,10 @@ const StyledSectionDivider = styled(Divider)(({ theme }) => ({
 }));
 
 const FooterComponent = () => {
+  const handleSocialLinkNavigation = (url: string) => {
+    window.open(url, "_blank");
+  };
+
   return (
     <StyledFooterMainBox>
       <Container maxWidth="lg">
@@ -74,91 +57,48 @@ const FooterComponent = () => {
           justifyContent="center"
         >
           <Grid item>
-            <Typography
-              className="logo__title"
-              color=""
-              textAlign="center"
-              variant="h4"
-            >
-              Elite Groups
-            </Typography>
+            <Box mb={3} textAlign="center">
+              <img src="/logo/footer_logo.svg" width={150} />
+            </Box>
             <Typography
               className="address"
               color=""
               textAlign="center"
               variant="body1"
             >
-              Plot No. 67, Santosh Nagar Dattanagar Road, Opposite Balaji
-              Garage, Katraj, Pune-411046, Maharashtra, India
+              SF 201, Second Floor, Road Number 55, Opp. Peddamma gudi Entrance,
+              Jubilee Hills, Hyderabad - 500033
             </Typography>
-          </Grid>
-          <Grid
-            item
-            spacing={2}
-            alignItems="center"
-            justifyContent="center"
-            container
-          >
-            <Grid item>
-              <StyledList>
-                <ListItemButton>
-                  <ListItemIcon sx={{ color: "inherit" }}>
-                    <BiSolidPhoneCall />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={companyMobileNumber}
-                    primaryTypographyProps={{
-                      fontSize: 14,
-                      fontWeight: "medium",
-                    }}
-                  />
-                </ListItemButton>
-              </StyledList>
-            </Grid>
-            <Grid item>
-              <StyledList>
-                <ListItemButton>
-                  <ListItemIcon sx={{ color: "inherit" }}>
-                    <AiOutlineMail />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={companyEmailId}
-                    primaryTypographyProps={{
-                      fontSize: 14,
-                      fontWeight: "medium",
-                    }}
-                  />
-                </ListItemButton>
-              </StyledList>
-            </Grid>
           </Grid>
           <Grid item xs={12}>
             <StyledSectionDivider />
           </Grid>
           <Grid item alignItems="center" justifyContent="center" container>
             <Grid item>
-              <IconButton sx={(theme) => ({ color: theme.palette.grey[700] })}>
-                <AiOutlineTwitter />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <IconButton sx={(theme) => ({ color: theme.palette.grey[700] })}>
+              <IconButton
+                onClick={() => {
+                  handleSocialLinkNavigation(SOCIAL_LINKS.insta);
+                }}
+                sx={(theme) => ({ color: theme.palette.common.white })}
+              >
                 <AiFillInstagram />
               </IconButton>
             </Grid>
             <Grid item>
-              <IconButton sx={(theme) => ({ color: theme.palette.grey[700] })}>
+              <IconButton
+                onClick={() => {
+                  handleSocialLinkNavigation(SOCIAL_LINKS.youtube);
+                }}
+                sx={(theme) => ({ color: theme.palette.common.white })}
+              >
+                <AiFillYoutube />
+              </IconButton>
+            </Grid>
+            <Grid item>
+              <IconButton
+                sx={(theme) => ({ color: theme.palette.common.white })}
+              >
                 <AiFillFacebook />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <IconButton sx={(theme) => ({ color: theme.palette.grey[700] })}>
-                <RiWhatsappFill />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <IconButton sx={(theme) => ({ color: theme.palette.grey[700] })}>
-                <FaTelegram />
               </IconButton>
             </Grid>
           </Grid>

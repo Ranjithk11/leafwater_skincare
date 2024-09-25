@@ -24,10 +24,12 @@ import UserInfo from "./ViewUserRecommendations/UserInfo";
 import PreventingView from "./ViewUserRecommendations/Preventing";
 import _ from "lodash";
 import CosmeticRecommdations from "./Recommendations/CosmeticRecommdations";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { updateVisitCount } from "@/redux/reducers/analysisSlice";
 
 const StyledUserSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
-  height: "100vh",
+  minHeight: "100vh",
   position: "relative",
   overflowX: "hidden",
   backgroundColor: theme.palette.grey[100],
@@ -66,6 +68,7 @@ const StyledUserSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
 
 const UserSkinAnalysisRecommendation = () => {
   const searchParams = useSearchParams();
+  const dispatch = useDispatch();
   const router = useRouter();
   const [fetchRecommnedSkinAttributesById, { isLoading, isError, data }] =
     useLazyFetchRecommnedSkinAttributesByIdQuery();
@@ -88,27 +91,20 @@ const UserSkinAnalysisRecommendation = () => {
 
   useEffect(() => {
     if (!_.isEmpty(data)) {
+      dispatch(updateVisitCount(data?.data?.countTimeseries));
       getUploadImageInfo({
         userId: data?.data?.user?._id,
-        fileName: data?.data?.productRecommendation?.capturedImages[0]?.fileName,
+        fileName:
+          data?.data?.productRecommendation?.capturedImages[0]?.fileName,
       });
     }
   }, [data]);
   return (
-    <StyledUserSkinAnalysisRecommendation disableGutters maxWidth={false}>
+    <StyledUserSkinAnalysisRecommendation disableGutters maxWidth="xl">
       {!isLoading && !isError && !isLoadingImageInfo && data && (
         <Fragment>
-          <Box p={2} component="div" className="sectionHeader">
-            <Grid container alignItems="center" justifyContent="space-between">
-              <Grid item>
-                <Typography color="white">
-                  Visit Count : {data?.data?.countTimeseries}
-                </Typography>
-              </Grid>
-            </Grid>
-          </Box>
           <CoverPage />
-          <UserInfo useData={data?.data?.user} dataImageInfo={dataImageInfo}/>
+          <UserInfo useData={data?.data?.user} dataImageInfo={dataImageInfo} />
           <PreventingView
             useData={data}
             skinSummary={data?.data?.productRecommendation?.skinSummary}
@@ -119,10 +115,15 @@ const UserSkinAnalysisRecommendation = () => {
           <ProductsView data={data} />
           <Routine />
           <SalonServices
-            data={data?.data?.productRecommendation?.recommendedSalonServices || []}
+            data={
+              data?.data?.productRecommendation?.recommendedSalonServices || []
+            }
           />
           <CosmeticRecommdations
-            data={data?.data?.productRecommendation?.recommendedCosmeticServices || []}
+            data={
+              data?.data?.productRecommendation?.recommendedCosmeticServices ||
+              []
+            }
           />
           <DietChart />
           <MeetTeam />
@@ -147,9 +148,13 @@ const UserSkinAnalysisRecommendation = () => {
             Sorry, we couldn't find any results
           </Typography>
           <Box mt={3}>
-            <Button onClick={()=>{
-              router.replace("/");
-            }}>Go to Skin Analysis</Button>
+            <Button
+              onClick={() => {
+                router.replace("/");
+              }}
+            >
+              Go to Skin Analysis
+            </Button>
           </Box>
         </Box>
       )}

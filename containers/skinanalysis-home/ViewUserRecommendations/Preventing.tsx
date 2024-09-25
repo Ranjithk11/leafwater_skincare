@@ -163,7 +163,7 @@ const PreventingView = ({
                   variant="subtitle1"
                   gutterBottom
                 >
-                  Skin Analysis Summery
+                  Skin Analysis Summary
                 </Typography>
                 <Typography
                   mb={2}

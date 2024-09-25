@@ -1153,3 +1153,9 @@ export const skinTypes = [
     name: "Sensitive Skin",
   },
 ];
+
+export const SOCIAL_LINKS = {
+  youtube: "https://www.youtube.com/@leafwaterskincare",
+  insta:
+    "https://www.instagram.com/leafwater.skincare/?igsh=MTViMm9qY25tZHRhZQ%3D%3D",
+};

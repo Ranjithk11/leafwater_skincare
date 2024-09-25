@@ -28,7 +28,7 @@ import CosmeticRecommdations from "./Recommendations/CosmeticRecommdations";
 import { useRouter } from "next/navigation";
 
 const StyledViewAdminSkincareReport = styled(Container)(({ theme }) => ({
-  height: "100vh",
+  minHeight: "100vh",
   position: "relative",
   overflowX: "hidden",
   backgroundColor: theme.palette.grey[100],
@@ -94,21 +94,11 @@ const ViewAdminSkincareReport = () => {
     }
   }, [data]);
 
-  console.log(data);
 
   return (
     <StyledViewAdminSkincareReport disableGutters maxWidth={false}>
       {!isLoading && !isError && !isLoadingImageInfo && data && (
         <Fragment>
-          <Box p={2} component="div" className="sectionHeader">
-            <Grid container alignItems="center" justifyContent="space-between">
-              <Grid item>
-                <Typography color="white">
-                  Visit Count : {data?.data?.countTimeseries}
-                </Typography>
-              </Grid>
-            </Grid>
-          </Box>
           <CoverPage />
           <UserInfo useData={data?.data?.user} dataImageInfo={dataImageInfo} />
           <PreventingView
