@@ -42,10 +42,10 @@ const AppBar = styled(MuiAppBar, {
 const QuestionLayout = ({ children }: QuestionLayoutProps) => {
   return (
     <Fragment>
-      <AppBar position="fixed" open={false}>
+      <AppBar color="primary" position="fixed" open={false}>
         <Toolbar>
           <Box mt={1} flexGrow={1}>
-            <img width={150} src={LOGO_URL} />
+            <img width={150} src="/logo/logo_gold_white.png" />
           </Box>
         </Toolbar>
       </AppBar>

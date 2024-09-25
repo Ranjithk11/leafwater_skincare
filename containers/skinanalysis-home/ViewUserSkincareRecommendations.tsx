@@ -34,7 +34,7 @@ const StyledUserSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
   overflowX: "hidden",
   backgroundColor: theme.palette.grey[100],
   overflowY: "auto",
-  paddingTop: 0,
+
   "& .sectionHeader": {
     width: "100%",
     backgroundColor: theme.palette.common.black,

@@ -119,7 +119,7 @@ const HomeLayout = ({ children }: HomeLayoutProps) => {
 
   return (
     <Fragment>
-      <AppBar position="fixed" open={open}>
+      <AppBar color="primary" position="fixed" open={open}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -133,7 +133,7 @@ const HomeLayout = ({ children }: HomeLayoutProps) => {
             <MenuIcon />
           </IconButton>
           <Box flexGrow={1}>
-            <img width={150} src={LOGO_URL} />
+          <img width={150} src="/logo/logo_gold_white.png" />
           </Box>
           <Box>
             <IconButton
