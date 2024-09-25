@@ -9,12 +9,12 @@ const StyledCheckBoxComponent = styled(Box, {
     shouldForwardProp<StyledCheckBoxComponentProps>(["isSelected"], prop),
 })<StyledCheckBoxComponentProps>(({ theme, isSelected }) => ({
   border: `1px solid ${theme.palette.divider}`,
-  minHeight: 48,
+  minHeight: 40,
   display: "flex",
   alignItems: "center",
   width: "100%",
   borderRadius: 8,
-  padding: 15,
+  padding: 10,
   ...(isSelected && {
     border: `2px solid ${theme.palette.primary.main}`,
   }),
@@ -63,7 +63,7 @@ const CheckBoxButtonComponent = ({
           sx={(theme) => ({
             color: theme?.palette?.text.primary,
           })}
-          variant="body1"
+          variant="body2"
         >
           {label}
         </Typography>

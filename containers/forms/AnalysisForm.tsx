@@ -28,9 +28,11 @@ const StyledAnalysisFormWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
   flexGrow: 1,
   display: "flex",
+  paddingTop: 50,
+  paddingBottom: 50,
   flexDirection: "column",
   alignItems: "center",
-  justifyContent: "center",
+  justifyContent: "flex-start",
   [theme.breakpoints.only("xs")]: {
     justifyContent: "flex-start",
     paddingTop: 50,
@@ -38,7 +40,7 @@ const StyledAnalysisFormWrapper = styled(Box)(({ theme }) => ({
   "& .__question_view": {
     width: 450,
     "& .MuiTypography-h4": {
-      fontSize: 25,
+      fontSize: 20,
       fontWeight: 800,
       marginBottom: 20,
     },
@@ -361,6 +363,7 @@ const AnalysisForm = () => {
                 <Grid container spacing={3} item xs={12}>
                   <Grid item xs={6}>
                     <Button
+                      size="medium"
                       onClick={handleBack}
                       startIcon={<KeyboardDoubleArrowLeftIcon />}
                       variant="contained"
@@ -371,6 +374,7 @@ const AnalysisForm = () => {
                   </Grid>
                   <Grid item xs={6}>
                     <Button
+                      size="medium"
                       disabled={isSubmit}
                       onClick={handleSubmit(onSumit)}
                       endIcon={<KeyboardDoubleArrowRightIcon />}

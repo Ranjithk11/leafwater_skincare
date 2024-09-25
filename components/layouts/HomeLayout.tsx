@@ -241,7 +241,9 @@ const HomeLayout = ({ children }: HomeLayoutProps) => {
           </Grid>
         </Box>
       </StyledDrawer>
-      <Main open={open}>{children}</Main>
+      <Main open={open}>
+        {children}
+      </Main>
     </Fragment>
   );
 };

@@ -4,6 +4,7 @@ import { useSelectedLayoutSegment } from "next/navigation";
 import _ from "lodash";
 import { analysisSlots } from "@/utils/constants";
 import HomeLayout from "@/components/layouts/HomeLayout";
+import QuestionLayout from "@/components/layouts/QuestionLayout";
 
 const AnalysisRootlayout = ({ children }: { children: React.ReactNode }) => {
   const currentSegment = useSelectedLayoutSegment();
@@ -14,7 +15,7 @@ const AnalysisRootlayout = ({ children }: { children: React.ReactNode }) => {
   if (isMatched) {
     return <HomeLayout>{children}</HomeLayout>;
   } else {
-    return <Fragment>{children}</Fragment>;
+    return <QuestionLayout>{children}</QuestionLayout>;
   }
 };
 
