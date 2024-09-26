@@ -37,7 +37,7 @@ const authOptions: AuthOptions = {
             email: credentials?.email,
             onBoardingQuestions: JSON.parse(credentials?.onBoardingQuestions),
             countryCode: credentials?.countryCode,
-            isValidated:false,
+            isValidated: false,
           });
         }
 
