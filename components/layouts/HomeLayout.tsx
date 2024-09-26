@@ -127,7 +127,7 @@ const HomeLayout = ({ children }: HomeLayoutProps) => {
             onClick={handleDrawerOpen}
             edge="start"
             sx={{
-              marginRight: 2,
+              marginRight:2,
             }}
           >
             <MenuIcon />
@@ -135,10 +135,11 @@ const HomeLayout = ({ children }: HomeLayoutProps) => {
           <Box flexGrow={1}>
           <img width={150} src="/logo/logo_gold_white.png" />
           </Box>
-          <Box>
+          <Box paddingRight="15px">
             <IconButton
               onClick={() => {
                 signOut();
+              
               }}
             >
               <Icon icon="mdi:power" />

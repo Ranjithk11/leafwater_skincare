@@ -40,9 +40,9 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 const VisiterLayout = ({ children }: VisiterLayoutProps) => {
-  const visitCount = useSelector(
-    (state: any) => state.analysisSlice?.visitCount
-  );
+  // const visitCount = useSelector(
+  //   (state: any) => state.analysisSlice?.visitCount
+  // );
   const router = useRouter();
 
   return (
@@ -52,7 +52,7 @@ const VisiterLayout = ({ children }: VisiterLayoutProps) => {
           <Box mt={1} flexGrow={1}>
             <img width={150} src="/logo/logo_gold_white.png" />
           </Box>
-          {visitCount && <Box>Visit Count: {visitCount}</Box>}
+          {/* {visitCount && <Box>Visit Count: {visitCount}</Box>} */}
         </Toolbar>
       </AppBar>
       <Main>{children}</Main>
