@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   Box,
@@ -7,8 +7,11 @@ import {
   Button,
   Chip,
   styled,
+  IconButton,
 } from "@mui/material";
 import { capitalizeWords, shouldForwardProp } from "@/utils/func";
+import { Icon } from "@iconify/react";
+import Dialog from "@mui/material/Dialog";
 
 interface ProductCardProps {
   ribbenColor?: string;
@@ -32,6 +35,7 @@ const StyledProductCard = styled(Card, {
 })<{ enabledMask?: boolean; minWidth?: number }>(
   ({ theme, enabledMask, minWidth }) => ({
     height: "100%",
+
     ...(minWidth && {
       minWidth: minWidth,
       height: "auto",
@@ -42,9 +46,13 @@ const StyledProductCard = styled(Card, {
     padding: 40,
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
     position: "relative",
+    "& .cta-dialog-box": {
+      width: 370,
+      height: 300,
+    },
     "& .MuiTypography-subtitle1": {
       fontWeight: 800,
       fontSize: 18,
@@ -96,8 +104,28 @@ const StyledProductCard = styled(Card, {
         height: 150,
       },
     },
+    "& .MuiButton-root": {
+      "& svg": {
+        color: theme.palette.common.white,
+      },
+    },
   })
 );
+
+const StyledCtaDialogModel = styled(Box)(({ theme }) => ({
+  width: 370,
+  height: 250,
+  position: "relative",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  "& .close-icon-wrapper": {
+    position: "absolute",
+    top: 0,
+    right: 0,
+  },
+}));
 
 const ProductCard = ({
   name,
@@ -105,10 +133,12 @@ const ProductCard = ({
   productUse,
   matches,
   images,
+  retailPrice,
   enabledMask,
   shopifyUrl,
   minWidth,
 }: ProductCardProps) => {
+  const [openCTA, setOpenCTA] = useState<boolean>(false);
   const handleAddToCart = () => {
     window.open(shopifyUrl);
   };
@@ -122,62 +152,115 @@ const ProductCard = ({
           backgroundImage: `url(${images?.[0]?.url})`,
         }}
       ></Box>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Box mb={1}>
-            <Chip
-              variant="outlined"
-              className="chip"
-              style={{ borderRadius: 5 }}
-              color="primary"
-              size="small"
-              label={matches?.[0]?.name?.replace("_", " ")}
-            />
-          </Box>
-          <Typography color="primary" variant="subtitle1">
-            {capitalizeWords(name)}
-          </Typography>
-          <Typography variant="body1">
-            {productUse
-              .split(" ")
-              .map(
-                (word) =>
-                  word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-              )
-              .join(" ")}
-          </Typography>
-          {productBenefits && (
+      <Box flexGrow={1}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Box mb={1}>
+              <Chip
+                variant="outlined"
+                className="chip"
+                style={{ borderRadius: 5 }}
+                color="primary"
+                size="small"
+                label={matches?.[0]?.name?.replace("_", " ")}
+              />
+            </Box>
+            <Typography color="primary" variant="subtitle1">
+              {capitalizeWords(name)}
+            </Typography>
+            <Typography variant="body1">
+              {productUse
+                .split(" ")
+                .map(
+                  (word) =>
+                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                )
+                .join(" ")}
+            </Typography>
+            {productBenefits && (
+              <Box mt={1}>
+                <Typography variant="subtitle1">Benefits</Typography>
+                <Typography variant="body1">
+                  {productBenefits
+                    .split(" ")
+                    .map(
+                      (word) =>
+                        word.charAt(0).toUpperCase() +
+                        word.slice(1).toLowerCase()
+                    )
+                    .join(" ")}
+                </Typography>
+              </Box>
+            )}
             <Box mt={1}>
-              <Typography variant="subtitle1">Benefits</Typography>
-              <Typography variant="body1">
-                {productBenefits
-                  .split(" ")
-                  .map(
-                    (word) =>
-                      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                  )
-                  .join(" ")}
+              <Typography color="primary" variant="subtitle1">
+                INR.{retailPrice}/-
               </Typography>
             </Box>
-          )}
-          {!enabledMask && shopifyUrl && (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleAddToCart}
-              size="small"
-              sx={{
-                marginTop: 2,
-                padding: "6px 12px",
-                typography: "body2",
-                whiteSpace: "nowrap",
-              }}
-            >
-              Add to Cart
-            </Button>
-          )}
+          </Grid>
         </Grid>
-      </Grid>
+      </Box>
+      {!enabledMask && shopifyUrl && (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleAddToCart}
+          size="small"
+          startIcon={<Icon icon="uil:cart" />}
+          sx={{
+            marginTop: 2,
+            padding: "6px 12px",
+            typography: "body1",
+            whiteSpace: "nowrap",
+          }}
+        >
+          Add to Cart
+        </Button>
+      )}
+      {!enabledMask && !shopifyUrl && (
+        <Button
+          variant="contained"
+          color="secondary"
+          startIcon={<Icon icon="line-md:phone-call-loop" />}
+          onClick={() => {
+            setOpenCTA(true);
+          }}
+          size="small"
+          sx={{
+            marginTop: 2,
+            padding: "6px 12px",
+            typography: "body1",
+            whiteSpace: "nowrap",
+          }}
+        >
+          Call To Order
+        </Button>
+      )}
+      {openCTA && (
+        <Dialog open={openCTA}>
+          <StyledCtaDialogModel>
+            <Box>
+              <Typography color="primary" variant="h4" fontWeight={800}>
+                089770 16605
+              </Typography>
+            </Box>
+            <Box mt={3}>
+              <Button href="tel:089770 16605" color="secondary" size="medium">
+                Call Now
+              </Button>
+            </Box>
+            <Box component="div" className="close-icon-wrapper">
+              <IconButton
+                onClick={() => {
+                  setOpenCTA(false);
+                }}
+              >
+                <Icon icon="mdi:close" />
+              </IconButton>
+            </Box>
+          </StyledCtaDialogModel>
+        </Dialog>
+      )}
     </StyledProductCard>
   );
 };
