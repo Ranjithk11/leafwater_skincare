@@ -44,6 +44,9 @@ const StyledProductCard = styled(Card, {
     }),
     width: "100%",
     padding: 40,
+    [theme.breakpoints.only('xs')]:{
+      padding: 10,
+    },
     display: "flex",
     flexDirection: "column",
     // alignItems: "center",

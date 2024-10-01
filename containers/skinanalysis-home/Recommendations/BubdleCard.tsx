@@ -42,6 +42,9 @@ const StyledBundleCard = styled(Card, {
     }),
     width: "100%",
     padding: 40,
+    [theme.breakpoints.only('xs')]:{
+      padding: 10,
+    },
     display: "flex",
     flexDirection: "column",
     // alignItems: "center",
@@ -63,7 +66,7 @@ const StyledBundleCard = styled(Card, {
         filter: "blur(1rem)",
       }),
       [theme.breakpoints.only("xs")]: {
-        fontSize: 16,
+        fontSize: 14,
         lineHeight: 1,
         marginBottom: 10,
       },
