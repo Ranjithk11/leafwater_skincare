@@ -2,8 +2,9 @@ import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
-import React from "react";
+import React, { Fragment } from "react";
 import ProductCard from "../Recommendations/ProductCard";
+import BundleCard from "../Recommendations/BubdleCard";
 
 const StyledProductsWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -87,6 +88,27 @@ const ProductsView = ({ data, isAdminView = false }: ProductsViewProps) => {
           </Grid>
         </Grid>
         <Box pt={5}>
+        {data?.data?.productRecommendation?.recommendedProductBundles?.length > 0 && (
+            <Fragment>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Box mb={3} mt={3}>
+                    <Typography variant="h6">
+                      Recommended Product Bundles
+                    </Typography>
+                  </Box>
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={2}>
+                {data?.data?.productRecommendation?.recommendedProductBundles.map((bundle:any) => (
+                  <Grid key={bundle?._id} item xs={6} md={4}>
+                    <BundleCard {...bundle}/>
+                  </Grid>
+                ))}
+              </Grid>
+            </Fragment>
+          )}
           {data?.data?.productRecommendation?.recommendedProducts?.highRecommendation?.map(
             (recommended: any) => (
               <Grid container key={recommended?.productCategory?._id}>
@@ -107,11 +129,11 @@ const ProductsView = ({ data, isAdminView = false }: ProductsViewProps) => {
                              key={index}
                              minWidth={300}
                               {...product}
-                              // enabledMask={
-                              //   data?.data?.user?.isPremiumCustomer
-                              //     ? false
-                              //     : index > 0
-                              // }
+                              enabledMask={
+                                data?.data?.user?.isPremiumCustomer
+                                  ? false
+                                  : index > 0
+                              }
                             />
                         )
                       )}
@@ -125,11 +147,11 @@ const ProductsView = ({ data, isAdminView = false }: ProductsViewProps) => {
                         <Grid key={product?._id} item xs={6} md={4}>
                           <ProductCard
                             {...product}
-                            // enabledMask={
-                            //   data?.data?.user?.isPremiumCustomer
-                            //     ? false
-                            //     : index > 0
-                            // }
+                            enabledMask={
+                              data?.data?.user?.isPremiumCustomer
+                                ? false
+                                : index > 0
+                            }
                           />
                         </Grid>
                       )

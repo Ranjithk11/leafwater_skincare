@@ -13,20 +13,18 @@ import { capitalizeWords, shouldForwardProp } from "@/utils/func";
 import { Icon } from "@iconify/react";
 import Dialog from "@mui/material/Dialog";
 
-interface ProductCardProps {
+interface BundleCardProps {
   ribbenColor?: string;
-  productBenefits: string;
   name: string;
-  productUse: string;
-  retailPrice: string;
-  matches: any[];
+  skinTypes: any[];
+  price: string | number;
   images: any[];
   enabledMask?: boolean;
   shopifyUrl: string;
   minWidth?: number;
 }
 
-const StyledProductCard = styled(Card, {
+const StyledBundleCard = styled(Card, {
   shouldForwardProp: (prop) =>
     shouldForwardProp<{ enabledMask?: boolean; minWidth?: number }>(
       ["enabledMask", "minWidth"],
@@ -104,24 +102,6 @@ const StyledProductCard = styled(Card, {
         height: 150,
       },
     },
-    "& .product-masking": {
-      position: "absolute",
-      width: "100%",
-      height: "100%",
-      paddingLeft:30,
-      paddingRight:30,
-      top: 0,
-      left: 0,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    "& .chip": {
-      ...(enabledMask && {
-        filter: `blur(1rem)`,
-      }),
-    },
     "& .MuiButton-root": {
       "& svg": {
         color: theme.palette.common.white,
@@ -145,24 +125,22 @@ const StyledCtaDialogModel = styled(Box)(({ theme }) => ({
   },
 }));
 
-const ProductCard = ({
+const BundleCard = ({
   name,
-  productBenefits,
-  productUse,
-  matches,
+  skinTypes,
   images,
-  retailPrice,
+  price,
   enabledMask,
   shopifyUrl,
   minWidth,
-}: ProductCardProps) => {
+}: BundleCardProps) => {
   const [openCTA, setOpenCTA] = useState<boolean>(false);
   const handleAddToCart = () => {
     window.open(shopifyUrl);
   };
 
   return (
-    <StyledProductCard enabledMask={enabledMask} minWidth={minWidth}>
+    <StyledBundleCard enabledMask={enabledMask} minWidth={minWidth}>
       <Box
         component="div"
         className="product_image"
@@ -180,39 +158,16 @@ const ProductCard = ({
                 style={{ borderRadius: 5 }}
                 color="primary"
                 size="small"
-                label={matches?.[0]?.name?.replace("_", " ")}
+                label={skinTypes?.[0]?.replace("_", " ")}
               />
             </Box>
             <Typography color="primary" variant="subtitle1">
               {capitalizeWords(name)}
             </Typography>
-            <Typography variant="body1">
-              {productUse
-                .split(" ")
-                .map(
-                  (word) =>
-                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                )
-                .join(" ")}
-            </Typography>
-            {productBenefits && (
-              <Box mt={1}>
-                <Typography variant="subtitle1">Benefits</Typography>
-                <Typography variant="body1">
-                  {productBenefits
-                    .split(" ")
-                    .map(
-                      (word) =>
-                        word.charAt(0).toUpperCase() +
-                        word.slice(1).toLowerCase()
-                    )
-                    .join(" ")}
-                </Typography>
-              </Box>
-            )}
+
             <Box mt={1}>
-              <Typography color="primary" variant="subtitle1">
-                INR.{retailPrice}/-
+              <Typography  variant="subtitle1">
+                INR.{price}/-
               </Typography>
             </Box>
           </Grid>
@@ -279,39 +234,8 @@ const ProductCard = ({
           </StyledCtaDialogModel>
         </Dialog>
       )}
-
-      {enabledMask && (
-        <Box component="div" className="product-masking">
-          <Grid container>
-            <Grid item xs={12}>
-              <Typography textAlign="center" variant="subtitle2">
-                To View more products{" "}
-              </Typography>
-              <Button
-                variant="contained"
-                color="secondary"
-                startIcon={<Icon icon="line-md:phone-call-loop" />}
-                onClick={() => {
-                  setOpenCTA(true);
-                }}
-                
-                size="small"
-                sx={{
-                  
-                  marginTop: 2,
-                  padding: "6px 12px",
-                  typography: "body1",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Call To Us
-              </Button>
-            </Grid>
-          </Grid>
-        </Box>
-      )}
-    </StyledProductCard>
+    </StyledBundleCard>
   );
 };
 
-export default ProductCard;
+export default BundleCard;
