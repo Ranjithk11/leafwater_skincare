@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
 import React from "react";
-const belina = "/images/belna.png";
+const belina = "\images\Team.jpg";
 
 const StyledMeetTeamWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -63,7 +63,7 @@ const MeetTeam = () => {
               component="div"
               className="author_image"
               style={{
-                backgroundImage: `url(${belina})`,
+                backgroundImage: `url(/images/Team.jpg)`,
               }}
             ></Box>
           </Grid>
