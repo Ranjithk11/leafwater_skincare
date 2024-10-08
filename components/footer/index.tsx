@@ -36,7 +36,7 @@ const StyledFooterMainBox = styled(Box)(({ theme }) => ({
 }));
 
 const StyledSectionDivider = styled(Divider)(({ theme }) => ({
-  width: 400,
+  width: 300,
   borderColor: theme.palette.grey[800],
   marginTop: 20,
   marginBottom: 10,

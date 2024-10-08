@@ -3,6 +3,7 @@ import NextAuthSessionProvider from "./api/auth/[...nextauth]/providers/sessionP
 import { Metadata } from "next";
 import MuiThemeProvider from "@/theme/provider";
 import { ReduxStateProviders } from "@/redux/provider";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
   title: "Skin Care",
@@ -16,6 +17,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
+      <GoogleTagManager gtmId="G-0CZC9L085R" />
       <body suppressHydrationWarning={true}>
         <ReduxStateProviders>
           <NextAuthSessionProvider>

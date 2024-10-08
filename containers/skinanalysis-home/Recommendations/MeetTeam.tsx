@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
 import React from "react";
-const belina = "\images\Team.jpg";
+const belina = "imagesTeam.jpg";
 
 const StyledMeetTeamWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -26,7 +26,7 @@ const StyledMeetTeamWrapper = styled(Box)(({ theme }) => ({
     marginTop: 45,
   },
   "& .MuiTypography-subtitle1": {
-    marginBottom: 30,
+    marginBottom: 5,
   },
   "& .MuiTypography-h3": {
     fontWeight: 800,
@@ -63,31 +63,55 @@ const MeetTeam = () => {
               component="div"
               className="author_image"
               style={{
-                backgroundImage: `url(/images/Team.jpg)`,
+                backgroundImage: `url(/images/Team.png)`,
               }}
             ></Box>
           </Grid>
           <Grid item xs={12}>
-            <Typography textAlign="center" variant="h4">
-              Dr . Bilna <span>Eldhose</span>
-            </Typography>
-            <Typography textAlign="center" variant="subtitle1">
-              Skin And Hair Cosmetologist
-            </Typography>
+            <Box mt={3}>
+              <Typography textAlign="center" variant="subtitle1">
+                Dr.Bilna,Adiba
+              </Typography>
+              <Typography
+                fontWeight={700}
+                color="primary"
+                textAlign="center"
+                variant="body1"
+              >
+                Cosmetologist
+              </Typography>
+
+              <Box mt={1}>
+                <Typography textAlign="center" variant="subtitle1">
+                  Navya,Srimukhi
+                </Typography>
+                <Typography
+                  fontWeight={700}
+                  color="primary"
+                  textAlign="center"
+                  variant="body1"
+                >
+                  Skin Care Consultants
+                </Typography>
+              </Box>
+            </Box>
           </Grid>
           <Grid item xs={12}>
-            <Typography textAlign="justify" variant="body1">
-              Dr. Bilna Eldhose is our Skin and Hair Cosmetologist, combined
-              with medical expertise and a passion for beauty. She helps you to
-              achieve radiant healthy skin and luscious looks. Your journey to
-              confidence starts here. She is a core team member of Leaf
-              Water,The Polished & Style club.
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Box mt={5}>
-              <Typography textAlign="center" variant="subtitle2">
-                SKIN | HAIR | DENTAL
+            <Box mt={3}>
+              <Typography textAlign="justify" variant="body1">
+                At Leaf Water our dedicated team is driven by a commitment to
+                exceptional skincare, our team consists of cosmetology doctors,
+                cosmetology consultant and technical experts - who are dedicated
+                to providing you expert care - designed and tailored to your
+                unique needs. With the help of our in house cosmetology experts,
+                data scientists and software developers we built India’s number
+                1 AI Skin Analysis engine to accurately analyze your skin
+                condition and recommend carefully curated products, services and
+                procedure to take care of your immediate concerns while
+                addressing long term needs to keep your skin healthy and GLOW.
+                Together, we foster an environment of care and professionalism,
+                focused on your skincare needs, to enhance your natural beauty
+                and self-confidence with every interaction.
               </Typography>
             </Box>
           </Grid>

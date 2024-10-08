@@ -1,10 +1,13 @@
-import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Grid, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import ProductCard from "../Recommendations/ProductCard";
 import BundleCard from "../Recommendations/BubdleCard";
+import CategoryTabs from "../Recommendations/CategoryTabs";
+import Sticky from "react-sticky-el";
+
 
 const StyledProductsWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -50,6 +53,11 @@ const StyledProductsWrapper = styled(Box)(({ theme }) => ({
     flexWrap: "warp",
     overflow: "auto",
   },
+  "& .sticky_nav": {
+    position: "sticky",
+    top: `64px !important`,
+    zIndex: 1,
+  },
 }));
 
 interface ProductsViewProps {
@@ -59,6 +67,7 @@ interface ProductsViewProps {
 
 const ProductsView = ({ data, isAdminView = false }: ProductsViewProps) => {
   const theme = useTheme();
+  const [selectedTab, setSelectedTab] = useState<number>(0);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const checkIsMaskedProducts = (index: number) => {
     if (isAdminView || data?.data?.user?.isPremiumCustomer) {
@@ -87,8 +96,9 @@ const ProductsView = ({ data, isAdminView = false }: ProductsViewProps) => {
             </Box>
           </Grid>
         </Grid>
-        <Box pt={5}>
-        {data?.data?.productRecommendation?.recommendedProductBundles?.length > 0 && (
+        <Box pt={5} component="div" className="scrollarea">
+          {data?.data?.productRecommendation?.recommendedProductBundles
+            ?.length > 0 && (
             <Fragment>
               <Grid container>
                 <Grid item xs={12}>
@@ -99,17 +109,38 @@ const ProductsView = ({ data, isAdminView = false }: ProductsViewProps) => {
                   </Box>
                 </Grid>
               </Grid>
-
+              <Box mb={5}>
               <Grid container spacing={2}>
-                {data?.data?.productRecommendation?.recommendedProductBundles.map((bundle:any) => (
-                  <Grid key={bundle?._id} item xs={6} md={4}>
-                    <BundleCard {...bundle}/>
-                  </Grid>
-                ))}
+                {data?.data?.productRecommendation?.recommendedProductBundles.map(
+                  (bundle: any) => (
+                    <Grid key={bundle?._id} item xs={6} md={4}>
+                      <BundleCard {...bundle} />
+                    </Grid>
+                  )
+                )}
               </Grid>
+              </Box>
+              
             </Fragment>
           )}
-          {data?.data?.productRecommendation?.recommendedProducts?.highRecommendation?.map(
+
+          <Sticky
+            boundaryElement=".scrollarea"
+            hideOnBoundaryHit={false}
+            stickyClassName="sticky_nav"
+          >
+            <Paper>
+              <CategoryTabs
+                data={data?.data?.productRecommendation?.recommendedProducts?.highRecommendation}
+                onChangeTab={(event, value) => {
+                 setSelectedTab(value);
+                }}
+                activeTab={selectedTab}
+              />
+            </Paper>
+          </Sticky>
+
+          {[data?.data?.productRecommendation?.recommendedProducts?.highRecommendation[selectedTab]]?.map(
             (recommended: any) => (
               <Grid container key={recommended?.productCategory?._id}>
                 <Grid item xs={12}>
@@ -119,22 +150,22 @@ const ProductsView = ({ data, isAdminView = false }: ProductsViewProps) => {
                     </Typography>
                   </Box>
                 </Grid>
-                
+
                 {isMobile && (
                   <Grid item xs={12}>
                     <Box component="div" className="skin-analysis-result">
                       {recommended?.products?.map(
                         (product: any, index: number) => (
                           <ProductCard
-                             key={index}
-                             minWidth={300}
-                              {...product}
-                              enabledMask={
-                                data?.data?.user?.isPremiumCustomer
-                                  ? false
-                                  : index > 0
-                              }
-                            />
+                            key={index}
+                            minWidth={300}
+                            {...product}
+                            enabledMask={
+                              data?.data?.user?.isPremiumCustomer
+                                ? false
+                                : index > 0
+                            }
+                          />
                         )
                       )}
                     </Box>

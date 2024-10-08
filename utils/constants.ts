@@ -1159,3 +1159,16 @@ export const SOCIAL_LINKS = {
   insta:
     "https://www.instagram.com/leafwater.skincare/?igsh=MTViMm9qY25tZHRhZQ%3D%3D",
 };
+
+export const routineVideos = {
+  morning: [
+    {
+      imgUrl: "/images/video-1.png",
+      videoUrl: "/videos/1.mp4",
+    },
+    {
+      imgUrl: "/images/video-2.png",
+      videoUrl: "/videos/2.mp4",
+    },
+  ],
+};

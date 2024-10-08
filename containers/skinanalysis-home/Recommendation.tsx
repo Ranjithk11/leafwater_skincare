@@ -4,23 +4,22 @@ import {
   useLazyFetchRecommnedSkinAttributesQuery,
   useLazyFetchUserQuestionsResponseQuery,
 } from "@/redux/api/analysisApi";
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  Font,
-  StyleSheet,
-  PDFViewer,
-  Image,
-} from "@react-pdf/renderer";
+import { Font, StyleSheet } from "@react-pdf/renderer";
 
-import { Box, Card, CardContent, Container, Grid, styled } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Container,
+  Grid,
+  Paper,
+  styled,
+} from "@mui/material";
 import { useSession } from "next-auth/react";
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useRef } from "react";
 import { APP_COLORS } from "@/theme/colors/colors";
 import LoadingComponent from "@/components/loaders/Loading";
-
+import { Icon } from "@iconify/react";
 import SalonServices from "./Recommendations/SalonServices";
 import DietChart from "./Recommendations/DietChart";
 import MeetTeam from "./Recommendations/MeetTeam";
@@ -28,7 +27,6 @@ import Routine from "./Recommendations/Routines";
 import CoverPage from "./Recommendations/Cover";
 import UserInfo from "./Recommendations/UserInfo";
 import PreventingView from "./Recommendations/Preventing";
-
 import CosmeticRecommdations from "./Recommendations/CosmeticRecommdations";
 import ProductsView from "./Recommendations/Products";
 
@@ -86,10 +84,35 @@ const StyledSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
     fontWeight: 700,
     fontSize: 26,
   },
+  [theme.breakpoints.only("xs")]: {
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
+  "& .scrool-to-top": {
+    position: "fixed",
+    right: 30,
+    bottom: 50,
+    backgroundColor: theme.palette.common.white,
+    width: 50,
+    height: 50,
+    borderRadius: 100,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    "& :hover": {
+      cursor: "pointer",
+    },
+    "& svg": {
+      fontSize: 40,
+      color: theme.palette.primary.main,
+    },
+  },
 }));
 
 const SkinAnalysisRecommendation = () => {
   const { data: session } = useSession();
+  const containerRef: any = useRef(null);
 
   const [
     fetchUserQuestionsResponse,
@@ -118,110 +141,17 @@ const SkinAnalysisRecommendation = () => {
     }
   }, [session]);
 
-  const styles = StyleSheet.create({
-    page: {
-      display: "flex",
-      flexDirection: "column",
-      padding: 20,
-    },
-    pageNumber: {
-      fontSize: 20,
-      fontWeight: 700,
-      color: "#e0e0e0",
-    },
-    pageHeader: {
-      width: "100%",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-    },
-    placeHolder: {},
-    section: {
-      margin: 10,
-      padding: 10,
-    },
-    viewer: {
-      width: "100%", //the pdf viewer will take up all of the width and height
-      height: "100%",
-    },
-    image: {
-      width: 200,
-    },
-    productCardWrapper: {
-      width: "100%",
-      display: "flex",
-      position: "relative",
-      flexDirection: "row",
-      alignItems: "stretch",
-      justifyContent: "center",
-      borderBottom: `1px solid #ecf0f1`,
-    },
-    productCardImage: {
-      width: 150,
-      minHeight: 132,
-      height: 132,
-    },
-    productCardContent: {
-      padding: 15,
-    
-    },
-    productCardTitle: {
-      fontFamily: defaultFont,
-      fontSize: 16,
-      fontWeight: 600,
-      marginBottom: 3,
-    },
-    productCardCategoryTitle: {
-      fontSize: 16,
-      fontFamily: defaultFont,
-      fontWeight: 800,
-    },
-    productCardInfo: {
-      fontFamily: defaultFont,
-      fontSize: 12,
-      fontWeight: 400,
-      color: "#7f8c8d",
-      marginBottom: 5,
-    },
-    productCardSubtitle: {
-      fontFamily: defaultFont,
-      fontSize: 14,
-      fontWeight: 600,
-    },
-    productCardPrice: {
-      fontFamily: defaultFont,
-      fontSize: 18,
-      fontWeight: 800,
-      color: APP_COLORS.PRIMARY_COLOR,
-    },
-    productCardMatches: {
-      fontFamily: defaultFont,
-      fontSize: 12,
-      fontWeight: 600,
-    },
-    subscriptionsWrapper: {
-      width: "100%",
-      display: "flex",
-      flexDirection: "row",
-    },
-    subscriptionsBox: {},
-    morningRoutneWrapper: {
-      flex: 1,
-      width: "100%",
-      // backgroundColor: "#ffeaa7",
-      padding: 20,
-      display: "flex",
-      flexDirection: "column",
-    },
-    nightRoutneWrapper: {
-      flex: 1,
-      width: "100%",
-      backgroundColor: "#212121",
-      padding: 20,
-    },
-  });
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 64, behavior: "smooth" });
+  };
+
   return (
-    <StyledSkinAnalysisRecommendation disableGutters maxWidth={false}>
+    <StyledSkinAnalysisRecommendation
+      ref={containerRef}
+      disableGutters
+      maxWidth={false}
+      className="block"
+    >
       {!isLoading && data && !isLoadingImageInfo && (
         <Fragment>
           <CoverPage />
@@ -229,7 +159,9 @@ const SkinAnalysisRecommendation = () => {
           <PreventingView useData={dataImageInfo} data={data} />
           <ProductsView data={data} />
           <Routine />
-          <SalonServices data={data?.data?.[0]?.recommendedSalonServices || []} />
+          <SalonServices
+            data={data?.data?.[0]?.recommendedSalonServices || []}
+          />
           <CosmeticRecommdations
             data={data?.data?.[0]?.recommendedCosmeticServices || []}
           />
@@ -237,12 +169,18 @@ const SkinAnalysisRecommendation = () => {
           <MeetTeam />
         </Fragment>
       )}
-
       {(isLoadingImageInfo || (isLoading && !data)) && (
         <Box component="div" className="section_loading_indicator">
           <LoadingComponent />
         </Box>
       )}
+      <Paper
+        onClick={handleScrollToTop}
+        component="div"
+        className="scrool-to-top"
+      >
+        <Icon icon="solar:round-arrow-up-outline" />
+      </Paper>
     </StyledSkinAnalysisRecommendation>
   );
 };

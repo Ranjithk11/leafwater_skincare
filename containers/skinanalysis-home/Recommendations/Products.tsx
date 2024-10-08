@@ -1,15 +1,24 @@
-import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Grid,
+  Paper,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import ProductCard from "./ProductCard";
 import BundleCard from "./BubdleCard";
+import CategoryTabs from "./CategoryTabs";
+import Sticky from "react-sticky-el";
 
 const StyledProductsWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
   paddingTop: 75,
   paddingBottom: 75,
+  position: "relative",
   minHeight: 400,
   display: "flex",
   flexDirection: "column",
@@ -83,6 +92,11 @@ const StyledProductsWrapper = styled(Box)(({ theme }) => ({
       borderRadius: 5,
     },
   },
+  "& .sticky_nav": {
+    position: "sticky",
+    top: `64px !important`,
+    zIndex: 1,
+  },
 }));
 
 interface ProductsViewProps {
@@ -92,8 +106,11 @@ interface ProductsViewProps {
 const ProductsView = ({ data }: ProductsViewProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [selectedTab, setSelectedTab] = useState<number>(0);
+  const containerRef: any = useRef(null);
+
   return (
-    <StyledProductsWrapper>
+    <StyledProductsWrapper ref={containerRef}>
       <Container maxWidth="lg">
         <Grid container>
           <Grid item xs={12}>
@@ -107,7 +124,7 @@ const ProductsView = ({ data }: ProductsViewProps) => {
             </Box>
           </Grid>
         </Grid>
-        <Box pt={5}>
+        <Box pt={5} component="div" className="scrollarea">
           {data?.data?.[0]?.recommendedProductBundles?.length > 0 && (
             <Fragment>
               <Grid container>
@@ -120,18 +137,40 @@ const ProductsView = ({ data }: ProductsViewProps) => {
                 </Grid>
               </Grid>
 
-              <Grid container spacing={2}>
-                {data?.data?.[0]?.recommendedProductBundles.map((bundle:any) => (
-                  <Grid key={bundle?._id} item xs={6} md={4}>
-                    <BundleCard {...bundle}/>
-                  </Grid>
-                ))}
-              </Grid>
+              <Box mb={5}>
+                <Grid container spacing={2}>
+                  {data?.data?.[0]?.recommendedProductBundles.map(
+                    (bundle: any) => (
+                      <Grid key={bundle?._id} item xs={6} md={4}>
+                        <BundleCard {...bundle} />
+                      </Grid>
+                    )
+                  )}
+                </Grid>
+              </Box>
             </Fragment>
           )}
-
-          {data?.data?.[0]?.recommendedProducts?.highRecommendation?.map(
-            (recommended: any) => (
+          <Sticky
+            boundaryElement=".scrollarea"
+            hideOnBoundaryHit={false}
+            stickyClassName="sticky_nav"
+          >
+            <Paper>
+              <CategoryTabs
+                data={data?.data?.[0]?.recommendedProducts?.highRecommendation}
+                onChangeTab={(event, value) => {
+                  setSelectedTab(value);
+                }}
+                activeTab={selectedTab}
+              />
+            </Paper>
+          </Sticky>
+          {[
+            data?.data?.[0]?.recommendedProducts?.highRecommendation[
+              selectedTab
+            ],
+          ]?.map((recommended: any) => (
+            <Box mt={8}>
               <Grid container key={recommended?.productCategory?._id}>
                 <Grid item xs={6}>
                   <Box mb={3} mt={3}>
@@ -189,8 +228,8 @@ const ProductsView = ({ data }: ProductsViewProps) => {
                   </Grid>
                 )}
               </Grid>
-            )
-          )}
+            </Box>
+          ))}
         </Box>
       </Container>
     </StyledProductsWrapper>
