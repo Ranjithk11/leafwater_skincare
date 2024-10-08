@@ -101,14 +101,14 @@ const MeetTeam = () => {
               <Typography textAlign="justify" variant="body1">
                 At Leaf Water our dedicated team is driven by a commitment to
                 exceptional skincare, our team consists of cosmetology doctors,
-                cosmetology consultant and technical experts - who are dedicated
-                to providing you expert care - designed and tailored to your
+                cosmetology consultant and technical experts who are dedicated
+                to providing you expert care designed and tailored to your
                 unique needs. With the help of our in house cosmetology experts,
                 data scientists and software developers we built India’s number
-                1 AI Skin Analysis engine to accurately analyze your skin
+                One AI Skin Analysis engine to accurately analyze your skin
                 condition and recommend carefully curated products, services and
                 procedure to take care of your immediate concerns while
-                addressing long term needs to keep your skin healthy and GLOW.
+                addressing long term needs to keep your skin healthy and Glow.
                 Together, we foster an environment of care and professionalism,
                 focused on your skincare needs, to enhance your natural beauty
                 and self-confidence with every interaction.
