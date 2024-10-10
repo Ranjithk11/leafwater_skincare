@@ -192,7 +192,7 @@ const ProductsView = ({ data }: ProductsViewProps) => {
                 {isMobile && (
                   <Grid item xs={12}>
                     <Box component="div" className="skin-analysis-result">
-                      {recommended?.products?.map(
+                      {recommended?.products?.slice(0, 3).map(
                         (product: any, index: number) => (
                           <ProductCard
                             key={index}
@@ -211,7 +211,7 @@ const ProductsView = ({ data }: ProductsViewProps) => {
                 )}
                 {!isMobile && (
                   <Grid container spacing={2} item xs={12} alignItems="stretch">
-                    {recommended?.products?.map(
+                    {recommended?.products?.slice(0, 3).map(
                       (product: any, index: number) => (
                         <Grid key={product?._id} item xs={6} md={4}>
                           <ProductCard
