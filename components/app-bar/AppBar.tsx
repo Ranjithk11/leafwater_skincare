@@ -7,9 +7,11 @@ import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import { useSession, signOut } from "next-auth/react";
 import { LOGO_URL } from "@/utils/constants";
+import {useRouter} from "next/navigation";
 
 const AppBarComponent = () => {
   const { data: session } = useSession();
+  const router = useRouter();
   return (
     <>
       <AppBar position="sticky">
@@ -22,7 +24,9 @@ const AppBarComponent = () => {
               {session?.user?.id && (
                 <Button
                   onClick={() => {
-                    signOut();
+                    signOut().then((response)=>{
+                      router.push('/');
+                    });
                   }}
                   color="inherit"
                   variant="contained"

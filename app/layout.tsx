@@ -17,7 +17,6 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <GoogleTagManager gtmId="G-0CZC9L085R" />
       <body suppressHydrationWarning={true}>
         <ReduxStateProviders>
           <NextAuthSessionProvider>
@@ -25,6 +24,7 @@ export default async function RootLayout({
           </NextAuthSessionProvider>
         </ReduxStateProviders>
       </body>
+      <GoogleTagManager gtmId="G-0CZC9L085R" />
     </html>
   );
 }

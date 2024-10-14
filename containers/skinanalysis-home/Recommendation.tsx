@@ -35,7 +35,8 @@ const extraBold = `/fonts/OpenSans-ExtraBold.ttf`;
 const medium = `/fonts/OpenSans-Medium.ttf`;
 const regular = `/fonts/OpenSans-Regular.ttf`;
 const semiBold = `/fonts/OpenSans-SemiBold.ttf`;
-
+const whatsappNumber = "1234567890"; // Replace with actual number
+const whatsappMessage = "Hello, I need help with my skin analysis!";
 Font.register({
   family: defaultFont,
   fonts: [
@@ -87,6 +88,26 @@ const StyledSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
   [theme.breakpoints.only("xs")]: {
     paddingLeft: 0,
     paddingRight: 0,
+  },
+  "& .whatsapp-button": {
+    position: "fixed",
+    right: 30,
+    bottom: 120, // Adjust this to position above the scroll-to-top button
+    backgroundColor: theme.palette.common.white,
+    width: 50,
+    height: 50,
+    borderRadius: 100,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    "& :hover": {
+      cursor: "pointer",
+    },
+    "& svg": {
+      fontSize: 40,
+      color: "#25D366", // WhatsApp green color
+    },
   },
   "& .scrool-to-top": {
     position: "fixed",
@@ -140,6 +161,14 @@ const SkinAnalysisRecommendation = () => {
       });
     }
   }, [session]);
+  const handleWhatsAppClick = () => {
+    window.open(
+      `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(
+        whatsappMessage
+      )}`,
+      "_blank"
+    );
+  };
 
   const handleScrollToTop = () => {
     window.scrollTo({ top: 64, behavior: "smooth" });
@@ -174,6 +203,14 @@ const SkinAnalysisRecommendation = () => {
           <LoadingComponent />
         </Box>
       )}
+
+      <Paper
+        onClick={handleWhatsAppClick}
+        component="div"
+        className="whatsapp-button"
+      >
+        <Icon icon="logos:whatsapp-icon" />
+      </Paper>
       <Paper
         onClick={handleScrollToTop}
         component="div"
