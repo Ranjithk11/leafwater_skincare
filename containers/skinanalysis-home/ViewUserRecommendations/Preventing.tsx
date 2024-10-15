@@ -145,14 +145,14 @@ const PreventingView = ({
                 >
                   Skin Analysis Atributes
                 </Typography>
-                {detectedAttributes?.map((item: string, index: number) => (
+                {detectedAttributes?.map((item: any, index: number) => (
                   <Typography
                     key={index}
                     fontWeight={700}
                     variant="h6"
                     gutterBottom
                   >
-                    {item.replace("_", " ")}
+                  ({item.code})-{item?.attribute}
                   </Typography>
                 ))}
               </Grid>

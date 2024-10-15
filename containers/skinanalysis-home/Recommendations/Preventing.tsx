@@ -143,15 +143,16 @@ const PreventingView = ({ useData, data }: PreventingInfoProps) => {
                 >
                   Skin Analysis Atributes
                 </Typography>
-                {data?.data?.[0]?.detectedAttributes?.map(
-                  (item: string, index: number) => (
+                {data?.data?.[0]?.attributeCode?.map(
+                  (item: any, index: number) => (
                     <Typography
                       key={index}
                       fontWeight={700}
                       variant="h6"
                       gutterBottom
                     >
-                      {item.replace("_", " ")}
+                     
+                     ({item.code})-{item?.attribute.replace("_", " ")}
                     </Typography>
                   )
                 )}

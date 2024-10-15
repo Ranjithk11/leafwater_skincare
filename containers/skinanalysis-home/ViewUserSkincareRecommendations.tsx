@@ -11,6 +11,7 @@ import {
   Typography,
   Grid,
   Button,
+  Paper,
 } from "@mui/material";
 import React, { Fragment, useEffect } from "react";
 import LoadingComponent from "@/components/loaders/Loading";
@@ -27,6 +28,7 @@ import CosmeticRecommdations from "./Recommendations/CosmeticRecommdations";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { updateVisitCount } from "@/redux/reducers/analysisSlice";
+import {Icon} from "@iconify/react"
 
 const StyledUserSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
   minHeight: "100vh",
@@ -34,7 +36,46 @@ const StyledUserSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
   overflowX: "hidden",
   backgroundColor: theme.palette.grey[100],
   overflowY: "auto",
-
+  "& .whatsapp-button": {
+    position: "fixed",
+    right: 30,
+    bottom: 120, // Adjust this to position above the scroll-to-top button
+    backgroundColor: theme.palette.common.white,
+    width: 50,
+    height: 50,
+    borderRadius: 100,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    "& :hover": {
+      cursor: "pointer",
+    },
+    "& svg": {
+      fontSize: 40,
+      color: "#25D366", // WhatsApp green color
+    },
+  },
+  "& .scrool-to-top": {
+    position: "fixed",
+    right: 30,
+    bottom: 50,
+    backgroundColor: theme.palette.common.white,
+    width: 50,
+    height: 50,
+    borderRadius: 100,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    "& :hover": {
+      cursor: "pointer",
+    },
+    "& svg": {
+      fontSize: 40,
+      color: theme.palette.primary.main,
+    },
+  },
   "& .sectionHeader": {
     width: "100%",
     backgroundColor: theme.palette.common.black,
@@ -70,6 +111,8 @@ const UserSkinAnalysisRecommendation = () => {
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
   const router = useRouter();
+  const whatsappNumber = "918977016605";
+  const whatsappMessage = "Hello, I need help with my skin analysis!";
   const [fetchRecommnedSkinAttributesById, { isLoading, isError, data }] =
     useLazyFetchRecommnedSkinAttributesByIdQuery();
 
@@ -77,7 +120,17 @@ const UserSkinAnalysisRecommendation = () => {
     getUploadImageInfo,
     { data: dataImageInfo, isLoading: isLoadingImageInfo },
   ] = useGetUploadImageInfoMutation();
-
+  const handleWhatsAppClick = () => {
+    window.open(
+      `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(
+        whatsappMessage
+      )}`,
+      "_blank"
+    );
+  };
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 64, behavior: "smooth" });
+  };
   useEffect(() => {
     if (searchParams) {
       fetchRecommnedSkinAttributesById({
@@ -109,7 +162,7 @@ const UserSkinAnalysisRecommendation = () => {
             useData={data}
             skinSummary={data?.data?.productRecommendation?.skinSummary}
             detectedAttributes={
-              data?.data?.productRecommendation.detectedAttributes
+              data?.data?.productRecommendation.attributeCode
             }
           />
           <ProductsView data={data} />
@@ -129,6 +182,7 @@ const UserSkinAnalysisRecommendation = () => {
           <MeetTeam />
         </Fragment>
       )}
+      
       {(isLoading || isLoadingImageInfo) &&
         !isError &&
         !data &&
@@ -158,6 +212,20 @@ const UserSkinAnalysisRecommendation = () => {
           </Box>
         </Box>
       )}
+        <Paper
+        onClick={handleWhatsAppClick}
+        component="div"
+        className="whatsapp-button"
+      >
+        <Icon icon="logos:whatsapp-icon" />
+      </Paper>
+      <Paper
+        onClick={handleScrollToTop}
+        component="div"
+        className="scrool-to-top"
+      >
+        <Icon icon="solar:round-arrow-up-outline" />
+      </Paper>
     </StyledUserSkinAnalysisRecommendation>
   );
 };
