@@ -90,7 +90,7 @@ const MeetTeam = () => {
           </Grid>
           <Grid item xs={12}>
             <Box mt={3}>
-              <Typography textAlign="justify" variant="body1">
+              <Typography textAlign="left" variant="body1">
                 At Leaf Water our dedicated team is driven by a commitment to
                 exceptional skincare, our team consists of cosmetology doctors,
                 cosmetology consultant and technical experts who are dedicated
@@ -101,8 +101,8 @@ const MeetTeam = () => {
                 condition and recommend carefully curated products, services and
                 procedure to take care of your immediate concerns while
                 addressing long term needs to keep your skin healthy and Glow.
-                Together, we foster an environment of care and professionalism,
-                focused on your skincare needs, to enhance your natural beauty
+                Together,we foster an environment of care and professionalism,
+                focused on your skincare needs,to enhance your natural beauty
                 and self-confidence with every interaction.
               </Typography>
             </Box>

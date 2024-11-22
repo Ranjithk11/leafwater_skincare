@@ -139,7 +139,7 @@ const HomeLayout = ({ children }: HomeLayoutProps) => {
             <IconButton
               onClick={() => {
                 signOut().then(()=>{
-                  router.replace('/');
+                  router.push("https://skincare.leafwater.in/");
                 });
               }}
             >

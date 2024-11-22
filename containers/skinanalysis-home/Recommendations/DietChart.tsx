@@ -29,7 +29,9 @@ interface DietChartProps {
   data: any;
 }
 
+
 const DietChart = ({ data }: DietChartProps) => {
+  console.log(data)
   return (
     <StyledDietCharWrapper>
       <Container maxWidth="lg">
@@ -39,8 +41,14 @@ const DietChart = ({ data }: DietChartProps) => {
               <Typography gutterBottom textAlign="center" variant="h5">
                 Recommended
               </Typography>
-              <Typography textAlign="center" variant="h3">
-                {data?.title}
+              <Typography
+                textAlign="center"
+                variant="h3"
+                sx={{
+                  fontSize: { xs: "2rem", sm: "3rem" },
+                }}
+              >
+               <span>{data?.title}</span> 
               </Typography>
               <Typography textAlign="center" variant="body1">
                 {data?.description}
@@ -48,10 +56,11 @@ const DietChart = ({ data }: DietChartProps) => {
             </Box>
           </Grid>
         </Grid>
+
         <Grid container spacing={2} alignItems="stretch">
           {data?.plans?.map((itm: any) => (
             <Grid item xs={12} md={6} key={itm?.title}>
-              <DietChartCard  data={itm} />
+              <DietChartCard data={itm} />
             </Grid>
           ))}
         </Grid>

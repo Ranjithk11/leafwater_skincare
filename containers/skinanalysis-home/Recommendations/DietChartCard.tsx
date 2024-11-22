@@ -1,5 +1,6 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
+import { FaBoxOpen } from "react-icons/fa6";
 
 const timinings = [
   {
@@ -16,6 +17,41 @@ const timinings = [
     name: "Dinner",
     bgColor: "#fab1a0",
     icon: "/icons/almond.png",
+  },
+  // {
+  //   name: "Omega-3 Fatty Acids",
+  //   bgColor: "#fab1a0",
+  //   icon: "/icons/almond.png",
+  // },
+  // {
+  //   name: "Antioxidant-Rich Foods",
+  //   bgColor: "#fab1a0",
+  //   icon: "/icons/almond.png",
+  // },
+  // {
+  //   name: "Healthy Fats",
+  //   bgColor: "#fab1a0",
+  //   icon: "/icons/almond.png",
+  // },
+  // {
+  //   name: "Zinc and Selenium",
+  //   bgColor: "#fab1a0",
+  //   icon: "/icons/almond.png",
+  // },
+  // {
+  //   name: "Foods to Avoid",
+  //   bgColor: "#E9F7EF",
+  //   icon: "/icons/dinner.png",
+  // },
+  // {
+  //   name: "Additional Tips",
+  //   bgColor: "#E9F7EF",
+  //   icon: "/icons/dinner.png",
+  // },
+  {
+    name: "LunFoods to Avoid",
+    bgColor: "#E9F7EF",
+    icon: "/icons/dinner.png",
   },
 ];
 
@@ -38,7 +74,7 @@ const DietChartCard = ({ data }: DietChartCardProps) => {
       sx={{
         backgroundColor: getIconAndCardBg(data?.title)
           ? getIconAndCardBg(data?.title)?.bgColor
-          : "InfoBackground",
+          : "#ecf0f1",
         borderRadius: 5,
         height: "100%",
       }}
@@ -50,21 +86,29 @@ const DietChartCard = ({ data }: DietChartCardProps) => {
         justifyContent="center"
       >
         <Grid item>
-          <img src={getIconAndCardBg(data?.title)?.icon} />
+          <img
+            width={100}
+            src={getIconAndCardBg(data?.title)?.icon || "/icons/nutrition.png"}
+          />
         </Grid>
         <Grid item>
-          <Typography variant="h6" textAlign="center">
+          <Typography variant="h6" textAlign="left">
             {data?.title}
           </Typography>
         </Grid>
-        {data?.options?.map((itm: any) => (
-          <Grid item>
-            <Typography variant="body1" textAlign="center">
-              <b>{itm.heading} :</b> {itm?.description}
-            </Typography>
-          </Grid>
-        ))}
       </Grid>
+      <Box pt={4} pl={3} pr={3} pb={3}>
+        {data?.options?.map((itm: any) => (
+          <>
+            <Typography variant="body1" textAlign="left">
+              <b>{itm.heading}</b>
+            </Typography>
+            <Typography variant="body1" textAlign="left">
+              {itm?.description}
+            </Typography>
+          </>
+        ))}
+      </Box>
     </Box>
   );
 };
