@@ -172,7 +172,9 @@ const ViewAdminSkincareReport = () => {
               []
             }
           />
-          <DietChart />
+           {data?.data?.productRecommendation?.dietPlan && (
+            <DietChart data={data?.data?.productRecommendation?.dietPlan} />
+          )}
           <MeetTeam />
         </Fragment>
       )}
