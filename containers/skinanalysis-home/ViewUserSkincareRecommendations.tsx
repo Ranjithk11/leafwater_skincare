@@ -28,7 +28,7 @@ import CosmeticRecommdations from "./Recommendations/CosmeticRecommdations";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { updateVisitCount } from "@/redux/reducers/analysisSlice";
-import {Icon} from "@iconify/react"
+import { Icon } from "@iconify/react";
 
 const StyledUserSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
   minHeight: "100vh",
@@ -152,6 +152,7 @@ const UserSkinAnalysisRecommendation = () => {
       });
     }
   }, [data]);
+  console.log(data);
   return (
     <StyledUserSkinAnalysisRecommendation disableGutters maxWidth="xl">
       {!isLoading && !isError && !isLoadingImageInfo && data && (
@@ -161,9 +162,7 @@ const UserSkinAnalysisRecommendation = () => {
           <PreventingView
             useData={data}
             skinSummary={data?.data?.productRecommendation?.skinSummary}
-            detectedAttributes={
-              data?.data?.productRecommendation.attributeCode
-            }
+            detectedAttributes={data?.data?.productRecommendation.attributeCode}
           />
           <ProductsView data={data} />
           <Routine />
@@ -178,11 +177,13 @@ const UserSkinAnalysisRecommendation = () => {
               []
             }
           />
-          <DietChart />
+          {data?.data?.productRecommendation?.dietPlan && (
+            <DietChart data={data?.data?.productRecommendation?.dietPlan} />
+          )}
           <MeetTeam />
         </Fragment>
       )}
-      
+
       {(isLoading || isLoadingImageInfo) &&
         !isError &&
         !data &&
@@ -212,7 +213,7 @@ const UserSkinAnalysisRecommendation = () => {
           </Box>
         </Box>
       )}
-        <Paper
+      <Paper
         onClick={handleWhatsAppClick}
         component="div"
         className="whatsapp-button"

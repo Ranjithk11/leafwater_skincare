@@ -135,7 +135,7 @@ const UserInfo = ({ useData, dataImageInfo }: UserInfoProps) => {
                     Age
                   </Typography>
                   <Typography variant="h5" textAlign="right">
-                    {useData?.onBoardingQuestions[0]?.responses?.[0]?.value}
+                    {useData?.onBoardingQuestions[0]?.responses?.[0]?.value || "N/A"}
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
@@ -151,7 +151,7 @@ const UserInfo = ({ useData, dataImageInfo }: UserInfoProps) => {
                     Gender
                   </Typography>
                   <Typography variant="h5" textAlign="right">
-                    {useData?.onBoardingQuestions[1]?.responses?.[0]?.value}
+                    {useData?.onBoardingQuestions[1]?.responses?.[0]?.value || "N/A"}
                   </Typography>
                 </Grid>
                 {/* <Grid item xs={12}>

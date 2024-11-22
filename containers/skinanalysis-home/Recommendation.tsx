@@ -35,7 +35,7 @@ const extraBold = `/fonts/OpenSans-ExtraBold.ttf`;
 const medium = `/fonts/OpenSans-Medium.ttf`;
 const regular = `/fonts/OpenSans-Regular.ttf`;
 const semiBold = `/fonts/OpenSans-SemiBold.ttf`;
-const whatsappNumber = "918977016605"; 
+const whatsappNumber = "918977016605";
 const whatsappMessage = "Hello, I need help with my skin analysis!";
 Font.register({
   family: defaultFont,
@@ -194,7 +194,9 @@ const SkinAnalysisRecommendation = () => {
           <CosmeticRecommdations
             data={data?.data?.[0]?.recommendedCosmeticServices || []}
           />
-          <DietChart />
+          {data?.data?.[0]?.dietPlan?._id && (
+            <DietChart data={data?.data?.[0]?.dietPlan} />
+          )}
           <MeetTeam />
         </Fragment>
       )}
