@@ -9,8 +9,38 @@ const timinings = [
     icon: "/icons/food.png",
   },
   {
+    name: "Morning Routine",
+    bgColor: "#f8a5c2",
+    icon: "/icons/nutrition.png",
+  },
+  {
+    name: "Mid-Morning Snack",
+    bgColor: "#fdcb6e",
+    icon: "/icons/food.png",
+  },
+  {
     name: "Lunch",
+    bgColor: "#55efc4",
+    icon: "/icons/dinner.png",
+  },
+  {
+    name: "Afternoon Hydration",
     bgColor: "#E9F7EF",
+    icon: "/icons/nutrition.png",
+  },
+  {
+    name: "Evening Snack",
+    bgColor: "#f39c12",
+    icon: "/icons/dinner.png",
+  },
+  {
+    name: "Sensitive Skin Diet Plan",
+    bgColor: "#E9F7EF",
+    icon: "/icons/dinner.png",
+  },
+  {
+    name: "Foods to Include",
+    bgColor: "#2ed573",
     icon: "/icons/dinner.png",
   },
   {
@@ -18,40 +48,45 @@ const timinings = [
     bgColor: "#fab1a0",
     icon: "/icons/almond.png",
   },
-  // {
-  //   name: "Omega-3 Fatty Acids",
-  //   bgColor: "#fab1a0",
-  //   icon: "/icons/almond.png",
-  // },
-  // {
-  //   name: "Antioxidant-Rich Foods",
-  //   bgColor: "#fab1a0",
-  //   icon: "/icons/almond.png",
-  // },
-  // {
-  //   name: "Healthy Fats",
-  //   bgColor: "#fab1a0",
-  //   icon: "/icons/almond.png",
-  // },
-  // {
-  //   name: "Zinc and Selenium",
-  //   bgColor: "#fab1a0",
-  //   icon: "/icons/almond.png",
-  // },
-  // {
-  //   name: "Foods to Avoid",
-  //   bgColor: "#E9F7EF",
-  //   icon: "/icons/dinner.png",
-  // },
-  // {
-  //   name: "Additional Tips",
-  //   bgColor: "#E9F7EF",
-  //   icon: "/icons/dinner.png",
-  // },
   {
-    name: "LunFoods to Avoid",
-    bgColor: "#E9F7EF",
+    name: "Omega-3 Fatty Acids",
+    bgColor: "#fab1a0",
+    icon: "/icons/almond.png",
+  },
+  {
+    name: "Antioxidant-Rich Foods",
+    bgColor: "#cf6a87",
+    icon: "/icons/nutrition.png",
+  },
+  {
+    name: "Healthy Fats",
+    bgColor: "#2ecc71",
+    icon: "/icons/nutrition.png",
+  },
+  {
+    name: "Zinc and Selenium",
+    bgColor: "#34e7e4",
+    icon: "/icons/almond.png",
+  },
+  {
+    name: "Foods to Avoid",
+    bgColor: "#ff4757",
+    icon: "/icons/nofood.svg",
+  },
+  {
+    name: "Additional Tips",
+    bgColor: "#27ae60",
     icon: "/icons/dinner.png",
+  },
+  {
+    name: "Night Routine",
+    bgColor: "#4bcffa",
+    icon: "/icons/nutrition.png",
+  },
+  {
+    name: "Hydration Tips",
+    bgColor: "#f3a683",
+    icon: "/icons/nutrition.png",
   },
 ];
 
