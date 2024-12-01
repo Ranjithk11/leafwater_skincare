@@ -1,17 +1,15 @@
 "use client";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
 import { Icon } from "@iconify/react";
 import { Button, Card, IconButton, Typography } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
 import {
   useGetRecommnedSkinAttributesMutation,
   useGetSignedUploadUrlMutation,
   useGetUploadImageInfoMutation,
 } from "@/redux/api/analysisApi";
-import CameraUpload from "@/components/camera/CameraUpload";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import LoadingComponent from "@/components/loaders/Loading";
@@ -21,6 +19,7 @@ import SelectInputFieldComponent from "@/components/form-felds/SelectInput";
 import { skinTypes } from "@/utils/constants";
 import { useForm } from "react-hook-form";
 import ARCameraComponent from "../../components/camera/ARCamera";
+import * as faceapi from "face-api.js";
 
 const StyledTakeSelfie = styled(Container)(({ theme }) => ({
   width: "100%",
@@ -142,8 +141,14 @@ const StyledTakeSelfie = styled(Container)(({ theme }) => ({
 }));
 
 const TakeSelfie = () => {
+  const [initializing, setInitializing] = useState(false);
+  const [croppedFace, setCroppedFace] = useState(null);
   const [isImageUploading, setIsImageUploading] = useState<boolean>(false);
   const [openCamera, setOpenCamera] = useState<boolean>(true);
+  const [image, setImage] = useState<any>(null);
+  const imageRef = useRef<any>();
+  const canvasRef = useRef<any>();
+
   const [skinAttributeStatus, setSkinAttributeStatus] = useState<any>(null);
   const { control, getValues } = useForm({
     mode: "all",
@@ -160,6 +165,105 @@ const TakeSelfie = () => {
   const [getSignedUploadUrl] = useGetSignedUploadUrlMutation();
   const { data: session, update } = useSession();
   useEffect(() => {}, []);
+
+  const extractFaceWithForehead = async (
+    imageElement: any,
+    detection: any,
+    landmarks: any
+  ) => {
+    const { box } = detection;
+    // Get forehead landmarks
+    const foreheadLandmarks = landmarks.positions.slice(17, 35); // Eyebrow landmarks
+    // Calculate the highest point of the eyebrows
+    const eyebrowTop = Math.min(
+      ...foreheadLandmarks.map((point: any) => point.y)
+    );
+    // Calculate additional forehead space (50% more above eyebrows)
+    const foreheadExtension = box.height * 0.3; // Adjust this value to increase/decrease forehead space
+    // Create new box dimensions
+    const newBox = {
+      x: box.x,
+      y: Math.max(0, eyebrowTop - foreheadExtension), // Ensure we don't go outside the image
+      width: box.width,
+      height: box.height + (box.y - (eyebrowTop - foreheadExtension)),
+    };
+    // Extract face with extended forehead
+    const regionsToExtract = [
+      new faceapi.Rect(newBox.x, newBox.y, newBox.width, newBox.height),
+    ];
+    let faceImages = await faceapi.extractFaces(imageElement, regionsToExtract);
+    if (faceImages.length === 0) {
+      return;
+    }
+
+    // Convert to data URL
+    const faceCanvas = faceImages[0];
+    const croppedFaceUrl = faceCanvas.toDataURL() as any;
+    setCroppedFace(croppedFaceUrl);
+    return newBox;
+  };
+
+  const processImage = async () => {
+    if (!image || !imageRef.current) return;
+
+    // Clear previous results
+    if (canvasRef.current) {
+      canvasRef.current
+        .getContext("2d")
+        .clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    }
+
+    try {
+      // Detect face with landmarks
+      const detection = await faceapi
+        .detectSingleFace(
+          imageRef.current,
+          new faceapi.TinyFaceDetectorOptions()
+        )
+        .withFaceLandmarks();
+
+      if (detection) {
+        // Get display size
+        const displaySize = {
+          width: imageRef.current.width,
+          height: imageRef.current.height,
+        };
+
+        // Match canvas dimensions
+        faceapi.matchDimensions(canvasRef.current, displaySize);
+
+        // Extract face with extended forehead
+        const newBox = await extractFaceWithForehead(
+          imageRef.current,
+          detection.detection,
+          detection.landmarks
+        );
+
+        // Draw detection box (optional)
+        if (newBox) {
+          const drawBox = new faceapi.Box(newBox);
+          const resizedBox = faceapi.resizeResults(drawBox, displaySize);
+          const drawOptions = {
+            label: "Face",
+            boxColor: "blue",
+          };
+          new faceapi.draw.DrawBox(resizedBox, drawOptions).draw(
+            canvasRef.current
+          );
+        }
+      } else {
+        setSkinAttributeStatus({
+          type: "ERROR",
+          message: "No Face Detected!",
+        });
+      }
+    } catch (error) {
+      setSkinAttributeStatus({
+        type: "ERROR",
+        message: "Error processing image Please try again...",
+      });
+    }
+  };
 
   const handleConvertBase64toJpeg = (
     base64String: string,
@@ -180,50 +284,6 @@ const TakeSelfie = () => {
     return fetch(base64String)
       .then((res) => res.arrayBuffer())
       .then((buf) => new File([buf], filename, { type: mime }));
-  };
-
-  const handleCaptured = async (base64String: string) => {
-    setOpenCamera(false);
-    try {
-      const getSignedUrl: any = await getSignedUploadUrl({
-        fileName: `${Date.now()}.jpeg`,
-        contentType: "image/jpeg",
-        userId: session?.user?.id as string,
-      });
-      if (getSignedUrl?.data?.data) {
-        const file = await handleConvertBase64toJpeg(
-          base64String,
-          getSignedUrl?.data?.data?.fileName
-        );
-        const axiosResponse = axios.put(getSignedUrl?.data?.data?.url, file, {
-          headers: {
-            "Content-Type": "image/jpeg",
-          },
-          onUploadProgress(progressEvent: any) {
-            setIsImageUploading(true);
-            const { loaded, total } = progressEvent;
-            if (total) {
-              let percent = Math.floor((loaded * 100) / total);
-              if (percent <= 100) {
-                console.log(percent);
-              }
-            }
-          },
-        });
-        const _res = await axiosResponse;
-        if (_res) {
-          setIsImageUploading(false);
-          update({
-            ...session,
-            user: {
-              ...session?.user,
-              selfyImage: _res?.config?.data?.name,
-              selfyImagePath: _res?.config?.url,
-            },
-          });
-        }
-      }
-    } catch (error) {}
   };
 
   const handleSkinAnalysis = () => {
@@ -260,6 +320,73 @@ const TakeSelfie = () => {
     router.push(APP_ROUTES.RECOMMENDATIONS);
   };
 
+  // handle captured Image
+  const handleAutoCaptured = (base64String: string) => {
+    setOpenCamera(false);
+    setImage(base64String);
+  };
+
+  // handle captured Image
+  const handleUploadToServer = async (base64String: string) => {
+    try {
+      const getSignedUrl: any = await getSignedUploadUrl({
+        fileName: `${Date.now()}.jpeg`,
+        contentType: "image/jpeg",
+        userId: session?.user?.id as string,
+      });
+      if (getSignedUrl?.data?.data) {
+        const file = await handleConvertBase64toJpeg(
+          base64String,
+          getSignedUrl?.data?.data?.fileName
+        );
+        const axiosResponse = axios.put(getSignedUrl?.data?.data?.url, file, {
+          headers: {
+            "Content-Type": "image/jpeg",
+          },
+          onUploadProgress(progressEvent: any) {
+            setIsImageUploading(true);
+            const { loaded, total } = progressEvent;
+            if (total) {
+              let percent = Math.floor((loaded * 100) / total);
+              if (percent <= 100) {
+                console.log(percent);
+              }
+            }
+          },
+        });
+        const _res = await axiosResponse;
+        if (_res) {
+          setCroppedFace(null);
+          setIsImageUploading(false);
+          update({
+            ...session,
+            user: {
+              ...session?.user,
+              selfyImage: _res?.config?.data?.name,
+              selfyImagePath: _res?.config?.url,
+            },
+          });
+        }
+      }
+    } catch (error) {
+      setCroppedFace(null);
+    }
+  };
+
+  useEffect(() => {
+    const loadModels = async () => {
+      setInitializing(true);
+      Promise.all([
+        faceapi.nets.tinyFaceDetector.load("/models"),
+        faceapi.nets.faceLandmark68Net.load("/models"),
+        faceapi.nets.faceRecognitionNet.load("/models"),
+      ])
+        .then(() => setInitializing(false))
+        .catch((e) => console.error("Error loading models:", e));
+    };
+    loadModels();
+  }, []);
+
   useEffect(() => {
     if (session?.user?.selfyImage) {
       getUploadImageInfo({
@@ -268,6 +395,12 @@ const TakeSelfie = () => {
       });
     }
   }, [session?.user?.selfyImage]);
+
+  useEffect(() => {
+    if (croppedFace) {
+      handleUploadToServer(croppedFace);
+    }
+  }, [croppedFace]);
 
   return (
     <StyledTakeSelfie disableGutters maxWidth="xl">
@@ -402,12 +535,38 @@ const TakeSelfie = () => {
       )}
       {openCamera && (
         <ARCameraComponent
+          initializing={initializing}
           disabledSkipBtn={!dataImageInfo}
           onSkip={() => {
             setOpenCamera(!openCamera);
           }}
-          onCaptured={handleCaptured}
+          onCaptured={handleAutoCaptured}
         />
+      )}
+      {image && (
+        <div hidden={true} className="image-container">
+          {image && (
+            <div hidden={true} className="original-image">
+              <h3 hidden={true}>Original Image</h3>
+              <div style={{ position: "relative" }}>
+                <img
+                  ref={imageRef}
+                  src={image}
+                  alt="Original"
+                  onLoad={processImage}
+                />
+                <canvas
+                  ref={canvasRef}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                  }}
+                />
+              </div>
+            </div>
+          )}
+        </div>
       )}
     </StyledTakeSelfie>
   );

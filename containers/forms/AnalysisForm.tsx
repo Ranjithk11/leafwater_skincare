@@ -17,12 +17,17 @@ import { matchIsValidTel } from "mui-tel-input";
 import CheckBoxControlGroup from "@/components/form-felds/checkBoxGroup";
 import { isValidateEmail } from "@/utils/func";
 import { signIn } from "next-auth/react";
-import { isArray } from "lodash";
+import { isArray, replace } from "lodash";
 import { useSession } from "next-auth/react";
 import { parsePhoneNumber } from "libphonenumber-js";
 import OtpForm from "./OtpForm";
-import { useSendOtpMutation, useVerifyOtpMutation } from "@/redux/api/authApi";
+import {
+  useLazyFetchBranchesQuery,
+  useSendOtpMutation,
+  useVerifyOtpMutation,
+} from "@/redux/api/authApi";
 import { toast } from "react-toastify";
+import SelectInputFieldComponent from "@/components/form-felds/SelectInput";
 
 const StyledAnalysisFormWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -63,6 +68,10 @@ const AnalysisForm = () => {
   const searchParams = useSearchParams();
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [showOtpForm, setShowOtpForm] = useState<boolean>(false);
+  const [
+    fetchBranches,
+    { isLoading: isLoadingFetchBranches, data: dataFetchBranches },
+  ] = useLazyFetchBranchesQuery();
   const [getQuestions, { isLoading, data, isError, isSuccess }] =
     useLazyGetQuestionsQuery();
   const { control, handleSubmit, getValues } = useForm({
@@ -78,7 +87,7 @@ const AnalysisForm = () => {
     if (data?.data) {
       if (data?.data[qusIndex]?.responseType === "REGISTER") {
         let answeredQuestions: any[] = [];
-        const { email, name, phoneNumber, ...rest } = formDatadata;
+        const { email, name, phoneNumber, location, ...rest } = formDatadata;
         if (rest) {
           for (const [key, value] of Object.entries(rest)) {
             answeredQuestions.push({
@@ -96,7 +105,8 @@ const AnalysisForm = () => {
           redirect: false,
           actionType: "register",
           countryCode: parseNumber.countryCallingCode,
-          isValidated:false
+          isValidated: false,
+          location: location,
         });
         if (authResponse?.error) {
           alert("Something went wrong please try again");
@@ -122,6 +132,7 @@ const AnalysisForm = () => {
 
   useEffect(() => {
     getQuestions({});
+    fetchBranches({});
   }, []);
 
   const handleMultiSelection = (checkedId: any, fieldName: string) => {
@@ -130,43 +141,6 @@ const AnalysisForm = () => {
       ? ids?.filter((id: any) => id !== checkedId)
       : [...(ids ?? []), checkedId];
     return newIds;
-  };
-
-  const getDefaultPhoneInputValue = () => {
-    if (session?.user?.mobileNumber) {
-      return {
-        value: session?.user?.mobileNumber,
-        readOnly: true,
-      };
-    } else if (searchParams.get("loginType") === "phoneNumber") {
-      return {
-        value: searchParams.get("value"),
-        readOnly: searchParams.get("value") ? true : false,
-      };
-    } else {
-      return {
-        value: "",
-        readOnly: false,
-      };
-    }
-  };
-  const getDefaultEmailInputValue = () => {
-    if (session?.user?.email) {
-      return {
-        value: session?.user?.email,
-        readOnly: true,
-      };
-    } else if (searchParams.get("loginType") === "email") {
-      return {
-        value: searchParams.get("value"),
-        readOnly: searchParams.get("value") ? true : false,
-      };
-    } else {
-      return {
-        value: "",
-        readOnly: false,
-      };
-    }
   };
 
   // handle OTP
@@ -213,6 +187,8 @@ const AnalysisForm = () => {
         toast.error("Something went to wrong please try again...");
       });
   };
+
+  console.log(dataFetchBranches?.data);
 
   return (
     <StyledAnalysisFormWrapper>
@@ -351,6 +327,26 @@ const AnalysisForm = () => {
                                 control={control}
                                 defaultValue=""
                                 id="form-phone-input"
+                              />
+                            </Grid>
+                            <Grid item xs={12}>
+                              <SelectInputFieldComponent
+                                name="location"
+                                defaultValue="Studio"
+                                control={control}
+                                size="medium"
+                                targetValue="name"
+                                displayLabelName="label"
+                                label=""
+                                id="location-input"
+                                options={
+                                  dataFetchBranches?.data?.map((branch:{ label: string; name: string }) => ({
+                                    ...branch,
+                                    label: branch.label
+                                    .replace(/_/g, " ") 
+                                    .replace(/\b\w/g, (char) => char.toUpperCase())
+                                  })) || []
+                                }
                               />
                             </Grid>
                           </Fragment>

@@ -97,18 +97,19 @@ interface ARCameraComponentProps {
   onCaptured: (file: any) => void;
   onSkip: () => void;
   disabledSkipBtn?: boolean;
+  initializing: boolean;
 }
 
 const ARCameraComponent = ({
   onCaptured,
   onSkip,
   disabledSkipBtn,
+  initializing,
 }: ARCameraComponentProps) => {
   const { takePicture } = camera();
   const [isCamOpen, setIsCamOpen] = useState<boolean>(false);
   const refAccessFiles = useRef<HTMLInputElement>(null);
-  
-  
+
   async function handleTakePicture() {
     setIsCamOpen(true);
     await loadFaceDetectorModels();
@@ -146,8 +147,9 @@ const ARCameraComponent = ({
               <Icon icon="tabler:camera-selfie" />
             </Box>
             <Typography variant="body1">
-              Please, set your desired configurations and press the Capture
-              button to start
+              {initializing
+                ? "Please wait..."
+                : "Please, set your desired configurations and press the Capture button to start"}
             </Typography>
           </Box>
         )}
@@ -163,6 +165,7 @@ const ARCameraComponent = ({
           >
             <Grid item xs={4}>
               <Button
+                disabled={initializing}
                 fullWidth={true}
                 variant="contained"
                 color="milkWhite"
@@ -193,6 +196,7 @@ const ARCameraComponent = ({
             </Grid>
             <Grid item xs={4}>
               <Button
+                disabled={initializing}
                 color="inherit"
                 fullWidth={true}
                 onClick={() => {
@@ -220,6 +224,7 @@ const ARCameraComponent = ({
             <Button
               fullWidth={true}
               variant="outlined"
+              disabled={initializing}
               onClick={() => {
                 if (isCamOpen) {
                   return null;
@@ -234,7 +239,7 @@ const ARCameraComponent = ({
           <Grid item xs={4}>
             <Button
               fullWidth={true}
-              disabled={isCamOpen}
+              disabled={isCamOpen || initializing}
               onClick={handleTakePicture}
             >
               Capture
@@ -243,7 +248,7 @@ const ARCameraComponent = ({
           <Grid item xs={4}>
             <Button
               color="inherit"
-              disabled={disabledSkipBtn}
+              disabled={disabledSkipBtn || initializing}
               fullWidth={true}
               onClick={() => {
                 if (isCamOpen) {

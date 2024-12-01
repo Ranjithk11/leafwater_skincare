@@ -8,8 +8,9 @@ interface UserLoginPayload {
   onBoardingQuestions: any[];
   name: string;
   email: string;
-  countryCode?:string;
-  isValidated?:boolean
+  countryCode?: string;
+  isValidated?: boolean;
+  location:string;
 }
 
 export const loginUser = async (
@@ -42,8 +43,9 @@ export const saveUser = async (payload: UserLoginPayload) => {
         onBoardingQuestions: payload.onBoardingQuestions,
         name: payload.name,
         email: payload.email,
-        countryCode:payload.countryCode,
-        isValidated:payload.isValidated
+        countryCode: payload.countryCode,
+        isValidated: payload.isValidated,
+        location:payload.location
       }),
     }
   );
@@ -122,7 +124,29 @@ export const authApi = createApi({
         };
       },
     }),
+    fetchBranches: builder.query<any, any>({
+      query: () => {
+        return {
+          url: API_ROUTES.FETCH_BRANCHES,
+        };
+      },
+      transformResponse(response: any) {
+        return {
+          ...response,
+          data: response?.data?.map((item: any) => {
+            return {
+              label: item,
+              name: item,
+            };
+          }),
+        };
+      },
+    }),
   }),
 });
 
-export const { useSendOtpMutation, useVerifyOtpMutation } = authApi;
+export const {
+  useSendOtpMutation,
+  useVerifyOtpMutation,
+  useLazyFetchBranchesQuery,
+} = authApi;

@@ -38,6 +38,7 @@ const authOptions: AuthOptions = {
             onBoardingQuestions: JSON.parse(credentials?.onBoardingQuestions),
             countryCode: credentials?.countryCode,
             isValidated: false,
+            location:credentials?.location
           });
         }
 

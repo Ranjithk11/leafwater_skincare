@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { matchIsValidTel } from "mui-tel-input";
 import { useSelector } from "react-redux";
@@ -146,6 +146,22 @@ const LoginRootSlotView = () => {
                 id="form-phone-input"
               />
             </Grid>
+          </Grid>
+        </Box>
+        <Box>
+          <Grid item xs={12}>
+            <Controller
+              name="category"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <select {...field} className="dropdown-input">
+                  <option value="">Select a Category</option>
+                  <option value="Leaf Water">Leaf Water</option>
+                  <option value="Forever Beauty">Forever Beauty</option>
+                </select>
+              )}
+            />
           </Grid>
         </Box>
         <Box mt={3}>
