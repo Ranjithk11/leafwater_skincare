@@ -12,6 +12,9 @@ import {
 import { capitalizeWords, shouldForwardProp } from "@/utils/func";
 import { Icon } from "@iconify/react";
 import Dialog from "@mui/material/Dialog";
+import posthog from "posthog-js";
+import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 interface ProductCardProps {
   ribbenColor?: string;
@@ -24,6 +27,7 @@ interface ProductCardProps {
   enabledMask?: boolean;
   shopifyUrl: string;
   minWidth?: number;
+  category?: string;
 }
 
 const StyledProductCard = styled(Card, {
@@ -44,7 +48,7 @@ const StyledProductCard = styled(Card, {
     }),
     width: "100%",
     padding: 40,
-    [theme.breakpoints.only('xs')]:{
+    [theme.breakpoints.only("xs")]: {
       padding: 10,
     },
     display: "flex",
@@ -111,8 +115,8 @@ const StyledProductCard = styled(Card, {
       position: "absolute",
       width: "100%",
       height: "100%",
-      paddingLeft:30,
-      paddingRight:30,
+      paddingLeft: 30,
+      paddingRight: 30,
       top: 0,
       left: 0,
       display: "flex",
@@ -158,10 +162,28 @@ const ProductCard = ({
   enabledMask,
   shopifyUrl,
   minWidth,
+  category,
 }: ProductCardProps) => {
+  const { data: session } = useSession();
+  const pathName = usePathname();
   const [openCTA, setOpenCTA] = useState<boolean>(false);
   const handleAddToCart = () => {
     window.open(shopifyUrl);
+  };
+
+  const handlePostHogEvent = (eventName: string) => {
+    posthog.capture(session?.user.firstName+"_"+eventName, {
+      buttonName: "CallToUs",
+      location: pathName,
+      userId: session?.user?.id,
+      userName: session?.user.firstName,
+      gender: session?.user.gender,
+      phone: session?.user?.mobileNumber,
+      userImage: session?.user?.selfyImagePath,
+      productName: name,
+      productPrice: retailPrice,
+      category,
+    });
   };
 
   return (
@@ -295,12 +317,11 @@ const ProductCard = ({
                 color="secondary"
                 startIcon={<Icon icon="line-md:phone-call-loop" />}
                 onClick={() => {
+                  handlePostHogEvent("click_call_to_us_btn");
                   setOpenCTA(true);
                 }}
-                
                 size="small"
                 sx={{
-                  
                   marginTop: 2,
                   padding: "6px 12px",
                   typography: "body1",

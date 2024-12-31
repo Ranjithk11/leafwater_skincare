@@ -1,12 +1,33 @@
-import { Box, Container, Grid, Typography, styled } from "@mui/material";
-import React, { Fragment } from "react";
-const instaGlow = "/images/insta_glow.jpg";
-const goldenMask = "/images/goldenmask.jpg";
-const faceNeck = "/images/face_neck.jpg";
+import {
+  Box,
+  Button,
+  Container,
+  Dialog,
+  Grid,
+  Icon,
+  IconButton,
+  Typography,
+  styled,
+} from "@mui/material";
+import React, { useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import BookOnline from "@mui/icons-material/BookOnline";
 
-interface CosmeticRecommdationsProps {
-  data: any[];
-}
+
+const StyledCtaDialogModel = styled(Box)(({ theme }) => ({
+  width: 370,
+  height: 250,
+  position: "relative",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  "& .close-icon-wrapper": {
+    position: "absolute",
+    top: 0,
+    right: 0,
+  },
+}));
 
 const StyledCosmeticRecommdations = styled(Box)(({ theme }) => ({
   paddingBottom: 75,
@@ -45,8 +66,9 @@ const StyledCosmeticRecommdations = styled(Box)(({ theme }) => ({
   },
 }));
 
-const CosmeticRecommdations = ({ data }: CosmeticRecommdationsProps) => {
-  console.log(data);  
+const CosmeticRecommdations = ({ data }: { data: any[] }) => {
+  const [openCTA, setOpenCTA] = useState<boolean>(false);
+
   return (
     <StyledCosmeticRecommdations>
       <Container maxWidth="lg">
@@ -60,7 +82,7 @@ const CosmeticRecommdations = ({ data }: CosmeticRecommdationsProps) => {
                 textAlign="center"
                 variant="h3"
                 sx={{
-                  fontSize: { xs: '2rem', sm: '3rem' }, // Adjust the font size for different screen sizes
+                  fontSize: { xs: "2rem", sm: "3rem" },
                 }}
               >
                 <span>Cosmetics</span> Services
@@ -68,19 +90,26 @@ const CosmeticRecommdations = ({ data }: CosmeticRecommdationsProps) => {
             </Box>
           </Grid>
           {data?.map((item) => (
-            <Grid xs={12} item md={4}>
+            <Grid xs={12} item md={4} key={item?._id}>
               <Box component="div" className="salone_card_wrapper">
-                <Grid container>
-                  <Grid item xs={12}>
+                <Grid
+                  container
+                  direction="column"
+                  justifyContent="space-between"
+                  style={{ height: "100%" }}
+                >
+                  <Grid item xs>
                     <Box
                       component="div"
                       style={{
-                        backgroundImage: `url(${item?.images[0]?.url})`,
+                        backgroundImage: `url(${
+                          item?.images?.[0]?.url || "/default-image.jpg"
+                        })`,
                       }}
                       className="card_image"
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs>
                     <Typography
                       gutterBottom
                       textAlign="center"
@@ -90,80 +119,54 @@ const CosmeticRecommdations = ({ data }: CosmeticRecommdationsProps) => {
                       {item.name}
                     </Typography>
                     <Typography variant="body1" textAlign="center">
-                      {item?.description}
+                      {item?.description || "No description available."}
+                    </Typography>
+                    <Typography fontWeight={700} textAlign="center">
+                      INR.{item?.price}/-
                     </Typography>
                   </Grid>
-                  <Grid item xs={12}>
-                    <Typography fontWeight={600} textAlign="center">
-                        Price : {item?.price}
-                    </Typography>
+                  <Grid item>
+                    <Box textAlign="center" mt={2}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        startIcon={<BookOnline sx={{ color: 'white' }}/>}
+                        onClick={() => setOpenCTA(true)}
+                        sx={{
+                          padding: "6px 12px",
+                          typography: "body1",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Book Now
+                      </Button>
+                    </Box>
                   </Grid>
                 </Grid>
               </Box>
             </Grid>
           ))}
-
-          {/* <Grid xs={12} item md={4}>
-            <Box component="div" className="salone_card_wrapper">
-              <Grid container>
-                <Grid item xs={12}>
-                  <Box
-                    component="div"
-                    style={{
-                      backgroundImage: `url(${goldenMask})`,
-                    }}
-                    className="card_image"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography
-                    gutterBottom
-                    textAlign="center"
-                    fontWeight={800}
-                    variant="h6"
-                  >
-                    GOLDEN MASK
-                  </Typography>
-                  <Typography variant="body1" textAlign="center">
-                    It helps treat sun damage by reducing, giving you a natural.
-                    fairness and glow while keep- ing your skin toned and mois-
-                    turized Once in two months Rs.2999/-
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Box>
-          </Grid>
-          <Grid xs={12} item md={4}>
-            <Box component="div" className="salone_card_wrapper">
-              <Grid container>
-                <Grid item xs={12}>
-                  <Box
-                    component="div"
-                    style={{
-                      backgroundImage: `url(${faceNeck})`,
-                    }}
-                    className="card_image"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography
-                    gutterBottom
-                    textAlign="center"
-                    fontWeight={800}
-                    variant="h6"
-                  >
-                    FACE /NECK DE-TAN
-                  </Typography>
-                  <Typography variant="body1" textAlign="center">
-                    It helps in reducing tan. bright- ens and evens skin tone.
-                    Highly recommended for outdoor men and people with darkened
-                    skin tone. Once in a month Rs.3499/-
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Box>
-          </Grid> */}
         </Grid>
+        <Dialog open={openCTA} onClose={() => setOpenCTA(false)}>
+          <StyledCtaDialogModel>
+            <Box>
+              <Typography color="primary" variant="h4" fontWeight={800}>
+                089770 16605
+              </Typography>
+            </Box>
+            <Box mt={3}>
+              <Button href="tel:08977016605" color="secondary" size="medium">
+                Call Now
+              </Button>
+            </Box>
+            <Box component="div" className="close-icon-wrapper">
+              <IconButton onClick={() => setOpenCTA(false)}>
+                <CloseIcon />
+              </IconButton>
+            </Box>
+          </StyledCtaDialogModel>
+        </Dialog>
       </Container>
     </StyledCosmeticRecommdations>
   );

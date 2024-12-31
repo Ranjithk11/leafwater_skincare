@@ -1,9 +1,17 @@
-import { Box, Container, Grid, Typography, styled } from "@mui/material";
-import React, { Fragment } from "react";
-const instaGlow = "/images/insta_glow.jpg";
-const goldenMask = "/images/goldenmask.jpg";
-const faceNeck = "/images/face_neck.jpg";
-
+import {
+  Box,
+  Button,
+  Container,
+  Dialog,
+  Grid,
+  Icon,
+  IconButton,
+  Typography,
+  styled,
+} from "@mui/material";
+import React, { useState } from "react";
+import CloseIcon from '@mui/icons-material/Close';
+import BookOnline from "@mui/icons-material/BookOnline";
 const StyledSalonServices = styled(Box)(({ theme }) => ({
   paddingBottom: 75,
   paddingTop: 75,
@@ -40,11 +48,29 @@ const StyledSalonServices = styled(Box)(({ theme }) => ({
     },
   },
 }));
+
+const StyledCtaDialogModel = styled(Box)(({ theme }) => ({
+  width: 370,
+  height: 250,
+  position: "relative",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  "& .close-icon-wrapper": {
+    position: "absolute",
+    top: 0,
+    right: 0,
+  },
+}));
+
 interface SalonServicesProps {
   data: any[];
 }
 
 const SalonServices = ({ data }: SalonServicesProps) => {
+  const [openCTA, setOpenCTA] = useState<boolean>(false);
+
   return (
     <StyledSalonServices>
       <Container maxWidth="lg">
@@ -54,9 +80,13 @@ const SalonServices = ({ data }: SalonServicesProps) => {
               <Typography gutterBottom textAlign="center" variant="h5">
                 Recommended
               </Typography>
-              <Typography textAlign="center" variant="h3"  sx={{
-                  fontSize: { xs: '2rem', sm: '3rem' }, 
-                }}>
+              <Typography
+                textAlign="center"
+                variant="h3"
+                sx={{
+                  fontSize: { xs: "2rem", sm: "3rem" },
+                }}
+              >
                 <span>Salon</span>Services
               </Typography>
             </Box>
@@ -64,8 +94,13 @@ const SalonServices = ({ data }: SalonServicesProps) => {
           {data?.map((itm: any) => (
             <Grid xs={12} key={itm?._id} item md={4}>
               <Box component="div" className="salone_card_wrapper">
-                <Grid container>
-                  <Grid item xs={12}>
+                <Grid
+                  container
+                  direction="column"
+                  justifyContent="space-between"
+                  style={{ height: "100%" }}
+                >
+                  <Grid item xs>
                     <Box
                       component="div"
                       style={{
@@ -74,7 +109,7 @@ const SalonServices = ({ data }: SalonServicesProps) => {
                       className="card_image"
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs>
                     <Typography
                       gutterBottom
                       textAlign="center"
@@ -84,17 +119,56 @@ const SalonServices = ({ data }: SalonServicesProps) => {
                       {itm?.name}
                     </Typography>
                     <Typography variant="body1" textAlign="center">
-                      {itm?.description}
+                      {itm?.description || "No description available."}
                     </Typography>
-                    <Typography variant="body1" textAlign="center">
-                      Rs {itm?.price}/-
+                    <Typography fontWeight={700} textAlign="center" color='black'>
+                      INR.{itm?.price}/-
                     </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Box textAlign="center" mt={2}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        onClick={() => setOpenCTA(true)}
+                        startIcon={<BookOnline sx={{ color: 'white' }}/>}
+                        sx={{
+                          padding: "6px 12px",
+                          typography: "body1",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Book Now
+                      </Button>
+                    </Box>
                   </Grid>
                 </Grid>
               </Box>
             </Grid>
           ))}
         </Grid>
+
+        {/* Dialog for "Call Now" */}
+        <Dialog open={openCTA} onClose={() => setOpenCTA(false)}>
+          <StyledCtaDialogModel>
+            <Box>
+              <Typography color="primary" variant="h4" fontWeight={800}>
+                089770 16605
+              </Typography>
+            </Box>
+            <Box mt={3}>
+              <Button href="tel:08977016605" color="secondary" size="medium">
+                Call Now
+              </Button>
+            </Box>
+            <Box component="div" className="close-icon-wrapper">
+              <IconButton onClick={() => setOpenCTA(false)}>
+              <CloseIcon />
+              </IconButton>
+            </Box>
+          </StyledCtaDialogModel>
+        </Dialog>
       </Container>
     </StyledSalonServices>
   );

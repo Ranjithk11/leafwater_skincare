@@ -356,7 +356,7 @@ const Routine = () => {
             </Box>
           </Grid>
           <Grid item xs={12} container spacing={3}>
-            {routineVideos.morning.map((video) => (
+            {routineVideos.evening.map((video) => (
               <Grid key={video.imgUrl} xs={12} item md={3} sm={6}>
                 <VideoCard
                   url={video.imgUrl}

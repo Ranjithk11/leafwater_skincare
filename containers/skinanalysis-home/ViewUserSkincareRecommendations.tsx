@@ -29,6 +29,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { updateVisitCount } from "@/redux/reducers/analysisSlice";
 import { Icon } from "@iconify/react";
+import Payment from "./Recommendations/Payment";
 
 const StyledUserSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
   minHeight: "100vh",
@@ -177,6 +178,7 @@ const UserSkinAnalysisRecommendation = () => {
               []
             }
           />
+           <Payment/>
           {data?.data?.productRecommendation?.dietPlan && (
             <DietChart data={data?.data?.productRecommendation?.dietPlan} />
           )}

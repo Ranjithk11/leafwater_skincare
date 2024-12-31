@@ -332,13 +332,14 @@ const AnalysisForm = () => {
                             <Grid item xs={12}>
                               <SelectInputFieldComponent
                                 name="location"
-                                defaultValue="Studio"
+                                defaultValue="leaf_water_studio"
                                 control={control}
                                 size="medium"
                                 targetValue="name"
                                 displayLabelName="label"
                                 label=""
                                 id="location-input"
+                                
                                 options={
                                   dataFetchBranches?.data?.map((branch:{ label: string; name: string }) => ({
                                     ...branch,

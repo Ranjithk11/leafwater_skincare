@@ -10,6 +10,7 @@ interface CategoryTabsProps {
     value: any
   ) => void;
 }
+
 const CategoryTabs = ({ data, activeTab, onChangeTab }: CategoryTabsProps) => {
   return (
     <Tabs

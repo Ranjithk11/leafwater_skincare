@@ -1163,12 +1163,22 @@ export const SOCIAL_LINKS = {
 export const routineVideos = {
   morning: [
     {
-      imgUrl: "/images/video-1.png",
-      videoUrl: "/videos/1.mp4",
+      imgUrl: "/images/video3.jpeg",
+      videoUrl: "/videos/video3.mp4",
     },
     {
-      imgUrl: "/images/video-2.png",
-      videoUrl: "/videos/2.mp4",
+      imgUrl: "/images/video1.jpeg",
+      videoUrl: "/videos/video1.mp4",
+    },
+  ],
+  evening: [
+    {
+      imgUrl: "/images/video2.jpeg",
+      videoUrl: "/videos/video2.mp4",
+    },
+    {
+      imgUrl: "/images/video4.png",
+      videoUrl: "/videos/video4.mp4",
     },
   ],
 };

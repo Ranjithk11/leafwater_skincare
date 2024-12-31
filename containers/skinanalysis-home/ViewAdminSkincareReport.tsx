@@ -28,6 +28,7 @@ import _ from "lodash";
 import CosmeticRecommdations from "./Recommendations/CosmeticRecommdations";
 import { useRouter } from "next/navigation";
 import { Icon } from "@iconify/react";
+import Payment from "./Recommendations/Payment";
 
 const StyledViewAdminSkincareReport = styled(Container)(({ theme }) => ({
   minHeight: "100vh",
@@ -172,6 +173,7 @@ const ViewAdminSkincareReport = () => {
               []
             }
           />
+           <Payment/>
            {data?.data?.productRecommendation?.dietPlan && (
             <DietChart data={data?.data?.productRecommendation?.dietPlan} />
           )}

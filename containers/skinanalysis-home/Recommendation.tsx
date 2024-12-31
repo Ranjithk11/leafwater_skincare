@@ -14,6 +14,7 @@ import {
   Grid,
   Paper,
   styled,
+  Typography,
 } from "@mui/material";
 import { useSession } from "next-auth/react";
 import React, { Fragment, useEffect, useRef } from "react";
@@ -29,6 +30,7 @@ import UserInfo from "./Recommendations/UserInfo";
 import PreventingView from "./Recommendations/Preventing";
 import CosmeticRecommdations from "./Recommendations/CosmeticRecommdations";
 import ProductsView from "./Recommendations/Products";
+import Payment from "./Recommendations/Payment";
 
 const defaultFont = "Roboto";
 const extraBold = `/fonts/OpenSans-ExtraBold.ttf`;
@@ -194,6 +196,7 @@ const SkinAnalysisRecommendation = () => {
           <CosmeticRecommdations
             data={data?.data?.[0]?.recommendedCosmeticServices || []}
           />
+          <Payment/>
           {data?.data?.[0]?.dietPlan?._id && (
             <DietChart data={data?.data?.[0]?.dietPlan} />
           )}

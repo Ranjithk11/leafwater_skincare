@@ -192,9 +192,15 @@ const ProductsView = ({ data }: ProductsViewProps) => {
                 {isMobile && (
                   <Grid item xs={12}>
                     <Box component="div" className="skin-analysis-result">
-                      {recommended?.products?.slice(0, 3).map(
-                        (product: any, index: number) => (
+                      {recommended?.products
+                        ?.slice(0, 3)
+                        .map((product: any, index: number) => (
                           <ProductCard
+                            category={
+                              data?.data?.[0]?.recommendedProducts
+                                ?.highRecommendation[selectedTab]
+                                ?.productCategory?.title
+                            }
                             key={index}
                             minWidth={300}
                             {...product}
@@ -204,18 +210,23 @@ const ProductsView = ({ data }: ProductsViewProps) => {
                                 : index > 0
                             }
                           />
-                        )
-                      )}
+                        ))}
                     </Box>
                   </Grid>
                 )}
                 {!isMobile && (
                   <Grid container spacing={2} item xs={12} alignItems="stretch">
-                    {recommended?.products?.slice(0, 3).map(
-                      (product: any, index: number) => (
+                    {recommended?.products
+                      ?.slice(0, 3)
+                      .map((product: any, index: number) => (
                         <Grid key={product?._id} item xs={6} md={4}>
                           <ProductCard
                             {...product}
+                            category={
+                              data?.data?.[0]?.recommendedProducts
+                                ?.highRecommendation[selectedTab]
+                                ?.productCategory?.title
+                            }
                             enabledMask={
                               data?.data?.user?.isPremiumCustomer
                                 ? false
@@ -223,8 +234,7 @@ const ProductsView = ({ data }: ProductsViewProps) => {
                             }
                           />
                         </Grid>
-                      )
-                    )}
+                      ))}
                   </Grid>
                 )}
               </Grid>
