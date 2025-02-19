@@ -331,7 +331,7 @@ const AnalysisForm = () => {
                             <Grid item xs={12}>
                               <SelectInputFieldComponent
                                 name="location"
-                                defaultValue="skinska_studio"
+                                defaultValue="leaf_water_studio"
                                 control={control}
                                 size="medium"
                                 targetValue="name"
