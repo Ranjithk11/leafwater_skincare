@@ -37,7 +37,7 @@ const StyledAnalysisFormWrapper = styled(Box)(({ theme }) => ({
   paddingBottom: 50,
   flexDirection: "column",
   alignItems: "center",
-  justifyContent: "flex-start",
+  justifyContent: "center",
   [theme.breakpoints.only("xs")]: {
     justifyContent: "flex-start",
     paddingTop: 50,
@@ -188,10 +188,9 @@ const AnalysisForm = () => {
       });
   };
 
-  console.log(dataFetchBranches?.data);
 
   return (
-    <StyledAnalysisFormWrapper>
+    <StyledAnalysisFormWrapper style={{backgroundImage:`url(/images/homeBg_1.png)`}}>
       <Box component="div" className="__question_view">
         {isLoading && !isError && !data && <LoadingComponent />}
         {!isLoading && !isError && data && (
@@ -332,7 +331,7 @@ const AnalysisForm = () => {
                             <Grid item xs={12}>
                               <SelectInputFieldComponent
                                 name="location"
-                                defaultValue="leaf_water_studio"
+                                defaultValue="skinska_studio"
                                 control={control}
                                 size="medium"
                                 targetValue="name"

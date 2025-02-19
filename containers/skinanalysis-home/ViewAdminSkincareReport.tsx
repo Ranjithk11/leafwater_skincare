@@ -21,9 +21,8 @@ import DietChart from "./Recommendations/DietChart";
 import MeetTeam from "./Recommendations/MeetTeam";
 import Routine from "./Recommendations/Routines";
 import CoverPage from "./Recommendations/Cover";
-import ProductsView from "./ViewUserRecommendations/Products";
-import UserInfo from "./ViewUserRecommendations/UserInfo";
-import PreventingView from "./ViewUserRecommendations/Preventing";
+import ProductsView from "./Recommendations/Products";
+import PreventingView from "./Recommendations/Preventing";
 import _ from "lodash";
 import CosmeticRecommdations from "./Recommendations/CosmeticRecommdations";
 import { useRouter } from "next/navigation";
@@ -149,19 +148,56 @@ const ViewAdminSkincareReport = () => {
       });
     }
   }, [data]);
+
+
   return (
     <StyledViewAdminSkincareReport disableGutters maxWidth={false}>
       {!isLoading && !isError && !isLoadingImageInfo && data && (
         <Fragment>
-          <CoverPage />
-          <UserInfo useData={data?.data?.user} dataImageInfo={dataImageInfo} />
-          <PreventingView
-            useData={data}
-            skinSummary={data?.data?.productRecommendation?.skinSummary}
-            detectedAttributes={data?.data?.productRecommendation.attributeCode}
+          <CoverPage
+             publicUserProfile={data?.data?.user}
+             useData={dataImageInfo}
+             dataFUQR={{
+               age: data?.data?.user?.onBoardingQuestions?.[0]?.responses?.[0]
+                 ?.value,
+               gender:
+                 data?.data?.user?.onBoardingQuestions?.[1]?.responses?.[0]
+                   ?.value,
+             }}
           />
-          <ProductsView data={data} isAdminView={true} />
-          <Routine />
+         <PreventingView
+           useData={dataImageInfo}
+           data={{
+             data: [
+               {
+                 analysedImages:data?.data?.productRecommendation?.analysedImages,
+                 userId:data?.data?.user?._id, 
+                 attributeCode:
+                   data?.data?.productRecommendation?.attributeCode,
+                 skinSummary: data?.data?.productRecommendation?.skinSummary,
+                 analysisAiSummary:data?.data?.productRecommendation?.analysisAiSummary,
+               },
+             ],
+           }}
+          />
+          <ProductsView
+            isAdminView={true}
+            data={{
+              data: [
+                {
+                  recommendedProducts: {
+                    lowRecommendation:
+                      data?.data?.productRecommendation?.recommendedProducts
+                        ?.lowRecommendation,
+                    highRecommendation:
+                      data?.data?.productRecommendation?.recommendedProducts
+                        ?.highRecommendation,
+                  },
+                },
+              ],
+            }}
+          />
+          <Routine userData={dataImageInfo} />
           <SalonServices
             data={
               data?.data?.productRecommendation?.recommendedSalonServices || []
@@ -173,11 +209,10 @@ const ViewAdminSkincareReport = () => {
               []
             }
           />
-           <Payment/>
-           {data?.data?.productRecommendation?.dietPlan && (
+          <Payment />
+          {data?.data?.productRecommendation?.dietPlan && (
             <DietChart data={data?.data?.productRecommendation?.dietPlan} />
           )}
-          <MeetTeam />
         </Fragment>
       )}
       {(isLoading || isLoadingImageInfo) &&

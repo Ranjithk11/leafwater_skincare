@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   CardContent,
   Container,
@@ -14,12 +15,53 @@ import { Icon } from "@iconify/react";
 import VideoCard from "@/components/cards/video-card/VideoCard";
 import { routineVideos } from "@/utils/constants";
 import ModalVideo from "react-modal-video";
-const StyledDietCharWrapper = styled(Box)(({ theme }) => ({
+const StyledMainBoxWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
-  paddingTop: 75,
-  paddingBottom: 75,
+  paddingTop: 50,
+  paddingBottom: 50,
+  backgroundColor: `#f4f4f4`,
 
-  backgroundColor: theme.palette.common.white,
+  "& span": {
+    color: theme.palette.primary.main,
+  },
+  "& .user-image": {
+    width: "100%",
+    minHeight: "350px",
+    height:"100%",    
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "top",
+    borderRadius: 20,
+  },
+  "& .routine-card": {
+    minWidth: "100%",
+    minHeight: "350px",
+    height: "100%",
+    [theme.breakpoints.between("xs", "sm")]: {
+      minHeight: "200px",
+    },
+    display: "flex",
+    padding: 40,
+    borderRadius: 20,
+    alignItems: "flex-start",
+    justifyContent: "center",
+    flexDirection: "column",
+    backgroundColor: theme.palette.common.white,
+    overflow: "hidden",
+  },
+  "& .MuiTypography-h6": {
+    fontWeight: 700,
+    fontSize: 25,
+    [theme.breakpoints.only("xs")]: {
+      textAlign: "center",
+      fontSize: 20,
+    },
+    [theme.breakpoints.only("sm")]: {
+      textAlign: "center",
+      fontSize: 25,
+    },
+    color: theme.palette.primary.main,
+  },
 
   "& .image_wrapper": {
     width: "100%",
@@ -48,11 +90,6 @@ const StyledDietCharWrapper = styled(Box)(({ theme }) => ({
     color: theme.palette.common.white,
     fontSize: 30,
   },
-  "& .MuiTypography-h6": {
-    fontWeight: 800,
-    textTransform: "uppercase",
-    marginTop: 15,
-  },
   "& .MuiTypography-h3": {
     fontWeight: 800,
     [theme.breakpoints.only("xs")]: {
@@ -62,27 +99,22 @@ const StyledDietCharWrapper = styled(Box)(({ theme }) => ({
       fontSize: 45,
     },
   },
-  "& span": {
-    color: theme.palette.primary.main,
-    marginRight: 10,
-  },
+
   "& .video-card": {
     width: "100%",
-    height: 200,
+    height: 350,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     backgroundPosition: "top",
-    backgroundColor: theme.palette.grey[100],
     borderRadius: 10,
+    overflow: "hidden",
     "& .overly": {
       position: "absoulte",
       width: "100%",
       height: "100%",
       //borderRadius: 10,
-      border: `10px solid ${theme.palette.common.white}`,
       top: 0,
       left: 0,
-      backgroundColor: "rgba(0, 0, 0, 0.4)",
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
@@ -96,276 +128,185 @@ const StyledDietCharWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
-const Routine = () => {
-  const [videoLink, setVideoLink] = useState<string | null>(null);
-  return (
-    <StyledDietCharWrapper>
-      <Container maxWidth="lg">
-        <Grid container>
-          <Grid item xs={12}>
-            <Box mb={8}>
-              <Typography gutterBottom textAlign="center" variant="h5">
-                Recommended
-              </Typography>
-              <Typography textAlign="center" variant="h3">
-                <span>Daily</span>Routine
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-        <Grid container spacing={4} alignItems="stretch">
-          <Grid item xs={12}>
-            <Box
-              sx={{
-                backgroundColor: "#dcf0fa",
-                borderRadius: 5,
-                height: "100%",
-                width: "100%",
-                overflow: "hidden",
-              }}
-            >
-              <Grid container alignItems="stretch">
-                <Grid item xs={12} sm={5}>
-                  <Box
-                    component="div"
-                    className="image_wrapper"
-                    sx={{
-                      backgroundImage: `url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIpsXzIfypJ4Ahn7DyNv_268NAxwjfERHqBa5SKkhx-Vypw9tmFpOez6nat-Lzt_aJTAI&usqp=CAU)`,
-                    }}
-                  ></Box>
-                </Grid>
-                <Grid item xs={12} sm={7}>
-                  <Box p={3}>
-                    <Typography
-                      variant="h2"
-                      gutterBottom
-                      color="white"
-                      textAlign="left"
-                      style={{ color: "black" }}
-                    >
-                      Morning
-                    </Typography>
-                    <Box pt={2}>
-                      <Grid
-                        container
-                        alignItems="center"
-                        spacing={1}
-                        justifyContent="center"
-                      >
-                        <Grid
-                          container
-                          item
-                          xs={12}
-                          alignContent="center"
-                          spacing={2}
-                        >
-                          <Grid item>
-                            <img
-                              width={25}
-                              height={25}
-                              src="/icons/accept.png"
-                            />
-                          </Grid>
-                          <Grid item xs>
-                            <Typography variant="subtitle2">
-                              Face wash and cleansing
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                        <Grid
-                          container
-                          item
-                          xs={12}
-                          alignContent="center"
-                          spacing={2}
-                        >
-                          <Grid item>
-                            <img width={25} src="/icons/accept.png" />
-                          </Grid>
-                          <Grid item xs>
-                            <Typography variant="subtitle2">Toner</Typography>
-                          </Grid>
-                        </Grid>
-                        <Grid
-                          container
-                          item
-                          xs={12}
-                          alignContent="center"
-                          spacing={2}
-                        >
-                          <Grid item>
-                            <img width={25} src="/icons/accept.png" />
-                          </Grid>
-                          <Grid item xs>
-                            <Typography variant="subtitle2">
-                              Day Cream
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                        <Grid
-                          container
-                          item
-                          xs={12}
-                          alignContent="center"
-                          spacing={2}
-                        >
-                          <Grid item>
-                            <img width={25} src="/icons/accept.png" />
-                          </Grid>
-                          <Grid item xs>
-                            <Typography variant="subtitle2">
-                              Sunscreen
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Box>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Box>
-          </Grid>
-          <Grid item xs={12} container spacing={3}>
-            {routineVideos.morning.map((video) => (
-              <Grid key={video.imgUrl} xs={12} item md={3} sm={6}>
-                <VideoCard
-                  url={video.imgUrl}
-                  onClick={() => {
-                    setVideoLink(video.videoUrl);
-                  }}
-                />
-              </Grid>
-            ))}
-          </Grid>
-          <Grid item xs={12}>
-            <Box
-              sx={{
-                backgroundColor: "#212121",
-                borderRadius: 5,
-                height: "100%",
-                width: "100%",
-                overflow: "hidden",
-              }}
-            >
-              <Grid container alignItems="stretch">
-                <Grid item xs={12} sm={5}>
-                  <Box
-                    component="div"
-                    className="image_wrapper"
-                    sx={{
-                      backgroundImage: `url(https://miro.medium.com/v2/resize:fit:1400/format:webp/1*nGa0pQ1jfxzrSTEVYWPlOw.jpeg)`,
-                    }}
-                  ></Box>
-                </Grid>
-                <Grid item xs={12} sm={7}>
-                  <Box p={3}>
-                    <Typography
-                      variant="h2"
-                      gutterBottom
-                      color="white"
-                      textAlign="left"
-                    >
-                      Night
-                    </Typography>
-                    <Box pt={2}>
-                      <Grid
-                        container
-                        item
-                        xs={12}
-                        alignContent="center"
-                        spacing={2}
-                      >
-                        <Grid item>
-                          <img width={25} src="/icons/accept.png" />
-                        </Grid>
-                        <Grid item xs>
-                          <Typography color="white" variant="subtitle2">
-                            Cleanser
-                          </Typography>
-                        </Grid>
+interface RoutineProps {
+  userData: any;
+}
 
-                        <Grid
-                          container
-                          item
-                          xs={12}
-                          alignContent="center"
-                          spacing={2}
-                        >
-                          <Grid item>
-                            <img width={25} src="/icons/accept.png" />
-                          </Grid>
-                          <Grid item xs>
-                            <Typography color="white" variant="subtitle2">
-                              Toner
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                        <Grid
-                          container
-                          item
-                          xs={12}
-                          alignContent="center"
-                          spacing={2}
-                        >
-                          <Grid item>
-                            <img width={25} src="/icons/accept.png" />
-                          </Grid>
-                          <Grid item xs>
-                            <Typography color="white" variant="subtitle2">
-                              Serum
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                        <Grid
-                          container
-                          item
-                          xs={12}
-                          alignContent="center"
-                          spacing={2}
-                        >
-                          <Grid item>
-                            <img width={25} src="/icons/accept.png" />
-                          </Grid>
-                          <Grid item xs>
-                            <Typography color="white" variant="subtitle2">
-                              Night Cream
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                        <Grid
-                          container
-                          item
-                          xs={12}
-                          alignContent="center"
-                          spacing={2}
-                        >
-                          <Grid item>
-                            <img width={25} src="/icons/accept.png" />
-                          </Grid>
-                          <Grid item xs>
-                            <Typography color="white" variant="subtitle2">
-                              Scrub(Twice Weekly)
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Box>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Box>
+const Routine = ({ userData }: RoutineProps) => {
+  const [videoLink, setVideoLink] = useState<string | null>(null);
+  const [routeen, setRouteen] = useState<string>("day");
+  return (
+    <StyledMainBoxWrapper>
+      <Container maxWidth="lg">
+        <Grid container spacing={4}>
+          <Grid item xs={12}>
+            <Typography variant="h6">
+              My <span>Routine</span>
+            </Typography>
           </Grid>
+          <Grid item xs={12} container spacing={2}>
+            <Grid item>
+              <Button
+                onClick={() => {
+                  setRouteen("day");
+                }}
+                endIcon={<Icon icon="solar:sun-2-line-duotone" />}
+                sx={(theme) => ({
+                  backgroundColor: theme.palette.common.white,
+                  color: theme.palette.common.black,
+                  borderRadius: 100,
+                  boxShadow: `1px 10px 10px -4px rgba(0,0,0,0.33)`,
+                  ...(routeen === "day" && {
+                    border: `2px solid ${theme.palette.secondary.main}`,
+                  }),
+                })}
+              >
+                Day Routine
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                onClick={() => {
+                  setRouteen("night");
+                }}
+                endIcon={<Icon icon="solar:moon-linear" />}
+                sx={(theme) => ({
+                  backgroundColor: theme.palette.common.black,
+                  color: theme.palette.common.white,
+                  borderRadius: 100,
+                  boxShadow: `1px 10px 10px -4px rgba(0,0,0,0.33)`,
+                  "& svg": {
+                    color: theme.palette.common.white,
+                  },
+                  ...(routeen === "night" && {
+                    border: `2px solid ${theme.palette.secondary.main}`,
+                  }),
+                })}
+              >
+                Night Routine
+              </Button>
+            </Grid>
+          </Grid>
+
           <Grid item xs={12} container spacing={3}>
-            {routineVideos.evening.map((video) => (
-              <Grid key={video.imgUrl} xs={12} item md={3} sm={6}>
-                <VideoCard
-                  url={video.imgUrl}
-                  onClick={() => {
-                    setVideoLink(video.videoUrl);
-                  }}
-                />
-              </Grid>
-            ))}
+            {routeen === "day" && (
+              <>
+                <Grid item xs={12} container alignItems="stretch" spacing={2}>
+                  <Grid item xs={12} sm={3}>
+                    <Box
+                      component="div"
+                      sx={{
+                        backgroundImage: `url(${userData?.data?.url})`,
+                        width: "100% !important",
+                      }}
+                      className="user-image"
+                    ></Box>
+                  </Grid>
+                  <Grid item sm={3}>
+                    <Card component="div" className="routine-card">
+                      <Typography variant="h6">Cleanser</Typography>
+                      <Typography>
+                        A cleanser gently removes dirt, oil, and impurities,
+                        leaving your skin fresh and clean. It’s the first step
+                        to a clear, healthy, and glowing complexion.
+                      </Typography>
+                    </Card>
+                  </Grid>
+                  <Grid item sm={3}>
+                    <Card component="div" className="routine-card">
+                      <Typography variant="h6">Day cream</Typography>
+                      <Typography>
+                        Day cream provides essential hydration and protection,
+                        shielding your skin from environmental damage. It keeps
+                        your complexion smooth, radiant, and ready to face the
+                        day.
+                      </Typography>
+                    </Card>
+                  </Grid>
+                  <Grid item sm={3}>
+                    <Card component="div" className="routine-card">
+                      <Typography variant="h6">Sunscreen</Typography>
+                      <Typography>
+                        Sunscreen protects your skin from harmful UV rays,
+                        preventing sunburn and premature aging. It's an
+                        essential daily step for healthy, radiant, and
+                        safeguarded skin.
+                      </Typography>
+                    </Card>
+                  </Grid>
+                </Grid>
+                {routineVideos.morning.map((itm, key) => (
+                  <Grid key={key} item xs={12} sm={6}>
+                    <VideoCard
+                      url={itm.imgUrl}
+                      onClick={() => {
+                        setVideoLink(itm.videoUrl);
+                      }}
+                    />
+                  </Grid>
+                ))}
+              </>
+            )}
+            {routeen === "night" && (
+              <>
+                <Grid item xs={12} container spacing={2}>
+                  <Grid item xs={12} sm={3}>
+                    <Box
+                      component="div"
+                      sx={{
+                        backgroundImage: `url(${userData?.data?.url})`,
+                        width: "100% !important",
+                      }}
+                      className="user-image"
+                    ></Box>
+                  </Grid>
+                  <Grid item sm={3}>
+                    <Card component="div" className="routine-card">
+                      <Typography variant="h6">Cleanser</Typography>
+                      <Typography>
+                        A cleanser gently removes dirt, oil, and impurities,
+                        leaving your skin fresh and clean. It’s the first step
+                        to a clear, healthy, and glowing complexion.
+                      </Typography>
+                    </Card>
+                  </Grid>
+                  <Grid item sm={3}>
+                    <Card component="div" className="routine-card">
+                      <Typography variant="h6">Face Serum</Typography>
+                      <Typography>
+                        Unlock your skin’s natural glow with Radiance Glow Face
+                        Serum, a lightweight yet powerful serum formulated to
+                        hydrate, brighten, and rejuvenate your skin. Infused
+                        with potent natural extracts and scientifically backed
+                        ingredients.
+                      </Typography>
+                    </Card>
+                  </Grid>
+                  <Grid item sm={3}>
+                    <Card component="div" className="routine-card">
+                      <Typography variant="h6">Under Eye Cream</Typography>
+                      <Typography>
+                        Say goodbye to dark circles, puffiness, and fine lines
+                        with our luxurious under-eye cream. Enriched with
+                        hydrating ingredients and powerful antioxidants, this
+                        lightweight formula deeply nourishes delicate under-eye
+                        skin.
+                      </Typography>
+                    </Card>
+                  </Grid>
+                </Grid>
+                {routineVideos.evening.map((itm, key) => (
+                  <Grid key={key} item xs={12} sm={6}>
+                    <VideoCard
+                      url={itm.imgUrl}
+                      onClick={() => {
+                        setVideoLink(itm.videoUrl);
+                      }}
+                    />
+                  </Grid>
+                ))}
+              </>
+            )}
           </Grid>
         </Grid>
       </Container>
@@ -386,7 +327,7 @@ const Routine = () => {
           onClose={() => setVideoLink(null)}
         />
       </Dialog>
-    </StyledDietCharWrapper>
+    </StyledMainBoxWrapper>
   );
 };
 

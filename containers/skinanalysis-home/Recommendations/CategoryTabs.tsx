@@ -11,9 +11,16 @@ interface CategoryTabsProps {
   ) => void;
 }
 
+
 const CategoryTabs = ({ data, activeTab, onChangeTab }: CategoryTabsProps) => {
   return (
     <Tabs
+      sx={(theme)=>({
+        "& .MuiTabs-flexContainer":{
+          minHeight:60,
+          borderRadius:20
+        }
+      })}
       value={activeTab}
       variant="scrollable"
       scrollButtons="auto"

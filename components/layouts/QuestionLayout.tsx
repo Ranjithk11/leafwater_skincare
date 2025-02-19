@@ -17,39 +17,20 @@ interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
-const Main = styled("main")(({ theme }) => ({
+const Main = styled(Box)(({ theme }) => ({
   marginLeft: 0,
   paddingTop: 64,
-}));
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme, open }) => ({
-  transition: theme.transitions.create(["margin", "width"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
+  backgroundRepeat: "no-repeat",
+  backgroundSize: "100% 100%",
+  backgroundPosition: "top",
 }));
 
 const QuestionLayout = ({ children }: QuestionLayoutProps) => {
   return (
     <Fragment>
-      <AppBar color="primary" position="fixed" open={false}>
-        <Toolbar>
-          <Box mt={1} flexGrow={1}>
-            <img width={150} src="/logo/logo_gold_white.png" />
-          </Box>
-        </Toolbar>
-      </AppBar>
-      <Main>{children}</Main>
+      <Main style={{ backgroundImage: `url(/images/homeBg_1.png)` }}>
+        {children}
+      </Main>
     </Fragment>
   );
 };

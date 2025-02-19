@@ -58,7 +58,7 @@ const MeetTeam = () => {
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <Box
               component="div"
               className="author_image"
@@ -70,10 +70,10 @@ const MeetTeam = () => {
           <Grid item xs={12}>
             <Box mt={3}>
               <Typography textAlign="center" variant="h4">
-                Leaf Water Care Team
+                Skinska Care Team
               </Typography>
 
-              {/* <Box mt={1}>
+              <Box mt={1}>
                 <Typography textAlign="center" variant="subtitle1">
                   Navya,Srimukhi
                 </Typography>
@@ -85,9 +85,9 @@ const MeetTeam = () => {
                 >
                   Skin Care Consultants
                 </Typography>
-              </Box> */}
+              </Box>
             </Box>
-          </Grid>
+          </Grid> */}
           <Grid item xs={12}>
             <Box mt={3}>
               <Typography textAlign="left" variant="body1">

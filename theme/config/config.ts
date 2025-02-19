@@ -7,7 +7,7 @@ import { Open_Sans } from "next/font/google";
 import { APP_COLORS } from "../colors/colors";
 
 const openSans = Open_Sans({
-  weight: ["400", "700","800","300","600","500"],
+  weight: ["400", "700", "800", "300", "600", "500"],
   style: ["normal", "italic"],
   subsets: ["latin"],
   display: "swap",
@@ -43,6 +43,9 @@ const createColor = (mainColor: any) =>
   });
 export const lightTheme = createTheme({
   palette: {
+    text:{
+     secondary:APP_COLORS.TEXT_SECONDARY_COLOR
+    },
     primary: { main: APP_COLORS.PRIMARY_COLOR },
     secondary: { main: APP_COLORS.SECONDARY_COLOR },
     mode: "light",
@@ -56,7 +59,7 @@ export const lightTheme = createTheme({
       fontWeight: 700,
       lineHeight: "39px",
     },
-  
+
     subtitle1: {
       fontSize: 22,
       lineHeight: "28px",
@@ -92,10 +95,10 @@ export const lightTheme = createTheme({
         sizeLarge: {
           height: 50,
         },
-        containedPrimary:{
-          color:defaultTheme.palette.common.white,
-          fontSize:16,
-          fontWeight:500
+        containedPrimary: {
+          color: defaultTheme.palette.common.white,
+          fontSize: 16,
+          fontWeight: 500,
         },
         outlinedInherit: {
           border: `1px solid ${defaultTheme.palette.divider}`,
@@ -114,6 +117,9 @@ export const lightTheme = createTheme({
         elevation: 0,
       },
       styleOverrides: {
+        root: {
+          minHeight: `70px !important`,
+        },
         colorInherit: {
           borderBottom: `1px solid ${defaultTheme.palette.divider}`,
         },

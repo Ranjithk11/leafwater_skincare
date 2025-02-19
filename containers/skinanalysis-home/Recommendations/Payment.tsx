@@ -61,7 +61,7 @@ const Payment = () => {
           justifyContent="center"
         >
           <Grid item>
-            <img width={300} src="/images/payment.jpg" />
+            <img width={300} src="/images/payment.jpeg" />
           </Grid>
         </Grid>
       </Container>

@@ -2,8 +2,9 @@ import { Divider, Grid, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { useGetUploadImageInfoMutation } from "@/redux/api/analysisApi";
 
 interface PreventingInfoProps {
   useData: any;
@@ -12,168 +13,138 @@ interface PreventingInfoProps {
 
 const StyledPreventingWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
-  paddingTop: 75,
-  paddingBottom: 75,
+  paddingTop: 50,
+  paddingBottom: 50,
   minHeight: 400,
-  display: "flex",
-  backgroundColor: "#eccc68",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-
   "& .user_profile_image": {
-    width: 300,
-    height: 350,
-    [theme.breakpoints.only("xs")]: {
-      width: 200,
-      height: 220,
-    },
-    [theme.breakpoints.only("sm")]: {
-      width: 200,
-      height: 220,
+    width: 200,
+    height: 250,
+    [theme.breakpoints.between("xs", "sm")]: {
+      width: 150,
+      height: 150,
     },
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    backgroundPosition: "center",
+    backgroundPosition: "top",
     borderRadius: 20,
-    border: `5px solid ${theme.palette.common.white}`,
-    boxShadow: `0px 0px 65px -28px rgba(0,0,0,0.75)`,
-  },
-  "& .MuiTypography-h5": {
-    fontWeight: 800,
-    textTransform: "uppercase",
-    color: theme.palette.grey[900],
   },
   "& .MuiTypography-h6": {
     fontWeight: 700,
     fontSize: 25,
-    [theme.breakpoints.only("xs")]: {
-      textAlign: "center",
+    [theme.breakpoints.between("xs", "sm")]: {
+      textAlign: "left",
       fontSize: 20,
     },
-    [theme.breakpoints.only("sm")]: {
-      textAlign: "center",
-      fontSize: 25,
-    },
   },
-  "& .MuiTypography-h3": {
-    fontWeight: 800,
-    [theme.breakpoints.only("xs")]: {
-      fontSize: 35,
-    },
-    [theme.breakpoints.only("sm")]: {
-      fontSize: 45,
-    },
-  },
-  "& .MuiTypography-subtitle1": {
-    fontWeight: 400,
-    [theme.breakpoints.only("xs")]: {
-      textAlign: "center",
-    },
-    [theme.breakpoints.only("sm")]: {
-      textAlign: "center",
+  "& .MuiTypography-body1": {
+    [theme.breakpoints.between("xs", "sm")]: {
+      textAlign: "left",
+      fontSize: 14,
     },
   },
   "& span": {
     color: theme.palette.primary.main,
-    marginRight: 10,
   },
 }));
 
 const PreventingView = ({ useData, data }: PreventingInfoProps) => {
-  const { data: session } = useSession();
+  const [
+    getUploadImageInfo,
+    { data: dataImageInfo, isLoading: isLoadingImageInfo },
+  ] = useGetUploadImageInfoMutation();
+
+
+  useEffect(() => {
+    if (data) {
+      getUploadImageInfo({
+        userId: data?.data?.[0]?.userId,
+        fileName:data?.data?.[0]?.analysedImages[0]?.fileName,
+      });
+    }
+  }, [data]);
+
+  console.log(dataImageInfo?.data?.url);
+
+
 
   return (
     <StyledPreventingWrapper>
       <Container maxWidth="lg">
-        <Grid container>
+        <Grid container spacing={4}>
           <Grid item xs={12}>
-            <Box mb={4}>
-              <Typography gutterBottom textAlign="center" variant="h5">
-                WHAT'S PREVENTING YOU TO
-              </Typography>
-              <Typography textAlign="center" variant="h3">
-                Get <span>Your Glow</span>On
-              </Typography>
-            </Box>
+            <Typography variant="h6">
+              What’s preventing you to <span>get your glow on?</span>
+            </Typography>
           </Grid>
-        </Grid>
-        <Box mt={4}>
-          <Grid container spacing={6}>
-            <Grid
-              container
-              alignItems="center"
-              justifyContent="center"
-              item
-              xs={12}
-              md={6}
-            >
+          <Grid item xs={12} container alignItems="flex-start" spacing={4}>
+            <Grid item>
               <Box
+                sx={{ backgroundImage: `url(${dataImageInfo?.data?.url})` }}
                 component="div"
                 className="user_profile_image"
-                sx={{ backgroundImage: `url(${useData?.data?.url})` }}
               ></Box>
             </Grid>
-            <Grid container item xs={12} md={6}>
-              <Grid item xs={12}>
-                {session?.user?.skinType && (
-                  <Fragment>
-                    <Typography
-                      mb={2}
-                      fontWeight={700}
-                      variant="subtitle1"
-                      gutterBottom
-                    >
-                      Your Skin Type
-                    </Typography>
-                    <Typography fontWeight={700} variant="h6" gutterBottom>
-                      {session?.user?.skinType}
-                    </Typography>
-                    <Box mt={2} mb={2}>
-                      <Divider />
-                    </Box>
-                  </Fragment>
-                )}
-
-                <Typography
-                  mb={2}
-                  fontWeight={700}
-                  variant="subtitle1"
-                  gutterBottom
-                >
-                  Skin Analysis Atributes
-                </Typography>
+            <Grid item xs>
+              <Typography variant="h6">
+                <span>Skin analysis attributes</span>
+              </Typography>
+              <Box mt={2}>
                 {data?.data?.[0]?.attributeCode?.map(
                   (item: any, index: number) => (
                     <Typography
                       key={index}
-                      fontWeight={700}
-                      variant="h6"
+                      fontWeight={600}
+                      variant="body1"
                       gutterBottom
                     >
-                     
-                     ({item.code})-{item?.attribute.replace("_", " ")}
+                      ({item.code})-{item?.attribute.replace("_", " ")}
                     </Typography>
                   )
                 )}
-
-                {data?.data?.[0]?.skinSummary && (
-                  <Box mt={2}>
-                    <Typography
-                      mb={2}
-                      fontWeight={700}
-                      variant="subtitle1"
-                      gutterBottom
-                    >
-                      Skin Analysis Summary
-                    </Typography>
-                    <Typography fontWeight={700}>{data?.data?.[0]?.skinSummary}</Typography>
-                  </Box>
-                )}
-              </Grid>
+              </Box>
             </Grid>
           </Grid>
-        </Box>
+          <Grid item xs={12}>
+            <Box mt={2}>
+              {/* <Typography gutterBottom variant="h6">
+                <span>Skin analysis</span> summary
+              </Typography> */}
+              {/* <Typography
+                sx={(theme) => ({
+                  fontSize: 18,
+                  width: "95%",
+                  fontWeight: 600,
+                })}
+                variant="body1"
+              >
+                {data?.data?.[0]?.skinSummary}
+              </Typography> */}
+              {data?.data?.[0]?.analysisAiSummary?.length > 0 && (
+                  <Box mt={2}>
+                    <Box mb={3}>
+                      <Typography variant="h6">
+                        <span>Smart Skin Analysis Report</span>
+                      </Typography>
+                    </Box>
+                    {data?.data?.[0]?.analysisAiSummary?.map(
+                      (item: any, index: number) => (
+                        <Box mb={2} key={index}>
+                          <Typography
+                            fontWeight={700}
+                            variant="subtitle2"
+                            gutterBottom
+                          >
+                            {item.heading}
+                          </Typography>
+                          <Typography color={"#000000"}>{item.data.replace(/>|-/g, " ")} </Typography>
+                        </Box>
+                      )
+                    )}
+                  </Box>
+                )}
+            </Box>
+          </Grid>
+        </Grid>
       </Container>
     </StyledPreventingWrapper>
   );

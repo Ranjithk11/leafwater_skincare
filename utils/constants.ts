@@ -3,7 +3,7 @@ export const BOTTOM_NAVIGATION_SIZE = 56;
 export const BRAND_NAME = "Elite";
 export const drawerWidth = 220;
 export const mobileStepperHeight = 46.75;
-export const LOGO_URL = "https://i.ibb.co/0Ggbwfq/Group-360.png";
+export const LOGO_URL = "/logo/skinska-logo.avif";
 export const navgationMenus = [
   {
     category: "SPRAY GUN",
@@ -1158,6 +1158,7 @@ export const SOCIAL_LINKS = {
   youtube: "https://www.youtube.com/@leafwaterskincare",
   insta:
     "https://www.instagram.com/leafwater.skincare/?igsh=MTViMm9qY25tZHRhZQ%3D%3D",
+  facebook: "https://www.facebook.com/share/14kuyKW4zE/",
 };
 
 export const routineVideos = {
@@ -1181,4 +1182,46 @@ export const routineVideos = {
       videoUrl: "/videos/video4.mp4",
     },
   ],
+};
+
+export const subDomain = {
+  _id: "db_config/23480074",
+  configName: "Skinska",
+  username: "Skin_Ska_Skin_Care",
+  subDomain: "skinska",
+  status: "ACTIVE",
+  createdDate: {
+    day: 18,
+    month: 1,
+    year: 2025,
+    hour: 21,
+    minute: 10,
+    datestamp: "2501182110",
+    timestamp: "2025-01-18T21:10:49.389",
+    mongoTimestamp: "2025-01-18T21:10:49.389+05:30",
+  },
+  clientData: {
+    _key: "23735609",
+    _id: "client_onboard/23735609",
+    _rev: "_jGxncxG---",
+    companyName: "skinska",
+    companyEmail: "skinska@gmail.com",
+    companyGST: "29GGGGG1314R9Z6",
+    companySubDomain: "skinska",
+    companySlogan: "skincare specialist ",
+    notes: "skincare specialist",
+    createdDate: {
+      day: 22,
+      month: 1,
+      year: 2025,
+      hour: 12,
+      minute: 58,
+      datestamp: "2501221258",
+      timestamp: "2025-01-22T12:58:19.247",
+      mongoTimestamp: "2025-01-22T12:58:19.247+05:30",
+    },
+    companyLabel: "skinska",
+    status: "PENDING",
+    isDeleted: false,
+  },
 };

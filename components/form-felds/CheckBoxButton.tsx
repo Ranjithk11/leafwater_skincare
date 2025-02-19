@@ -16,7 +16,7 @@ const StyledCheckBoxComponent = styled(Box, {
   borderRadius: 8,
   padding: 10,
   ...(isSelected && {
-    border: `2px solid ${theme.palette.primary.main}`,
+    border: `2px solid ${theme.palette.secondary.main}`,
   }),
 
   "& .__radio_dot": {
@@ -29,14 +29,14 @@ const StyledCheckBoxComponent = styled(Box, {
     flexDirection: "column",
     justifyContent: "center",
     ...(isSelected && {
-      border: `2px solid ${theme.palette.primary.main}`,
+      border: `2px solid ${theme.palette.secondary.main}`,
     }),
 
     "& .__selected": {
       minWidth: 10,
       minHeight: 10,
-      border: `2px solid ${theme.palette.primary.main}`,
-      backgroundColor: theme.palette.primary.main,
+      border: `2px solid ${theme.palette.secondary.main}`,
+      backgroundColor: theme.palette.secondary.main,
       borderRadius: 100,
     },
   },

@@ -5,16 +5,15 @@ const StyledDietCharWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
   paddingTop: 75,
   paddingBottom: 75,
-  backgroundColor: theme.palette.common.white,
+  backgroundRepeat: "no-repeat",
+  backgroundSize: "cover",
+  backgroundPosition: "top center",
   "& .MuiTypography-h5": {
-    fontWeight: 800,
-    textTransform: "uppercase",
-    color: theme.palette.grey[600],
+    fontWeight: 700,
   },
   "& .MuiTypography-h6": {
-    fontWeight: 800,
-    textTransform: "uppercase",
-    marginTop: 15,
+    fontWeight: 700,
+    fontSize: 30,
   },
   "& .MuiTypography-h3": {
     fontWeight: 800,
@@ -29,30 +28,28 @@ interface DietChartProps {
   data: any;
 }
 
-
 const DietChart = ({ data }: DietChartProps) => {
-  console.log(data)
   return (
-    <StyledDietCharWrapper>
+    <StyledDietCharWrapper
+      sx={{ backgroundImage: `url(/images/homeBg_1.png)` }}
+    >
       <Container maxWidth="lg">
         <Grid container>
-          <Grid item xs={12}>
-            <Box mb={8}>
+          <Grid item xs={12} md={12}>
+            <Box mb={4}>
               <Typography gutterBottom textAlign="center" variant="h5">
                 Recommended
               </Typography>
-              <Typography
-                textAlign="center"
-                variant="h3"
-                sx={{
-                  fontSize: { xs: "2rem", sm: "3rem" },
-                }}
+              <Box
+                width="100%"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
               >
-               <span>{data?.title}</span> 
-              </Typography>
-              <Typography textAlign="center" variant="body1">
-                {data?.description}
-              </Typography>
+                <Typography textAlign="center" variant="h6">
+                  <span>Diet Plans</span>
+                </Typography>
+              </Box>
             </Box>
           </Grid>
         </Grid>

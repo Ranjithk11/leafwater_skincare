@@ -10,7 +10,8 @@ import { useGetUploadImageInfoMutation } from "@/redux/api/analysisApi";
 interface PreventingInfoProps {
   useData: any;
   detectedAttributes: any;
-  skinSummary:string;
+  skinSummary: string;
+  analysisAiSummary: any[];
 }
 
 const StyledPreventingWrapper = styled(Box)(({ theme }) => ({
@@ -87,19 +88,19 @@ const PreventingView = ({
   useData,
   detectedAttributes,
   skinSummary,
+  analysisAiSummary,
 }: PreventingInfoProps) => {
   const [
     getUploadImageInfo,
     { data: dataImageInfo, isLoading: isLoadingImageInfo },
   ] = useGetUploadImageInfoMutation();
 
-
-
   useEffect(() => {
     if (useData) {
       getUploadImageInfo({
         userId: useData?.data?.user?._id,
-        fileName: useData?.data?.productRecommendation?.analysedImages[0]?.fileName,
+        fileName:
+          useData?.data?.productRecommendation?.analysedImages[0]?.fileName,
       });
     }
   }, [useData]);
@@ -152,29 +153,53 @@ const PreventingView = ({
                     variant="h6"
                     gutterBottom
                   >
-                  ({item.code})-{item?.attribute}
+                    ({item.code})-{item?.attribute}
                   </Typography>
                 ))}
+                {analysisAiSummary?.length > 0 && (
+                  <Box mt={2}>
+                    <Box mb={3}>
+                      <Typography variant="h6">
+                        <span>Smart Skin Analysis Report</span>
+                      </Typography>
+                    </Box>
+                    {analysisAiSummary?.map((item: any, index: number) => (
+                      <Box mb={2} key={index}>
+                        <Typography
+                          fontWeight={700}
+                          variant="subtitle2"
+                          gutterBottom
+                        >
+                          {item.heading}
+                        </Typography>
+                        <Typography>
+                          {item.data.replace(/>|-/g, " ")}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Box>
+                )}
               </Grid>
-              {skinSummary && <Grid item xs={12}>
-                <Typography
-                  mb={2}
-                  fontWeight={700}
-                  variant="subtitle1"
-                  gutterBottom
-                >
-                  Skin Analysis Summary
-                </Typography>
-                <Typography
-                  mb={2}
-                  fontWeight={700}
-                  variant="subtitle1"
-                  gutterBottom
-                >
-                  {skinSummary}
-                </Typography>
-              </Grid> } 
-              
+              {/* {skinSummary && (
+                <Grid item xs={12}>
+                  <Typography
+                    mb={2}
+                    fontWeight={700}
+                    variant="subtitle1"
+                    gutterBottom
+                  >
+                    Skin Analysis Summary
+                  </Typography>
+                  <Typography
+                    mb={2}
+                    fontWeight={700}
+                    variant="subtitle1"
+                    gutterBottom
+                  >
+                    {skinSummary}
+                  </Typography>
+                </Grid>
+              )} */}
             </Grid>
           </Grid>
         </Box>

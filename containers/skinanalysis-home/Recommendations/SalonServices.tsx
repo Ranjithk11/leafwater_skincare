@@ -10,15 +10,26 @@ import {
   styled,
 } from "@mui/material";
 import React, { useState } from "react";
-import CloseIcon from '@mui/icons-material/Close';
-import BookOnline from "@mui/icons-material/BookOnline";
+import CloseIcon from "@mui/icons-material/Close";
+import CallIcon from "@mui/icons-material/Call";
 const StyledSalonServices = styled(Box)(({ theme }) => ({
   paddingBottom: 75,
   paddingTop: 75,
+  [theme.breakpoints.between('xs','sm')]:{
+    paddingTop: 20,
+  },
+  backgroundRepeat: "no-repeat",
+  backgroundSize: "cover",
+  backgroundPosition: "top center",
+  "& .MuiTypography-h6": {
+    fontWeight: 700,
+    fontSize: 30,
+    [theme.breakpoints.between('xs','sm')]:{
+      fontSize: 25,
+    },
+  },
   "& .MuiTypography-h5": {
-    fontWeight: 800,
-    textTransform: "uppercase",
-    color: theme.palette.grey[600],
+    fontWeight: 600,
   },
   "& .MuiTypography-h3": {
     fontWeight: 800,
@@ -72,7 +83,7 @@ const SalonServices = ({ data }: SalonServicesProps) => {
   const [openCTA, setOpenCTA] = useState<boolean>(false);
 
   return (
-    <StyledSalonServices>
+    <StyledSalonServices sx={{ backgroundImage: `url(/images/homeBg_1.png)` }}>
       <Container maxWidth="lg">
         <Grid container spacing={2} alignItems="stretch">
           <Grid item xs={12} md={12}>
@@ -80,15 +91,22 @@ const SalonServices = ({ data }: SalonServicesProps) => {
               <Typography gutterBottom textAlign="center" variant="h5">
                 Recommended
               </Typography>
-              <Typography
-                textAlign="center"
-                variant="h3"
-                sx={{
-                  fontSize: { xs: "2rem", sm: "3rem" },
-                }}
+              <Grid
+                width="100%"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
               >
-                <span>Salon</span>Services
-              </Typography>
+                <Grid item>
+                <Typography textAlign="center" variant="h6">
+                  <span>Salon Services - Powered by</span>
+                </Typography>
+                
+                </Grid>
+                <Grid item>
+                  <img src="/images/leafwater_logo.png" width={150} />
+                </Grid>
+              </Grid>
             </Box>
           </Grid>
           {data?.map((itm: any) => (
@@ -112,16 +130,26 @@ const SalonServices = ({ data }: SalonServicesProps) => {
                   <Grid item xs>
                     <Typography
                       gutterBottom
-                      textAlign="center"
-                      fontWeight={800}
-                      variant="h6"
+                      textAlign="left"
+                      color="primary"
+                      sx={{ fontSize: 20, fontWeight: 700, marginBottom: 2 }}
+                      variant="body2"
                     >
                       {itm?.name}
                     </Typography>
-                    <Typography variant="body1" textAlign="center">
+                    <Typography
+                      gutterBottom
+                      variant="body1"
+                      textAlign="left"
+                      sx={{ marginBottom: 2 }}
+                    >
                       {itm?.description || "No description available."}
                     </Typography>
-                    <Typography fontWeight={700} textAlign="center" color='black'>
+                    <Typography
+                      textAlign="center"
+                      variant="body2"
+                      sx={{fontWeight:900,fontSize:20}}
+                    >
                       INR.{itm?.price}/-
                     </Typography>
                   </Grid>
@@ -129,10 +157,9 @@ const SalonServices = ({ data }: SalonServicesProps) => {
                     <Box textAlign="center" mt={2}>
                       <Button
                         variant="contained"
-                        color="primary"
-                        size="small"
+                        color="secondary"
                         onClick={() => setOpenCTA(true)}
-                        startIcon={<BookOnline sx={{ color: 'white' }}/>}
+                        endIcon={<CallIcon sx={{ color: "white" }} />}
                         sx={{
                           padding: "6px 12px",
                           typography: "body1",

@@ -139,11 +139,11 @@ const HomeLayout = ({ children }: HomeLayoutProps) => {
             <IconButton
               onClick={() => {
                 signOut().then(()=>{
-                  router.push("https://skincare.leafwater.in/");
+                  router.push("/");
                 });
               }}
             >
-              <Icon icon="mdi:power" />
+              <Icon color="#FFFFFF" icon="mdi:power" />
             </IconButton>
           </Box>
         </Toolbar>

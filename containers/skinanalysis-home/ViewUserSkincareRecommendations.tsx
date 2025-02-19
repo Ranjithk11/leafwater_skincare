@@ -18,11 +18,8 @@ import LoadingComponent from "@/components/loaders/Loading";
 import SalonServices from "./Recommendations/SalonServices";
 import DietChart from "./Recommendations/DietChart";
 import MeetTeam from "./Recommendations/MeetTeam";
-import Routine from "./Recommendations/Routines";
 import CoverPage from "./Recommendations/Cover";
-import ProductsView from "./ViewUserRecommendations/Products";
 import UserInfo from "./ViewUserRecommendations/UserInfo";
-import PreventingView from "./ViewUserRecommendations/Preventing";
 import _ from "lodash";
 import CosmeticRecommdations from "./Recommendations/CosmeticRecommdations";
 import { useRouter } from "next/navigation";
@@ -30,6 +27,9 @@ import { useDispatch } from "react-redux";
 import { updateVisitCount } from "@/redux/reducers/analysisSlice";
 import { Icon } from "@iconify/react";
 import Payment from "./Recommendations/Payment";
+import PreventingView from "./Recommendations/Preventing";
+import ProductsView from "./Recommendations/Products";
+import Routine from "./Recommendations/Routines";
 
 const StyledUserSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
   minHeight: "100vh",
@@ -116,7 +116,6 @@ const UserSkinAnalysisRecommendation = () => {
   const whatsappMessage = "Hello, I need help with my skin analysis!";
   const [fetchRecommnedSkinAttributesById, { isLoading, isError, data }] =
     useLazyFetchRecommnedSkinAttributesByIdQuery();
-
   const [
     getUploadImageInfo,
     { data: dataImageInfo, isLoading: isLoadingImageInfo },
@@ -153,20 +152,56 @@ const UserSkinAnalysisRecommendation = () => {
       });
     }
   }, [data]);
-  console.log(data);
+
+
   return (
     <StyledUserSkinAnalysisRecommendation disableGutters maxWidth="xl">
       {!isLoading && !isError && !isLoadingImageInfo && data && (
         <Fragment>
-          <CoverPage />
-          <UserInfo useData={data?.data?.user} dataImageInfo={dataImageInfo} />
-          <PreventingView
-            useData={data}
-            skinSummary={data?.data?.productRecommendation?.skinSummary}
-            detectedAttributes={data?.data?.productRecommendation.attributeCode}
+          <CoverPage
+           publicUserProfile={data?.data?.user}
+            useData={dataImageInfo}
+            dataFUQR={{
+              age: data?.data?.user?.onBoardingQuestions?.[0]?.responses?.[0]
+                ?.value,
+              gender:
+                data?.data?.user?.onBoardingQuestions?.[1]?.responses?.[0]
+                  ?.value,
+            }}
           />
-          <ProductsView data={data} />
-          <Routine />
+          <PreventingView
+            useData={dataImageInfo}
+            data={{
+              data: [
+                {
+                  analysedImages:data?.data?.productRecommendation?.analysedImages,
+                  userId:data?.data?.user?._id, 
+                  attributeCode:
+                    data?.data?.productRecommendation?.attributeCode,
+                  skinSummary: data?.data?.productRecommendation?.skinSummary,
+                  analysisAiSummary:data?.data?.productRecommendation?.analysisAiSummary,
+                },
+              ],
+            }}
+          />
+
+          <ProductsView
+            data={{
+              data: [
+                {
+                  recommendedProducts: {
+                    lowRecommendation:
+                      data?.data?.productRecommendation?.recommendedProducts
+                        ?.lowRecommendation,
+                    highRecommendation:
+                      data?.data?.productRecommendation?.recommendedProducts
+                        ?.highRecommendation,
+                  },
+                },
+              ],
+            }}
+          />
+          <Routine userData={dataImageInfo} />
           <SalonServices
             data={
               data?.data?.productRecommendation?.recommendedSalonServices || []
@@ -178,11 +213,9 @@ const UserSkinAnalysisRecommendation = () => {
               []
             }
           />
-           <Payment/>
           {data?.data?.productRecommendation?.dietPlan && (
             <DietChart data={data?.data?.productRecommendation?.dietPlan} />
           )}
-          <MeetTeam />
         </Fragment>
       )}
 

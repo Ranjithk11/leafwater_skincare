@@ -24,6 +24,9 @@ const StyledProductsWrapper = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
+  backgroundRepeat: "no-repeat",
+  backgroundSize: "contain",
+  backgroundPosition: "top center",
   "& .user_profile_image": {
     width: 300,
     height: 350,
@@ -41,7 +44,10 @@ const StyledProductsWrapper = styled(Box)(({ theme }) => ({
   },
   "& .MuiTypography-h6": {
     fontWeight: 800,
-    fontSize: 25,
+    fontSize: 30,
+    [theme.breakpoints.between("xs", "sm")]: {
+      fontSize: 25,
+    },
   },
   "& .MuiTypography-h3": {
     fontWeight: 800,
@@ -51,7 +57,6 @@ const StyledProductsWrapper = styled(Box)(({ theme }) => ({
   },
   "& span": {
     color: theme.palette.primary.main,
-    marginRight: 10,
   },
   "& .skin-analysis-result": {
     width: "100%",
@@ -101,55 +106,34 @@ const StyledProductsWrapper = styled(Box)(({ theme }) => ({
 
 interface ProductsViewProps {
   data: any;
+  isAdminView?: boolean;
 }
 
-const ProductsView = ({ data }: ProductsViewProps) => {
+const ProductsView = ({ data, isAdminView }: ProductsViewProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const containerRef: any = useRef(null);
 
+
   return (
-    <StyledProductsWrapper ref={containerRef}>
-      <Container maxWidth="lg">
+    <StyledProductsWrapper
+      ref={containerRef}
+      style={{
+        backgroundImage: `url(/images/homeBg_1.png)`,
+      }}
+    >
+      <Container maxWidth="xl">
         <Grid container>
           <Grid item xs={12}>
-            <Box mb={8}>
-              <Typography gutterBottom textAlign="center" variant="h5">
-                Our Recommendations
-              </Typography>
-              <Typography textAlign="center" variant="h3">
-                To<span> Get Your Glow</span>On
-              </Typography>
-            </Box>
+            <Typography textAlign="center" variant="h6">
+              Our recommendations to <span>get your glow on</span>
+            </Typography>
           </Grid>
         </Grid>
+      </Container>
+      <Container maxWidth="lg">
         <Box pt={5} component="div" className="scrollarea">
-          {data?.data?.[0]?.recommendedProductBundles?.length > 0 && (
-            <Fragment>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Box mb={3} mt={3}>
-                    <Typography variant="h6">
-                      Recommended Product Bundles
-                    </Typography>
-                  </Box>
-                </Grid>
-              </Grid>
-
-              <Box mb={5}>
-                <Grid container spacing={2}>
-                  {data?.data?.[0]?.recommendedProductBundles.map(
-                    (bundle: any) => (
-                      <Grid key={bundle?._id} item xs={6} md={4}>
-                        <BundleCard {...bundle} />
-                      </Grid>
-                    )
-                  )}
-                </Grid>
-              </Box>
-            </Fragment>
-          )}
           <Sticky
             boundaryElement=".scrollarea"
             hideOnBoundaryHit={false}
@@ -170,16 +154,9 @@ const ProductsView = ({ data }: ProductsViewProps) => {
               selectedTab
             ],
           ]?.map((recommended: any) => (
-            <Box mt={8}>
+            <Box mt={2}>
               <Grid container key={recommended?.productCategory?._id}>
-                <Grid item xs={6}>
-                  <Box mb={3} mt={3}>
-                    <Typography variant="h6">
-                      {recommended?.productCategory?.title}
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid>
+                <Grid item xs={12}>
                   <Box
                     sx={{
                       display: "flex",
@@ -205,7 +182,9 @@ const ProductsView = ({ data }: ProductsViewProps) => {
                             minWidth={300}
                             {...product}
                             enabledMask={
-                              data?.data?.user?.isPremiumCustomer
+                              isAdminView
+                                ? false
+                                : data?.data?.user?.isPremiumCustomer
                                 ? false
                                 : index > 0
                             }

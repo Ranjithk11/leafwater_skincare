@@ -3,8 +3,15 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
-import { Icon } from "@iconify/react";
-import { Button, Card, IconButton, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  Grid,
+  IconButton,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import {
   useGetRecommnedSkinAttributesMutation,
   useGetSignedUploadUrlMutation,
@@ -20,22 +27,170 @@ import { skinTypes } from "@/utils/constants";
 import { useForm } from "react-hook-form";
 import ARCameraComponent from "../../components/camera/ARCamera";
 import * as faceapi from "face-api.js";
+import SideMenuComponent from "@/views/home/selfie/SideMenu";
+import { Icon } from "@iconify/react";
 
 const StyledTakeSelfie = styled(Container)(({ theme }) => ({
-  width: "100%",
-  height: "100vh",
-  paddingTop: 84,
-  paddingLeft: 20,
-  paddingRight: 20,
-  paddingBottom: 20,
+  flexGrow: 1,
   display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  [theme.breakpoints.only("xs")]: {
-    paddingLeft: 0,
-    paddingRight: 0,
-    paddingBottom: 0,
-    paddingTop: 64,
+  alignItems: "stretch",
+
+  "& .photo-wrapper": {
+    flexGrow: 1,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "100% 50%",
+    backgroundPosition: "top",
+
+    "& .selfy_image": {
+      overflow: "hidden",
+      width: 280,
+      height: 330,
+      borderRadius: "10px",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      position: "relative",
+      "& .camera_icon": {
+        position: "absolute",
+        right: 20,
+        bottom: 20,
+        width: 40,
+        height: 40,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: theme.palette.common.white,
+        borderRadius: "100%",
+      },
+      "& .errorInfo": {
+        padding: 10,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(255, 0, 0, 0.6)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        "& .MuiTypography-body1": {
+          color: theme.palette.common.white,
+          marginTop: 10,
+          fontSize: "12px",
+          lineHeight: 1.5,
+        },
+        "& .MuiButton-outlined": {
+          minWidth: 50,
+          marginTop: 20,
+        },
+      },
+      "& .successInfo": {
+        padding: 10,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(70, 138, 11, 0.6)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        "& .MuiTypography-body1": {
+          color: theme.palette.common.white,
+          marginTop: 10,
+          fontSize: "12px",
+          lineHeight: 1.5,
+        },
+        "& .MuiButton-outlined": {
+          minWidth: 50,
+          marginTop: 20,
+        },
+      },
+    },
+  },
+  "& .scanning-section": {
+    flexGrow: 1,
+    margin: 10,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "bottom",
+    position: "relative",
+    overflow: "hidden",
+    borderRadius: 10,
+    "& .MuiTypography-h6": {
+      textAlign: "center",
+      fontSize: 30,
+      lineHeight: 1,
+    },
+    "& .MuiButton-root": {
+      minWidth: 150,
+      borderRadius: 100,
+      svg: {
+        color: theme.palette.common.white,
+      },
+    },
+    "& .selfy_image": {
+      overflow: "hidden",
+      width: 280,
+      height: 330,
+      borderRadius: "10px",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      position: "relative",
+      "& .camera_icon": {
+        position: "absolute",
+        right: 20,
+        bottom: 20,
+        width: 40,
+        height: 40,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: theme.palette.common.white,
+        borderRadius: "100%",
+      },
+      "& .errorInfo": {
+        padding: 10,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(255, 0, 0, 0.6)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        "& .MuiTypography-body1": {
+          color: theme.palette.common.white,
+          marginTop: 10,
+          fontSize: "12px",
+          lineHeight: 1.5,
+        },
+        "& .MuiButton-outlined": {
+          minWidth: 50,
+          marginTop: 20,
+        },
+      },
+      "& .successInfo": {
+        padding: 10,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(70, 138, 11, 0.6)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        "& .MuiTypography-body1": {
+          color: theme.palette.common.white,
+          marginTop: 10,
+          fontSize: "12px",
+          lineHeight: 1.5,
+        },
+        "& .MuiButton-outlined": {
+          minWidth: 50,
+          marginTop: 20,
+        },
+      },
+    },
   },
   "& .MuiCardContent-root": {
     "& .MuiTypography-h4": {
@@ -148,6 +303,8 @@ const TakeSelfie = () => {
   const [image, setImage] = useState<any>(null);
   const imageRef = useRef<any>();
   const canvasRef = useRef<any>();
+  const theme = useTheme();
+  const isUpMdDevice = useMediaQuery(theme.breakpoints.up("md"));
 
   const [skinAttributeStatus, setSkinAttributeStatus] = useState<any>(null);
   const { control, getValues } = useForm({
@@ -404,8 +561,14 @@ const TakeSelfie = () => {
 
   return (
     <StyledTakeSelfie disableGutters maxWidth="xl">
+      {isUpMdDevice && <SideMenuComponent />}
+
       {!openCamera && (
-        <Box component="div" className="photo_wrapper">
+        <Box
+          style={{ backgroundImage: `url(/images/homeBg_1.png)` }}
+          component="div"
+          className="photo-wrapper"
+        >
           {(isImageUploading ||
             (isLoadingImageInfo && !dataImageInfo?.data?.url)) && (
             <LoadingComponent />
@@ -470,6 +633,13 @@ const TakeSelfie = () => {
                       </Button>
                     </Box>
                   )}
+                  {isLoadingSkinAttributes && (
+                    <div className="ocrloader">
+                      <p>Analysing...</p>
+                      <em></em>
+                      <span></span>
+                    </div>
+                  )}
                 </Box>
                 {!isLoadingSkinAttributes && (
                   <Box mt={3}>
@@ -523,14 +693,6 @@ const TakeSelfie = () => {
                 </Typography>
               </Fragment>
             )}
-
-          {isLoadingSkinAttributes && (
-            <div className="ocrloader">
-              <p>Analysing...</p>
-              <em></em>
-              <span></span>
-            </div>
-          )}
         </Box>
       )}
       {openCamera && (

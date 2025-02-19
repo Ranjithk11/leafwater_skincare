@@ -208,7 +208,9 @@ const ProductCard = ({
                 label={matches?.[0]?.name?.replace("_", " ")}
               />
             </Box>
-            <Typography color="primary" variant="subtitle1">
+            <Typography color="primary" sx={()=>({
+              fontWeight:700
+            })} variant="subtitle1">
               {capitalizeWords(name)}
             </Typography>
             <Typography variant="body1">
@@ -284,7 +286,7 @@ const ProductCard = ({
           <StyledCtaDialogModel>
             <Box>
               <Typography color="primary" variant="h4" fontWeight={800}>
-                089770 16605
+              089770 16605
               </Typography>
             </Box>
             <Box mt={3}>

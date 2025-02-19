@@ -37,7 +37,7 @@ const extraBold = `/fonts/OpenSans-ExtraBold.ttf`;
 const medium = `/fonts/OpenSans-Medium.ttf`;
 const regular = `/fonts/OpenSans-Regular.ttf`;
 const semiBold = `/fonts/OpenSans-SemiBold.ttf`;
-const whatsappNumber = "918977016605";
+const whatsappNumber = "919346987789";
 const whatsappMessage = "Hello, I need help with my skin analysis!";
 Font.register({
   family: defaultFont,
@@ -69,9 +69,10 @@ const StyledSkinAnalysisRecommendation = styled(Container)(({ theme }) => ({
   minHeight: "100vh",
   position: "relative",
   overflowX: "hidden",
-  backgroundColor: theme.palette.grey[100],
+  backgroundRepeat:"no-repeat",
+  backgroundSize:"contain",
+  backgroundPosition:"top center",
   overflowY: "auto",
-  paddingTop: 64,
   "& .section_loading_indicator": {
     position: "absolute",
     width: "100%",
@@ -182,21 +183,21 @@ const SkinAnalysisRecommendation = () => {
       disableGutters
       maxWidth={false}
       className="block"
+     
     >
       {!isLoading && data && !isLoadingImageInfo && (
         <Fragment>
-          <CoverPage />
-          <UserInfo useData={dataImageInfo} dataFUQR={dataFUQR} />
+          <CoverPage useData={dataImageInfo} dataFUQR={dataFUQR} />
           <PreventingView useData={dataImageInfo} data={data} />
           <ProductsView data={data} />
-          <Routine />
+          <Routine userData={dataImageInfo as any} />
           <SalonServices
             data={data?.data?.[0]?.recommendedSalonServices || []}
           />
           <CosmeticRecommdations
             data={data?.data?.[0]?.recommendedCosmeticServices || []}
           />
-          <Payment/>
+          <Payment />
           {data?.data?.[0]?.dietPlan?._id && (
             <DietChart data={data?.data?.[0]?.dietPlan} />
           )}

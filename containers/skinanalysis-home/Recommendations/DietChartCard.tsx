@@ -48,11 +48,6 @@ const timinings = [
     bgColor: "#fab1a0",
     icon: "/icons/almond.png",
   },
-  // {
-  //   name: "Additional Supplements",
-  //   bgColor: "#fab1a0",
-  //   icon: "/icons/almond.png",
-  // },
   {
     name: "Antioxidant-Rich Foods",
     bgColor: "#cf6a87",
@@ -127,7 +122,13 @@ const DietChartCard = ({ data }: DietChartCardProps) => {
           />
         </Grid>
         <Grid item>
-          <Typography variant="h6" textAlign="left">
+          <Typography variant="h6" sx={(theme)=>({
+            textAlign:"left",
+            [theme.breakpoints.between('xs','sm')]:{
+              textAlign:"center",
+              fontSize:16
+            }
+          })}>
             {data?.title}
           </Typography>
         </Grid>

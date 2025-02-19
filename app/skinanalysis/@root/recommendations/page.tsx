@@ -15,7 +15,6 @@ const RecommendationsPage = async () => {
   return (
     <Fragment>
       <SkinAnalysisRecommendation />
-      <FooterComponent />
     </Fragment>
   );
 };

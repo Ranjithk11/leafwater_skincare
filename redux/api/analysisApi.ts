@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_ROUTES } from "../routes/apiRoutes";
 import _ from "lodash";
+import baseQuery from "../baseQuery/baseQuery";
+import inititBaseQuery from "../baseQuery/baseQuery";
 
 interface QuestionsResponse {
   data: any[];
@@ -12,7 +14,8 @@ interface QuestionsResponse {
 
 export const analysisApi = createApi({
   reducerPath: "analysisApi",
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_URL }),
+  //baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_URL }),
+  baseQuery: inititBaseQuery({}),
   tagTypes: ["analysisApi"],
   endpoints: (builder) => ({
     getQuestions: builder.query<QuestionsResponse, {}>({
@@ -155,7 +158,7 @@ export const analysisApi = createApi({
   }),
 });
 
-export const {
+export const { 
   useGetQuestionsQuery,
   useLazyGetQuestionsQuery,
   useGetSignedUploadUrlMutation,
@@ -166,5 +169,5 @@ export const {
   useLazyFetchRecommnedSkinAttributesByIdQuery,
   useFetchLatestRecommendationsByFilterMutation,
   useLazyFetchAdminRecommendationsByIdQuery,
-  useFetchAdminRecommendationsByIdQuery
+  useFetchAdminRecommendationsByIdQuery,
 } = analysisApi;

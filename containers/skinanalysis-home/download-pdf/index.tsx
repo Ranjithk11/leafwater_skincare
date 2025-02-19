@@ -179,7 +179,6 @@ const DownloadPdf = ({
     }
   }, [recommendationData]);
 
-  console.log(dataAnalysedImageInfo)
   return (
     <PDFDownloadLink
       document={

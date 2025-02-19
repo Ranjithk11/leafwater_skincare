@@ -12,5 +12,6 @@ export enum API_ROUTES {
   USER_LOGIN = "/user/login",
   FETCH_LATEST_RECOMMENDATION_BY_FILTER = "/fetch-latest-recommendation-by-filter",
   FETCH_ADMIN_RECOMMENDATION_BY_ID = "/fetch-admin-recommendations-by-id",
-  FETCH_BRANCHES="/user/fetch-branches"
+  FETCH_BRANCHES = "/user/fetch-branches",
+  VALIDATE_DOMAIN = "/db-config/validate-domain",
 }

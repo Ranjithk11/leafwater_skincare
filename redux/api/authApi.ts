@@ -2,6 +2,8 @@ import { JWT } from "next-auth/jwt";
 import { API_ROUTES } from "../routes/apiRoutes";
 import { Session, User } from "next-auth";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import inititBaseQuery from "../baseQuery/baseQuery";
+import { subDomain } from "@/utils/constants";
 
 interface UserLoginPayload {
   phoneNumber: string;
@@ -10,7 +12,7 @@ interface UserLoginPayload {
   email: string;
   countryCode?: string;
   isValidated?: boolean;
-  location:string;
+  location: string;
 }
 
 export const loginUser = async (
@@ -21,7 +23,10 @@ export const loginUser = async (
     `${process.env.NEXT_PUBLIC_API_URL}${API_ROUTES.USER_LOGIN}`,
     {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "x-db-token": subDomain._id,
+      },
       body: JSON.stringify({
         input: input,
         inputType: inputType,
@@ -37,7 +42,10 @@ export const saveUser = async (payload: UserLoginPayload) => {
     `${process.env.NEXT_PUBLIC_API_URL}${API_ROUTES.SAVE_USER}`,
     {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "x-db-token": subDomain._id,
+      },
       body: JSON.stringify({
         phoneNumber: payload.phoneNumber,
         onBoardingQuestions: payload.onBoardingQuestions,
@@ -45,7 +53,7 @@ export const saveUser = async (payload: UserLoginPayload) => {
         email: payload.email,
         countryCode: payload.countryCode,
         isValidated: payload.isValidated,
-        location:payload.location
+        location: payload.location,
       }),
     }
   );
@@ -97,7 +105,8 @@ export const updateSession = (session: Session, token: JWT) => {
 
 export const authApi = createApi({
   reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_URL }),
+  //baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_URL }),
+  baseQuery: inititBaseQuery({}),
   tagTypes: ["authApi"],
   endpoints: (builder) => ({
     sendOtp: builder.mutation<
@@ -119,6 +128,15 @@ export const authApi = createApi({
       query: (body) => {
         return {
           url: API_ROUTES.USER_VERIFY_OTP,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    validateDomain: builder.mutation<any, { subDomain: string }>({
+      query: (body) => {
+        return {
+          url: API_ROUTES.VALIDATE_DOMAIN,
           method: "POST",
           body,
         };
@@ -149,4 +167,5 @@ export const {
   useSendOtpMutation,
   useVerifyOtpMutation,
   useLazyFetchBranchesQuery,
+  useValidateDomainMutation,
 } = authApi;
