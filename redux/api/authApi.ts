@@ -25,7 +25,7 @@ export const loginUser = async (
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-db-token": subDomain._id,
+        // "x-db-token": subDomain._id,
       },
       body: JSON.stringify({
         input: input,
@@ -44,7 +44,7 @@ export const saveUser = async (payload: UserLoginPayload) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-db-token": subDomain._id,
+        // "x-db-token": subDomain._id,
       },
       body: JSON.stringify({
         phoneNumber: payload.phoneNumber,

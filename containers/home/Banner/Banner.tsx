@@ -341,13 +341,13 @@ const HomeBannerComponent = () => {
                       mt={2}
                     >
                       <Grid item>
-                        <Button onClick={handleRouter} color="secondary">
+                        <Button onClick={handleRouter} color="primary">
                           Start Analysis
                         </Button>
                       </Grid>
                       <Grid item>
                         <Button
-                          color="secondary"
+                          color="primary"
                           onClick={() => {
                             setIsGetReport(true);
                           }}

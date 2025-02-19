@@ -271,7 +271,7 @@ const HomeLanding = () => {
                         setIsGetReport(true);
                       }}
                       variant="text"
-                      color="inherit"
+                      color="primary"
                       size="small"
                       sx={{
                         borderRadius: 100,
@@ -306,7 +306,7 @@ const HomeLanding = () => {
               >
                 <img
                   width={200}
-                  src="/logo/skinska-logo.avif"
+                  src="/logo/logo_gold_white.png"
                   style={{
                     backgroundColor: APP_COLORS.PRIMARY_COLOR,
                     borderRadius: "10px",
