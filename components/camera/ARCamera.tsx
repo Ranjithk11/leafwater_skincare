@@ -146,9 +146,9 @@ const ARCameraComponent = ({
         <Box
           component="div"
           className="scanning-section"
-          style={{ backgroundImage: `url(/images/scanning.webp)` }}
+          style={{ backgroundImage: `url(/images/scanning1.png)` }}
         >
-          <Box pt={10}>
+          <Box pt={2}>
             <Grid container spacing={6}>
               <Grid item xs={12}>
                 <Typography variant="h6" sx={{ color: "white" }}>
@@ -167,8 +167,8 @@ const ARCameraComponent = ({
                 <Grid item>
                   <Button
                     disabled={initializing}
+                    sx={{backgroundColor:"#3AC862"}}
                     endIcon={<Icon icon="material-symbols:camera" />}
-                    color="secondary"
                     onClick={() => {
                       if (isCamOpen) {
                         return null;
@@ -183,6 +183,7 @@ const ARCameraComponent = ({
                 <Grid item>
                   <Button
                     disabled={initializing}
+                    sx={{backgroundColor:"#48C2DD"}}
                     onClick={() => {
                       if (isCamOpen) {
                         return null;
@@ -190,10 +191,10 @@ const ARCameraComponent = ({
                         refAccessFiles?.current?.click();
                       }
                     }}
-                    endIcon={<Icon icon="material-symbols:camera" />}
+                    endIcon={<Icon icon="material-symbols:backup-outline-rounded" />}
                     color="primary"
                   >
-                    Upload
+                    Gallery
                   </Button>
                 </Grid>
               </Grid>

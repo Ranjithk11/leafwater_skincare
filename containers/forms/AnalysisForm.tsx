@@ -359,7 +359,7 @@ const AnalysisForm = () => {
                 <Grid container spacing={3} item xs={12}>
                   <Grid item xs={6}>
                     <Button
-                      size="medium"
+                      size="large"
                       onClick={handleBack}
                       startIcon={<KeyboardDoubleArrowLeftIcon />}
                       variant="contained"
@@ -370,7 +370,7 @@ const AnalysisForm = () => {
                   </Grid>
                   <Grid item xs={6}>
                     <Button
-                      size="medium"
+                      size="large"
                       disabled={isSubmit}
                       onClick={handleSubmit(onSumit)}
                       endIcon={<KeyboardDoubleArrowRightIcon />}
