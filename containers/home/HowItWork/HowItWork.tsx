@@ -19,6 +19,8 @@ const StyledMainBox = styled(Box)(({ theme }) => ({
     },
     [theme.breakpoints.between("xs", "sm")]: {
       fontSize: 30,
+      display: "block",
+      paddingBottom:"30px",
     },
   },
   "& .image-section": {
@@ -51,7 +53,7 @@ const HowItWork = () => {
     <StyledMainBox>
       <Grid container spacing={{ xs: 3, sm: 4, md: 8, lg: 8, xl: 8 }}>
         <Grid item xs={12}>
-          <Typography className="main-title" textAlign="center" variant="h2">
+          <Typography className="main-title" textAlign="center" variant="h4">
             How does <span>it work?</span>
           </Typography>
         </Grid>
