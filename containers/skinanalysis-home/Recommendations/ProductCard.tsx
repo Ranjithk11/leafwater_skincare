@@ -15,6 +15,7 @@ import Dialog from "@mui/material/Dialog";
 import posthog from "posthog-js";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { url } from "inspector";
 
 interface ProductCardProps {
   ribbenColor?: string;
@@ -138,8 +139,8 @@ const StyledProductCard = styled(Card, {
 );
 
 const StyledCtaDialogModel = styled(Box)(({ theme }) => ({
-  width: 370,
-  height: 250,
+  width: 600,
+  height: 300,
   position: "relative",
   display: "flex",
   flexDirection: "column",
@@ -151,6 +152,15 @@ const StyledCtaDialogModel = styled(Box)(({ theme }) => ({
     right: 0,
   },
 }));
+const YellowButton = styled(Button)({
+  backgroundColor: "linear-gradient(90deg, #00A76F 0%, #FFDD1B 100%)",
+  color: "white",
+  borderRadius: "8px",
+  padding: "8px 16px",
+  "&:hover": {
+    backgroundColor: "#E6C418",
+  },
+});
 
 const ProductCard = ({
   name,
@@ -172,7 +182,7 @@ const ProductCard = ({
   };
 
   const handlePostHogEvent = (eventName: string) => {
-    posthog.capture(session?.user.firstName+"_"+eventName, {
+    posthog.capture(session?.user.firstName + "_" + eventName, {
       buttonName: "CallToUs",
       location: pathName,
       userId: session?.user?.id,
@@ -208,9 +218,13 @@ const ProductCard = ({
                 label={matches?.[0]?.name?.replace("_", " ")}
               />
             </Box>
-            <Typography color="primary" sx={()=>({
-              fontWeight:700
-            })} variant="subtitle1">
+            <Typography
+              color="primary"
+              sx={() => ({
+                fontWeight: 700,
+              })}
+              variant="subtitle1"
+            >
               {capitalizeWords(name)}
             </Typography>
             <Typography variant="body1">
@@ -283,17 +297,42 @@ const ProductCard = ({
       )}
       {openCTA && (
         <Dialog open={openCTA}>
-          <StyledCtaDialogModel>
-            <Box>
-              <Typography color="primary" variant="h4" fontWeight={800}>
-              089770 16605
-              </Typography>
+          <StyledCtaDialogModel
+            style={{ backgroundImage: `url(/images/popupbg.png)` }}
+          >
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <img
+                src="/logo/logo_gold_white.png"
+                alt="Logo"
+                style={{
+                  width: "250px",
+                  height: "auto",
+                  objectFit: "contain",
+                }}
+              />
             </Box>
-            <Box mt={3}>
-              <Button href="tel:089770 16605" color="secondary" size="medium">
-                Call Now
-              </Button>
+            <Box mt={3} sx={{ display: "flex", gap: 2, width: "80%" }}>
+              <YellowButton
+                onClick={() => window.open("https://leafwater.in/", "_blank")}
+              >
+                leafwater.in
+              </YellowButton>
+              <YellowButton href="tel:089770 16605" size="medium">
+                Call us at 089770 16605
+              </YellowButton>
             </Box>
+            <Typography
+              color="white"
+              paddingTop={3}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                textAlign: "center", // Ensures text is centered
+              }}
+            >
+              Tap on the buttons to contact us today to book your appointment!
+            </Typography>
             <Box component="div" className="close-icon-wrapper">
               <IconButton
                 onClick={() => {

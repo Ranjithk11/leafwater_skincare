@@ -55,7 +55,7 @@ const StepThree = () => {
             title="Get recommendations"
             content={`The system provides a detailed report highlighting skin
 concerns and offers tailored skincare advice, including product
-suggestions and potential treatments`}
+suggestions and potential treatments.`}
             span="Step"
           />
         </Grid>

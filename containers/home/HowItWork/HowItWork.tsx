@@ -20,7 +20,7 @@ const StyledMainBox = styled(Box)(({ theme }) => ({
     [theme.breakpoints.between("xs", "sm")]: {
       fontSize: 30,
       display: "block",
-      paddingBottom:"30px",
+      paddingBottom:"40px",
     },
   },
   "& .image-section": {

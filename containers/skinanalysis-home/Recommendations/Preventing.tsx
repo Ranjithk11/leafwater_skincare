@@ -86,7 +86,7 @@ const PreventingView = ({ useData, data }: PreventingInfoProps) => {
             </Grid>
             <Grid item xs>
               <Typography variant="h6">
-                <span>Skin analysis attributes</span>
+                <span>SKIN ANALYSIS ATTRIBUTES</span>
               </Typography>
               <Box mt={2}>
                 {data?.data?.[0]?.attributeCode?.map(
@@ -123,7 +123,7 @@ const PreventingView = ({ useData, data }: PreventingInfoProps) => {
                   <Box mt={2}>
                     <Box mb={3}>
                       <Typography variant="h6">
-                        <span>Smart Skin Analysis Report</span>
+                        <span>SMART SKIN ANALYSIS REPORT</span>
                       </Typography>
                     </Box>
                     {data?.data?.[0]?.analysisAiSummary?.map(

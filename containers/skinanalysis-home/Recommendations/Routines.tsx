@@ -46,7 +46,7 @@ const StyledMainBoxWrapper = styled(Box)(({ theme }) => ({
     alignItems: "flex-start",
     justifyContent: "center",
     flexDirection: "column",
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: "#D9D9D9",
     overflow: "hidden",
   },
   "& .MuiTypography-h6": {
@@ -236,7 +236,7 @@ const Routine = ({ userData }: RoutineProps) => {
                   </Grid>
                 </Grid>
                 {routineVideos.morning.map((itm, key) => (
-                  <Grid key={key} item xs={12} sm={6}>
+                  <Grid key={key} item xs={12} sm={key === 0 ? 8 : 4}>
                     <VideoCard
                       url={itm.imgUrl}
                       onClick={() => {
@@ -296,7 +296,7 @@ const Routine = ({ userData }: RoutineProps) => {
                   </Grid>
                 </Grid>
                 {routineVideos.evening.map((itm, key) => (
-                  <Grid key={key} item xs={12} sm={6}>
+                 <Grid key={key} item xs={12} sm={key === 0 ? 8 : 4}>
                     <VideoCard
                       url={itm.imgUrl}
                       onClick={() => {

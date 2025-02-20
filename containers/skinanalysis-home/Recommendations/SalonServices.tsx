@@ -4,18 +4,19 @@ import {
   Container,
   Dialog,
   Grid,
-  Icon,
   IconButton,
   Typography,
   styled,
 } from "@mui/material";
+import { Icon } from "@iconify/react";
+
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import CallIcon from "@mui/icons-material/Call";
 const StyledSalonServices = styled(Box)(({ theme }) => ({
   paddingBottom: 75,
   paddingTop: 75,
-  [theme.breakpoints.between('xs','sm')]:{
+  [theme.breakpoints.between("xs", "sm")]: {
     paddingTop: 20,
   },
   backgroundRepeat: "no-repeat",
@@ -24,7 +25,7 @@ const StyledSalonServices = styled(Box)(({ theme }) => ({
   "& .MuiTypography-h6": {
     fontWeight: 700,
     fontSize: 30,
-    [theme.breakpoints.between('xs','sm')]:{
+    [theme.breakpoints.between("xs", "sm")]: {
       fontSize: 25,
     },
   },
@@ -61,8 +62,8 @@ const StyledSalonServices = styled(Box)(({ theme }) => ({
 }));
 
 const StyledCtaDialogModel = styled(Box)(({ theme }) => ({
-  width: 370,
-  height: 250,
+  width: 600,
+  height: 300,
   position: "relative",
   display: "flex",
   flexDirection: "column",
@@ -74,6 +75,15 @@ const StyledCtaDialogModel = styled(Box)(({ theme }) => ({
     right: 0,
   },
 }));
+const YellowButton = styled(Button)({
+  backgroundColor: "linear-gradient(90deg, #00A76F 0%, #FFDD1B 100%)",
+  color: "white",
+  borderRadius: "8px",
+  padding: "8px 16px",
+  "&:hover": {
+    backgroundColor: "#E6C418",
+  },
+});
 
 interface SalonServicesProps {
   data: any[];
@@ -98,10 +108,9 @@ const SalonServices = ({ data }: SalonServicesProps) => {
                 justifyContent="center"
               >
                 <Grid item>
-                <Typography textAlign="center" variant="h6">
-                  <span>Salon Services - Powered by</span>
-                </Typography>
-                
+                  <Typography textAlign="center" variant="h6">
+                    <span>Salon Services - Powered by</span>
+                  </Typography>
                 </Grid>
                 <Grid item>
                   <img src="/images/leafwater_logo.png" width={150} />
@@ -148,7 +157,7 @@ const SalonServices = ({ data }: SalonServicesProps) => {
                     <Typography
                       textAlign="center"
                       variant="body2"
-                      sx={{fontWeight:900,fontSize:20}}
+                      sx={{ fontWeight: 900, fontSize: 20 }}
                     >
                       INR.{itm?.price}/-
                     </Typography>
@@ -177,25 +186,56 @@ const SalonServices = ({ data }: SalonServicesProps) => {
         </Grid>
 
         {/* Dialog for "Call Now" */}
-        <Dialog open={openCTA} onClose={() => setOpenCTA(false)}>
-          <StyledCtaDialogModel>
-            <Box>
-              <Typography color="primary" variant="h4" fontWeight={800}>
-                089770 16605
+        {openCTA && (
+          <Dialog open={openCTA}>
+            <StyledCtaDialogModel
+              style={{ backgroundImage: `url(/images/popupbg.png)` }}
+            >
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <img
+                  src="/logo/logo_gold_white.png"
+                  alt="Logo"
+                  style={{
+                    width: "250px",
+                    height: "auto",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+              <Box mt={3} sx={{ display: "flex", gap: 2, width: "80%" }}>
+                <YellowButton
+                  onClick={() => window.open("https://leafwater.in/", "_blank")}
+                >
+                  leafwater.in
+                </YellowButton>
+                <YellowButton href="tel:089770 16605" size="medium">
+                  Call us at 089770 16605
+                </YellowButton>
+              </Box>
+              <Typography
+                color="white"
+                paddingTop={3}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  textAlign: "center", // Ensures text is centered
+                }}
+              >
+                Tap on the buttons to contact us today to book your appointment!
               </Typography>
-            </Box>
-            <Box mt={3}>
-              <Button href="tel:08977016605" color="secondary" size="medium">
-                Call Now
-              </Button>
-            </Box>
-            <Box component="div" className="close-icon-wrapper">
-              <IconButton onClick={() => setOpenCTA(false)}>
-              <CloseIcon />
-              </IconButton>
-            </Box>
-          </StyledCtaDialogModel>
-        </Dialog>
+              <Box component="div" className="close-icon-wrapper">
+                <IconButton
+                  onClick={() => {
+                    setOpenCTA(false);
+                  }}
+                >
+                  <Icon icon="mdi:close" />
+                </IconButton>
+              </Box>
+            </StyledCtaDialogModel>
+          </Dialog>
+        )}
       </Container>
     </StyledSalonServices>
   );

@@ -114,7 +114,7 @@ const ProductsView = ({ data, isAdminView }: ProductsViewProps) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const containerRef: any = useRef(null);
-
+  console.log(data);
 
   return (
     <StyledProductsWrapper
@@ -134,6 +134,31 @@ const ProductsView = ({ data, isAdminView }: ProductsViewProps) => {
       </Container>
       <Container maxWidth="lg">
         <Box pt={5} component="div" className="scrollarea">
+          {data?.data?.[0]?.recommendedProductBundles?.length > 0 && (
+            <Fragment>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Box mb={3} mt={3}>
+                    <Typography variant="h6">
+                      Recommended Product Bundles
+                    </Typography>
+                  </Box>
+                </Grid>
+              </Grid>
+
+              <Box mb={5}>
+                <Grid container spacing={2}>
+                  {data?.data?.[0]?.recommendedProductBundles.map(
+                    (bundle: any) => (
+                      <Grid key={bundle?._id} item xs={6} md={4}>
+                        <BundleCard {...bundle} />
+                      </Grid>
+                    )
+                  )}
+                </Grid>
+              </Box>
+            </Fragment>
+          )}
           <Sticky
             boundaryElement=".scrollarea"
             hideOnBoundaryHit={false}
