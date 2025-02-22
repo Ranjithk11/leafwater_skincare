@@ -19,6 +19,8 @@ import { useRouter, usePathname } from "next/navigation";
 import LoginIcon from "@mui/icons-material/Login";
 import SideMenuComponent from "@/views/home/selfie/SideMenu";
 import { APP_ROUTES } from "@/utils/routes";
+import { SOCIAL_LINKS } from "@/utils/constants";
+import { AiFillFacebook, AiFillInstagram, AiFillYoutube } from "react-icons/ai";
 
 interface DefaultLayoutProps {
   children?: React.ReactNode;
@@ -38,6 +40,9 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const handleSocialLinkNavigation = (url: string) => {
+    window.open(url, "_blank");
+  };
   return (
     <Fragment>
       <AppBar color="primary" position="fixed">
@@ -75,8 +80,52 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                 src="/logo/logo_gold_white.png"
               />
             </Grid>
-            {session?.user?.id && (
+            <Grid
+              item
+              container
+              xs
+              justifyContent="flex-end"
+              alignItems="center"
+              spacing={1}
+            >
               <Grid item>
+                <Typography color="white" fontWeight="bold">
+                  Follow Us On
+                </Typography>
+              </Grid>
+              <Grid item>
+                <IconButton
+                  onClick={() => {
+                    handleSocialLinkNavigation(SOCIAL_LINKS.insta);
+                  }}
+                  sx={(theme) => ({ color: theme.palette.common.white })}
+                >
+                  <AiFillInstagram />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <IconButton
+                  onClick={() => {
+                    handleSocialLinkNavigation(SOCIAL_LINKS.youtube);
+                  }}
+                  sx={(theme) => ({ color: theme.palette.common.white })}
+                >
+                  <AiFillYoutube />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <IconButton
+                  onClick={() => {
+                    handleSocialLinkNavigation(SOCIAL_LINKS.facebook);
+                  }}
+                  sx={(theme) => ({ color: theme.palette.common.white })}
+                >
+                  <AiFillFacebook />
+                </IconButton>
+              </Grid>
+            </Grid>
+            {session?.user?.id && (
+              <Grid item paddingLeft={5}>
                 <IconButton
                   onClick={() => {
                     signOut().then(() => {
@@ -84,7 +133,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                     });
                   }}
                 >
-                  <Icon color="#FFFFFF" icon="material-symbols:logout" />
+                  <Icon color="yellow" icon="material-symbols:logout" />
                 </IconButton>
               </Grid>
             )}
