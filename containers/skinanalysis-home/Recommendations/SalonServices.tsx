@@ -109,12 +109,12 @@ const SalonServices = ({ data }: SalonServicesProps) => {
               >
                 <Grid item>
                   <Typography textAlign="center" variant="h6">
-                    <span>Salon Services - Powered by</span>
+                    <span>Salon Services </span>
                   </Typography>
                 </Grid>
-                <Grid item>
+                {/* <Grid item>
                   <img src="/images/leafwater_logo.png" width={150} />
-                </Grid>
+                </Grid> */}
               </Grid>
             </Box>
           </Grid>
@@ -166,7 +166,7 @@ const SalonServices = ({ data }: SalonServicesProps) => {
                     <Box textAlign="center" mt={2}>
                       <Button
                         variant="contained"
-                        color="secondary"
+                        color="primary"
                         onClick={() => setOpenCTA(true)}
                         endIcon={<CallIcon sx={{ color: "white" }} />}
                         sx={{

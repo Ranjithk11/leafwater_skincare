@@ -103,9 +103,9 @@ const CosmeticRecommdations = ({ data }: { data: any[] }) => {
                 justifyContent="center"
               >
                 <Typography textAlign="center" variant="h6">
-                  <span>Cosmetic Services - Powered by</span>
+                  <span>Cosmetic Services</span>
                 </Typography>
-                <img src="/images/leafwater_logo.png" width={150} />
+                {/* <img src="/images/leafwater_logo.png" width={150} /> */}
               </Box>
             </Box>
           </Grid>
@@ -159,7 +159,7 @@ const CosmeticRecommdations = ({ data }: { data: any[] }) => {
                     <Box textAlign="center" mt={2}>
                       <Button
                         variant="contained"
-                        color="secondary"
+                        color="primary"
                         endIcon={<CallIcon sx={{ color: "white" }} />}
                         onClick={() => setOpenCTA(true)}
                         sx={{

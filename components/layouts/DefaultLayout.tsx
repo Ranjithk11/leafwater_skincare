@@ -40,6 +40,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const handleSocialLinkNavigation = (url: string) => {
     window.open(url, "_blank");
   };
@@ -87,45 +88,74 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
               justifyContent="flex-end"
               alignItems="center"
               spacing={1}
+              // paddingLeft={isMobile ? 0:1}
+              direction={isMobile ? "column" : "row"} // Stack on mobile, row on desktop
             >
               <Grid item>
-                <Typography color="white" fontWeight="bold">
-                  Follow Us On
+                <Typography
+                  color="white"
+                  fontWeight="bold"
+                  fontSize="0.875rem"
+                  textAlign="center"
+                >
+                  Join Us Online
                 </Typography>
               </Grid>
-              <Grid item>
-                <IconButton
-                  onClick={() => {
-                    handleSocialLinkNavigation(SOCIAL_LINKS.insta);
-                  }}
-                  sx={(theme) => ({ color: theme.palette.common.white })}
-                >
-                  <AiFillInstagram />
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <IconButton
-                  onClick={() => {
-                    handleSocialLinkNavigation(SOCIAL_LINKS.youtube);
-                  }}
-                  sx={(theme) => ({ color: theme.palette.common.white })}
-                >
-                  <AiFillYoutube />
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <IconButton
-                  onClick={() => {
-                    handleSocialLinkNavigation(SOCIAL_LINKS.facebook);
-                  }}
-                  sx={(theme) => ({ color: theme.palette.common.white })}
-                >
-                  <AiFillFacebook />
-                </IconButton>
+
+              <Grid
+                item
+                container
+                xs="auto"
+                spacing={1}
+                justifyContent="flex-end"
+              >
+                <Grid item>
+                  <IconButton
+                    onClick={() =>
+                      handleSocialLinkNavigation(SOCIAL_LINKS.insta)
+                    }
+                    sx={{
+                      color: "white",
+                      padding: "4px",
+                      fontSize: isMobile ? "1rem" : "1.5rem",
+                    }}
+                  >
+                    <AiFillInstagram />
+                  </IconButton>
+                </Grid>
+                <Grid item>
+                  <IconButton
+                    onClick={() =>
+                      handleSocialLinkNavigation(SOCIAL_LINKS.youtube)
+                    }
+                    sx={{
+                      color: "white",
+                      padding: "4px",
+                      fontSize: isMobile ? "1rem" : "1.5rem",
+                    }}
+                  >
+                    <AiFillYoutube />
+                  </IconButton>
+                </Grid>
+                <Grid item>
+                  <IconButton
+                    onClick={() =>
+                      handleSocialLinkNavigation(SOCIAL_LINKS.facebook)
+                    }
+                    sx={{
+                      color: "white",
+                      padding: "4px",
+                      fontSize: isMobile ? "1rem" : "1.5rem",
+                    }}
+                  >
+                    <AiFillFacebook />
+                  </IconButton>
+                </Grid>
               </Grid>
             </Grid>
+
             {session?.user?.id && (
-              <Grid item paddingLeft={5}>
+              <Grid item paddingLeft={isMobile ? 0 : 5}>
                 <IconButton
                   onClick={() => {
                     signOut().then(() => {
