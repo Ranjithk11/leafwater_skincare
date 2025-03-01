@@ -111,7 +111,7 @@ const StyledBoxWrapper = styled(Box)(({ theme }) => ({
     },
   },
   "& span": {
-    color:"#ffc107",
+    color: "#ffc107",
   },
 }));
 
@@ -202,7 +202,6 @@ const CoverPage = ({
                     <span> Live Stream Consultations</span>
                   </Typography>
                 </Grid>
-
                 <Grid
                   item
                   container
@@ -254,6 +253,7 @@ const CoverPage = ({
                   </Grid>
                 </Grid>
               </Grid>
+
               <Grid className="back-button" item>
                 <Button
                   onClick={() => {
