@@ -1,10 +1,19 @@
-import { Button, Dialog, Grid, IconButton, Typography } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  Grid,
+  IconButton,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import Box from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
+import { styled, useTheme } from "@mui/material/styles";
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { SOCIAL_LINKS } from "@/utils/constants";
+import { AiFillFacebook, AiFillInstagram, AiFillYoutube } from "react-icons/ai";
 
 const StyledBoxWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -101,6 +110,9 @@ const StyledBoxWrapper = styled(Box)(({ theme }) => ({
       display: "none",
     },
   },
+  "& span": {
+    color:"#ffc107",
+  },
 }));
 
 interface CoverPageProps {
@@ -115,8 +127,13 @@ const CoverPage = ({
   publicUserProfile,
 }: CoverPageProps) => {
   const { data: session } = useSession();
+  const theme = useTheme();
   const [showUserInfo, setShowUserInfo] = useState<boolean>(false);
   const router = useRouter();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const handleSocialLinkNavigation = (url: string) => {
+    window.open(url, "_blank");
+  };
 
   console.log(publicUserProfile);
 
@@ -164,6 +181,79 @@ const CoverPage = ({
                   </Box>
                 </Box>
               </Grid>
+              <Grid
+                item
+                container
+                xs
+                justifyContent="flex-end"
+                alignItems="center"
+                spacing={1}
+                // paddingLeft={isMobile ? 0:1}
+                direction={isMobile ? "column" : "row"} // Stack on mobile, row on desktop
+              >
+                <Grid item>
+                  <Typography
+                    color="white"
+                    fontWeight="bold"
+                    fontSize="0.875rem"
+                    textAlign="center"
+                  >
+                    Subscribe To Our Channel <br /> For
+                    <span> Live Stream Consultations</span>
+                  </Typography>
+                </Grid>
+
+                <Grid
+                  item
+                  container
+                  xs="auto"
+                  spacing={1}
+                  justifyContent="flex-end"
+                >
+                  <Grid item>
+                    <IconButton
+                      onClick={() =>
+                        handleSocialLinkNavigation(SOCIAL_LINKS.insta)
+                      }
+                      sx={{
+                        color: "white",
+                        padding: "4px",
+                        fontSize: isMobile ? "1rem" : "1.5rem",
+                      }}
+                    >
+                      <AiFillInstagram />
+                    </IconButton>
+                  </Grid>
+                  <Grid item>
+                    <IconButton
+                      onClick={() =>
+                        handleSocialLinkNavigation(SOCIAL_LINKS.youtube)
+                      }
+                      sx={{
+                        color: "white",
+                        padding: "4px",
+                        fontSize: isMobile ? "1rem" : "1.5rem",
+                      }}
+                    >
+                      <AiFillYoutube />
+                    </IconButton>
+                  </Grid>
+                  <Grid item>
+                    <IconButton
+                      onClick={() =>
+                        handleSocialLinkNavigation(SOCIAL_LINKS.facebook)
+                      }
+                      sx={{
+                        color: "white",
+                        padding: "4px",
+                        fontSize: isMobile ? "1rem" : "1.5rem",
+                      }}
+                    >
+                      <AiFillFacebook />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              </Grid>
               <Grid className="back-button" item>
                 <Button
                   onClick={() => {
@@ -201,7 +291,6 @@ const CoverPage = ({
                       Hey there,
                     </Typography>
 
-                    
                     {publicUserProfile ? (
                       <>
                         <Typography
@@ -238,7 +327,8 @@ const CoverPage = ({
                       })}
                       variant="h6"
                     >
-                      {publicUserProfile?.phoneNumber || session?.user?.mobileNumber }
+                      {publicUserProfile?.phoneNumber ||
+                        session?.user?.mobileNumber}
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
