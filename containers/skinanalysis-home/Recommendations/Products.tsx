@@ -1,4 +1,5 @@
 import {
+  Button,
   Grid,
   Paper,
   Typography,
@@ -111,10 +112,11 @@ interface ProductsViewProps {
 
 const ProductsView = ({ data, isAdminView }: ProductsViewProps) => {
   const theme = useTheme();
+  const [limit, setLimit] = useState<number>(3);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const containerRef: any = useRef(null);
-  console.log(data);
+  console.log("ProductsView", data);
 
   return (
     <StyledProductsWrapper
@@ -192,54 +194,91 @@ const ProductsView = ({ data, isAdminView }: ProductsViewProps) => {
                 </Grid>
 
                 {isMobile && (
-                  <Grid item xs={12}>
-                    <Box component="div" className="skin-analysis-result">
+                  <>
+                    <Grid item xs={12}>
+                      <Box component="div" className="skin-analysis-result">
+                        {recommended?.products
+                          ?.slice(0, 3)
+                          .map((product: any, index: number) => (
+                            <ProductCard
+                              category={
+                                data?.data?.[0]?.recommendedProducts
+                                  ?.highRecommendation[selectedTab]
+                                  ?.productCategory?.title
+                              }
+                              key={index}
+                              minWidth={300}
+                              {...product}
+                              enabledMask={false
+                                // isAdminView
+                                //   ? false
+                                //   : data?.data?.user?.isPremiumCustomer
+                                //   ? false
+                                //   : index > 0
+                              }
+                            />
+                          ))}
+                      </Box>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      container
+                      alignItems="center"
+                      justifyContent="center"
+                      paddingTop={5}
+                    >
+                      <Grid item>
+                        <Button href="https://shop.leafwater.in/" target="_blank">View All Products</Button>
+                      </Grid>
+                    </Grid>
+                  </>
+                )}
+                {!isMobile && (
+                  <>
+                    <Grid
+                      container
+                      spacing={2}
+                      item
+                      xs={12}
+                      alignItems="stretch"
+                    >
                       {recommended?.products
                         ?.slice(0, 3)
                         .map((product: any, index: number) => (
-                          <ProductCard
-                            category={
-                              data?.data?.[0]?.recommendedProducts
-                                ?.highRecommendation[selectedTab]
-                                ?.productCategory?.title
-                            }
-                            key={index}
-                            minWidth={300}
-                            {...product}
-                            enabledMask={
-                              isAdminView
-                                ? false
-                                : data?.data?.user?.isPremiumCustomer
-                                ? false
-                                : index > 0
-                            }
-                          />
+                          <Grid key={product?._id} item xs={6} md={4}>
+                            <ProductCard
+                              {...product}
+                              category={
+                                data?.data?.[0]?.recommendedProducts
+                                  ?.highRecommendation[selectedTab]
+                                  ?.productCategory?.title
+                              }
+                              enabledMask={false
+                                // isAdminView
+                                //   ? false
+                                //   : data?.data?.user?.isPremiumCustomer
+                                //   ? false
+                                //   : index > 0
+                              }
+                            />
+                          </Grid>
                         ))}
-                    </Box>
-                  </Grid>
-                )}
-                {!isMobile && (
-                  <Grid container spacing={2} item xs={12} alignItems="stretch">
-                    {recommended?.products
-                      ?.slice(0, 3)
-                      .map((product: any, index: number) => (
-                        <Grid key={product?._id} item xs={6} md={4}>
-                          <ProductCard
-                            {...product}
-                            category={
-                              data?.data?.[0]?.recommendedProducts
-                                ?.highRecommendation[selectedTab]
-                                ?.productCategory?.title
-                            }
-                            enabledMask={
-                              data?.data?.user?.isPremiumCustomer
-                                ? false
-                                : index > 0
-                            }
-                          />
-                        </Grid>
-                      ))}
-                  </Grid>
+                    </Grid>
+
+                    <Grid
+                      item
+                      xs={12}
+                      container
+                      alignItems="center"
+                      justifyContent="center"
+                      paddingTop={5}
+                    >
+                      <Grid item>
+                        <Button href="https://shop.leafwater.in/" target="_blank">View All Products</Button>
+                      </Grid>
+                    </Grid>
+                  </>
                 )}
               </Grid>
             </Box>

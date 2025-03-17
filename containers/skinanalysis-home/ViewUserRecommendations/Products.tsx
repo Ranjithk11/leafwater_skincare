@@ -80,7 +80,7 @@ const ProductsView = ({ data, isAdminView = false }: ProductsViewProps) => {
       }
     }
   };
-
+console.log("Product view",data);
   return (
     <StyledProductsWrapper>
       <Container maxWidth="lg">

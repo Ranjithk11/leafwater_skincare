@@ -26,11 +26,11 @@ import DietChart from "./Recommendations/DietChart";
 import MeetTeam from "./Recommendations/MeetTeam";
 import Routine from "./Recommendations/Routines";
 import CoverPage from "./Recommendations/Cover";
-import UserInfo from "./Recommendations/UserInfo";
 import PreventingView from "./Recommendations/Preventing";
 import CosmeticRecommdations from "./Recommendations/CosmeticRecommdations";
 import ProductsView from "./Recommendations/Products";
 import Payment from "./Recommendations/Payment";
+import ViewAllProducts from "./Recommendations/ViewAllProducts";
 
 const defaultFont = "Roboto";
 const extraBold = `/fonts/OpenSans-ExtraBold.ttf`;
@@ -190,6 +190,7 @@ const SkinAnalysisRecommendation = () => {
           <CoverPage useData={dataImageInfo} dataFUQR={dataFUQR} />
           <PreventingView useData={dataImageInfo} data={data} />
           <ProductsView data={data} />
+          {/* <ViewAllProducts/> */}
           <Routine userData={dataImageInfo as any} />
           <SalonServices
             data={data?.data?.[0]?.recommendedSalonServices || []}

@@ -180,7 +180,7 @@ const ProductCard = ({
   const handleAddToCart = () => {
     window.open(shopifyUrl);
   };
-
+console.log(enabledMask);
   const handlePostHogEvent = (eventName: string) => {
     posthog.capture(session?.user.firstName + "_" + eventName, {
       buttonName: "CallToUs",
