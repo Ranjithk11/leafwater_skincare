@@ -127,6 +127,16 @@ const ProductsView = ({ data, isAdminView }: ProductsViewProps) => {
     >
       <Container maxWidth="xl">
         <Grid container>
+          <Grid
+            item
+            xs={12}
+            container
+            alignItems="center"
+            justifyContent="center"
+           
+          >
+            <img src="/images/giphy.gif"/>
+          </Grid>
           <Grid item xs={12}>
             <Typography textAlign="center" variant="h6">
               Our recommendations to <span>get your glow on</span>
@@ -209,7 +219,8 @@ const ProductsView = ({ data, isAdminView }: ProductsViewProps) => {
                               key={index}
                               minWidth={300}
                               {...product}
-                              enabledMask={false
+                              enabledMask={
+                                false
                                 // isAdminView
                                 //   ? false
                                 //   : data?.data?.user?.isPremiumCustomer
@@ -229,7 +240,12 @@ const ProductsView = ({ data, isAdminView }: ProductsViewProps) => {
                       paddingTop={5}
                     >
                       <Grid item>
-                        <Button href="https://shop.leafwater.in/" target="_blank">View All Products</Button>
+                        <Button
+                          href="https://shop.leafwater.in/collections/skincare-products"
+                          target="_blank"
+                        >
+                          View All
+                        </Button>
                       </Grid>
                     </Grid>
                   </>
@@ -254,7 +270,8 @@ const ProductsView = ({ data, isAdminView }: ProductsViewProps) => {
                                   ?.highRecommendation[selectedTab]
                                   ?.productCategory?.title
                               }
-                              enabledMask={false
+                              enabledMask={
+                                false
                                 // isAdminView
                                 //   ? false
                                 //   : data?.data?.user?.isPremiumCustomer
@@ -275,7 +292,12 @@ const ProductsView = ({ data, isAdminView }: ProductsViewProps) => {
                       paddingTop={5}
                     >
                       <Grid item>
-                        <Button href="https://shop.leafwater.in/" target="_blank">View All Products</Button>
+                        <Button
+                          href="https://shop.leafwater.in/collections/skincare-products"
+                          target="_blank"
+                        >
+                          View All
+                        </Button>
                       </Grid>
                     </Grid>
                   </>

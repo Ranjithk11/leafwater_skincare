@@ -48,7 +48,7 @@ const StyledMainBox = styled(Box)(({ theme }) => ({
 const ScanYourFace = () => {
   return (
     <StyledMainBox style={{ backgroundImage: `url(/images/homeBg_1.png)`}}>
-      <Grid container spacing={8} paddingBottom={4}>
+      <Grid container spacing={6} paddingBottom={4}>
         <Grid item xs={12}>
           <Container maxWidth={"lg"} className="content-section">
             <Grid container alignItems="center" spacing={2}>

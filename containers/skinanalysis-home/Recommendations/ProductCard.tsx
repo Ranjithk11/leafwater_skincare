@@ -256,6 +256,11 @@ console.log(enabledMask);
                 INR.{retailPrice}/-
               </Typography>
             </Box>
+            <Box mt={1}>
+            <Typography variant="subtitle1">
+              Discount : Up to <span>40%</span>
+            </Typography>
+            </Box>
           </Grid>
         </Grid>
       </Box>
